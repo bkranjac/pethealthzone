@@ -1,0 +1,27 @@
+<%= form_with(model: check) do |form| %>
+  <% if check.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(check.errors.count, "error") %> prohibited this check from being saved:</h2>
+
+      <ul>
+        <% check.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :check_type, style: "display: block" %>
+    <%= form.text_field :check_type %>
+  </div>
+
+  <div>
+    <%= form.label :frequency_id, style: "display: block" %>
+    <%= form.collection_select :frequency_id, Frequency.all, :id, :how_often, { prompt: "Select a frequency" } %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

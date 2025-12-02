@@ -1,0 +1,11 @@
+<% content_for :title, "New injury" %>
+
+<h1>New injury</h1>
+
+<%= render "form", injury: @injury %>
+
+<br>
+
+<div>
+  <%= link_to "Back to injuries", injuries_path %>
+</div>

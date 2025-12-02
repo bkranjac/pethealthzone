@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pet_type: MyString
+  breed: MyString
+  picture: MyString
+  birthday: 2025-11-29
+  name: MyString
+  nickname: MyString
+  date_admitted: 2025-11-29
+  notes: MyText
+
+two:
+  pet_type: MyString
+  breed: MyString
+  picture: MyString
+  birthday: 2025-11-29
+  name: MyString
+  nickname: MyString
+  date_admitted: 2025-11-29
+  notes: MyText

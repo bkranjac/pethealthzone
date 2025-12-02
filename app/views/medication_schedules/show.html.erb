@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @medication_schedule %>
+
+<div>
+  <%= link_to "Edit this medication schedule", edit_medication_schedule_path(@medication_schedule) %> |
+  <%= link_to "Back to medication schedules", medication_schedules_path %>
+
+  <%= button_to "Destroy this medication schedule", @medication_schedule, method: :delete %>
+</div>

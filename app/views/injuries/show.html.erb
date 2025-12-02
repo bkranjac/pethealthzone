@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @injury %>
+
+<div>
+  <%= link_to "Edit this injury", edit_injury_path(@injury) %> |
+  <%= link_to "Back to injuries", injuries_path %>
+
+  <%= button_to "Destroy this injury", @injury, method: :delete %>
+</div>

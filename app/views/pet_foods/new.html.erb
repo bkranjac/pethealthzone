@@ -1,0 +1,11 @@
+<% content_for :title, "New pet food" %>
+
+<h1>New pet food</h1>
+
+<%= render "form", pet_food: @pet_food %>
+
+<br>
+
+<div>
+  <%= link_to "Back to pet foods", pet_foods_path %>
+</div>

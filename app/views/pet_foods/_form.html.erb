@@ -1,0 +1,42 @@
+<%= form_with(model: pet_food) do |form| %>
+  <% if pet_food.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(pet_food.errors.count, "error") %> prohibited this pet_food from being saved:</h2>
+
+      <ul>
+        <% pet_food.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :pet_id, style: "display: block" %>
+    <%= form.collection_select :pet_id, Pet.all, :id, :name, { prompt: "Select a pet" } %>
+  </div>
+
+  <div>
+    <%= form.label :food_id, style: "display: block" %>
+    <%= form.collection_select :food_id, Food.all, :id, :name, { prompt: "Select a food" } %>
+  </div>
+
+  <div>
+    <%= form.label :started_at, style: "display: block" %>
+    <%= form.date_field :started_at %>
+  </div>
+
+  <div>
+    <%= form.label :frequency_id, style: "display: block" %>
+    <%= form.collection_select :frequency_id, Frequency.all, :id, :how_often, { prompt: "Select a frequency" } %>
+  </div>
+
+  <div>
+    <%= form.label :notes, style: "display: block" %>
+    <%= form.textarea :notes %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

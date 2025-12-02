@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Frequencies" %>
+
+<h1>Frequencies</h1>
+
+<div id="frequencies">
+  <% @frequencies.each do |frequency| %>
+    <%= render frequency %>
+    <p>
+      <%= link_to "Show this frequency", frequency %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New frequency", new_frequency_path %>
