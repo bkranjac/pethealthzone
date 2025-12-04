@@ -1,10 +1,10 @@
 class Frequency < ApplicationRecord
   # Associations
-  has_many :checks
-  has_many :vaccines
-  has_many :medication_schedules
-  has_many :vaccination_schedules
-  has_many :pet_foods
+  has_many :checks, dependent: :destroy
+  has_many :vaccines, dependent: :destroy
+  has_many :medication_schedules, dependent: :destroy
+  has_many :vaccination_schedules, dependent: :destroy
+  has_many :pet_foods, dependent: :destroy
 
   # Validations
   validates :how_often, presence: true

@@ -1,10 +1,10 @@
 class Pet < ApplicationRecord
   # Associations
-  has_many :injury_reports
-  has_many :medication_schedules
-  has_many :vaccination_schedules
-  has_many :pet_foods
-  has_many :checks_schedules
+  has_many :injury_reports, dependent: :destroy
+  has_many :medication_schedules, dependent: :destroy
+  has_many :vaccination_schedules, dependent: :destroy
+  has_many :pet_foods, dependent: :destroy
+  has_many :checks_schedules, dependent: :destroy
 
   # Validations
   validates :name, presence: true

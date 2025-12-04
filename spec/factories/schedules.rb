@@ -37,6 +37,6 @@ FactoryBot.define do
     association :check
     date_created { Faker::Date.between(from: 1.year.ago, to: Date.today) }
     notes { Faker::Lorem.paragraph }
-    performed { [true, false].sample }
+    performed { [ true, false ].sample }
   end
 end

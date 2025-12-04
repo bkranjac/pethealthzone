@@ -1,6 +1,6 @@
 class Food < ApplicationRecord
   # Associations
-  has_many :pet_foods
+  has_many :pet_foods, dependent: :destroy
 
   # Validations
   validates :name, presence: true
