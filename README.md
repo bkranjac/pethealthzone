@@ -1,24 +1,8 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Pet Health Zone is an application to track pets health. It was developed for Cat Chillin Zone, senior cat rescue non profit.
+Instead of pen and paper, let's use AI to helps us generate an app to track those small things that take time to make sure our cats are up to date on medications.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Ruby version - 3.4.4, Rails 8
+* Database is SQLite (for simplicity sake).
+* 
