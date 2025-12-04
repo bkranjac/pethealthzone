@@ -14,11 +14,11 @@ class InjuryReportsTest < ApplicationSystemTestCase
     visit injury_reports_url
     click_on "New injury report"
 
+    select @injury_report.pet.name, from: "Pet"
+    select @injury_report.injury.description, from: "Injury"
     fill_in "Body part", with: @injury_report.body_part
-    fill_in "Date", with: @injury_report.date
     fill_in "Description", with: @injury_report.description
-    fill_in "Injury", with: @injury_report.injury_id
-    fill_in "Pet", with: @injury_report.pet_id
+    fill_in "Date", with: @injury_report.date
     click_on "Create Injury report"
 
     assert_text "Injury report was successfully created"
@@ -29,11 +29,11 @@ class InjuryReportsTest < ApplicationSystemTestCase
     visit injury_report_url(@injury_report)
     click_on "Edit this injury report", match: :first
 
+    select @injury_report.pet.name, from: "Pet"
+    select @injury_report.injury.description, from: "Injury"
     fill_in "Body part", with: @injury_report.body_part
-    fill_in "Date", with: @injury_report.date
     fill_in "Description", with: @injury_report.description
-    fill_in "Injury", with: @injury_report.injury_id
-    fill_in "Pet", with: @injury_report.pet_id
+    fill_in "Date", with: @injury_report.date
     click_on "Update Injury report"
 
     assert_text "Injury report was successfully updated"

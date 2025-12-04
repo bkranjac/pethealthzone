@@ -1,21 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  pet_type: MyString
-  breed: MyString
+  pet_type: Dog
+  breed: Labrador
   picture: MyString
   birthday: 2025-11-29
-  name: MyString
-  nickname: MyString
+  name: Buddy
+  nickname: Bud
   date_admitted: 2025-11-29
   notes: MyText
 
 two:
-  pet_type: MyString
-  breed: MyString
+  pet_type: Cat
+  breed: Siamese
   picture: MyString
   birthday: 2025-11-29
-  name: MyString
-  nickname: MyString
+  name: Whiskers
+  nickname: Whisk
   date_admitted: 2025-11-29
   notes: MyText

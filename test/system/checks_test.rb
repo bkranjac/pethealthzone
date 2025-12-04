@@ -15,7 +15,7 @@ class ChecksTest < ApplicationSystemTestCase
     click_on "New check"
 
     fill_in "Check type", with: @check.check_type
-    fill_in "Frequency", with: @check.frequency_id
+    select @check.frequency.how_often, from: "Frequency"
     click_on "Create Check"
 
     assert_text "Check was successfully created"
@@ -27,7 +27,7 @@ class ChecksTest < ApplicationSystemTestCase
     click_on "Edit this check", match: :first
 
     fill_in "Check type", with: @check.check_type
-    fill_in "Frequency", with: @check.frequency_id
+    select @check.frequency.how_often, from: "Frequency"
     click_on "Update Check"
 
     assert_text "Check was successfully updated"

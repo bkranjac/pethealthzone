@@ -14,9 +14,9 @@ class VaccinesTest < ApplicationSystemTestCase
     visit vaccines_url
     click_on "New vaccine"
 
-    fill_in "Frequency", with: @vaccine.frequency_id
-    check "Mandatory" if @vaccine.mandatory
     fill_in "Name", with: @vaccine.name
+    select @vaccine.frequency.how_often, from: "Frequency"
+    check "Mandatory" if @vaccine.mandatory
     click_on "Create Vaccine"
 
     assert_text "Vaccine was successfully created"
@@ -27,9 +27,9 @@ class VaccinesTest < ApplicationSystemTestCase
     visit vaccine_url(@vaccine)
     click_on "Edit this vaccine", match: :first
 
-    fill_in "Frequency", with: @vaccine.frequency_id
-    check "Mandatory" if @vaccine.mandatory
     fill_in "Name", with: @vaccine.name
+    select @vaccine.frequency.how_often, from: "Frequency"
+    check "Mandatory" if @vaccine.mandatory
     click_on "Update Vaccine"
 
     assert_text "Vaccine was successfully updated"

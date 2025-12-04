@@ -14,11 +14,11 @@ class ChecksSchedulesTest < ApplicationSystemTestCase
     visit checks_schedules_url
     click_on "New checks schedule"
 
-    fill_in "Check", with: @checks_schedule.check_id
+    select @checks_schedule.pet.name, from: "Pet"
+    select @checks_schedule.check.check_type, from: "Check"
     fill_in "Date created", with: @checks_schedule.date_created
     fill_in "Notes", with: @checks_schedule.notes
     check "Performed" if @checks_schedule.performed
-    fill_in "Pet", with: @checks_schedule.pet_id
     click_on "Create Checks schedule"
 
     assert_text "Checks schedule was successfully created"
@@ -29,11 +29,11 @@ class ChecksSchedulesTest < ApplicationSystemTestCase
     visit checks_schedule_url(@checks_schedule)
     click_on "Edit this checks schedule", match: :first
 
-    fill_in "Check", with: @checks_schedule.check_id
+    select @checks_schedule.pet.name, from: "Pet"
+    select @checks_schedule.check.check_type, from: "Check"
     fill_in "Date created", with: @checks_schedule.date_created
     fill_in "Notes", with: @checks_schedule.notes
     check "Performed" if @checks_schedule.performed
-    fill_in "Pet", with: @checks_schedule.pet_id
     click_on "Update Checks schedule"
 
     assert_text "Checks schedule was successfully updated"

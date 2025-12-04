@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  how_often: MyString
+  how_often: Daily
 
 two:
-  how_often: MyString
+  how_often: Weekly

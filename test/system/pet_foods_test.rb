@@ -14,11 +14,11 @@ class PetFoodsTest < ApplicationSystemTestCase
     visit pet_foods_url
     click_on "New pet food"
 
-    fill_in "Food", with: @pet_food.food_id
-    fill_in "Frequency", with: @pet_food.frequency_id
-    fill_in "Notes", with: @pet_food.notes
-    fill_in "Pet", with: @pet_food.pet_id
+    select @pet_food.pet.name, from: "Pet"
+    select @pet_food.food.name, from: "Food"
     fill_in "Started at", with: @pet_food.started_at
+    select @pet_food.frequency.how_often, from: "Frequency"
+    fill_in "Notes", with: @pet_food.notes
     click_on "Create Pet food"
 
     assert_text "Pet food was successfully created"
@@ -29,11 +29,11 @@ class PetFoodsTest < ApplicationSystemTestCase
     visit pet_food_url(@pet_food)
     click_on "Edit this pet food", match: :first
 
-    fill_in "Food", with: @pet_food.food_id
-    fill_in "Frequency", with: @pet_food.frequency_id
-    fill_in "Notes", with: @pet_food.notes
-    fill_in "Pet", with: @pet_food.pet_id
+    select @pet_food.pet.name, from: "Pet"
+    select @pet_food.food.name, from: "Food"
     fill_in "Started at", with: @pet_food.started_at
+    select @pet_food.frequency.how_often, from: "Frequency"
+    fill_in "Notes", with: @pet_food.notes
     click_on "Update Pet food"
 
     assert_text "Pet food was successfully updated"

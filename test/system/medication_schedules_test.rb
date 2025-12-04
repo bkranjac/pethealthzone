@@ -14,11 +14,11 @@ class MedicationSchedulesTest < ApplicationSystemTestCase
     visit medication_schedules_url
     click_on "New medication schedule"
 
-    fill_in "Date ended", with: @medication_schedule.date_ended
+    select @medication_schedule.pet.name, from: "Pet"
+    select @medication_schedule.medication.name, from: "Medication"
+    select @medication_schedule.frequency.how_often, from: "Frequency"
     fill_in "Date started", with: @medication_schedule.date_started
-    fill_in "Frequency", with: @medication_schedule.frequency_id
-    fill_in "Medication", with: @medication_schedule.medication_id
-    fill_in "Pet", with: @medication_schedule.pet_id
+    fill_in "Date ended", with: @medication_schedule.date_ended
     click_on "Create Medication schedule"
 
     assert_text "Medication schedule was successfully created"
@@ -29,11 +29,11 @@ class MedicationSchedulesTest < ApplicationSystemTestCase
     visit medication_schedule_url(@medication_schedule)
     click_on "Edit this medication schedule", match: :first
 
-    fill_in "Date ended", with: @medication_schedule.date_ended
+    select @medication_schedule.pet.name, from: "Pet"
+    select @medication_schedule.medication.name, from: "Medication"
+    select @medication_schedule.frequency.how_often, from: "Frequency"
     fill_in "Date started", with: @medication_schedule.date_started
-    fill_in "Frequency", with: @medication_schedule.frequency_id
-    fill_in "Medication", with: @medication_schedule.medication_id
-    fill_in "Pet", with: @medication_schedule.pet_id
+    fill_in "Date ended", with: @medication_schedule.date_ended
     click_on "Update Medication schedule"
 
     assert_text "Medication schedule was successfully updated"

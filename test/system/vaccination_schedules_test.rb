@@ -14,11 +14,11 @@ class VaccinationSchedulesTest < ApplicationSystemTestCase
     visit vaccination_schedules_url
     click_on "New vaccination schedule"
 
+    select @vaccination_schedule.pet.name, from: "Pet"
+    select @vaccination_schedule.vaccine.name, from: "Vaccine"
+    select @vaccination_schedule.frequency.how_often, from: "Frequency"
     fill_in "Date given", with: @vaccination_schedule.date_given
-    fill_in "Frequency", with: @vaccination_schedule.frequency_id
     fill_in "Notes", with: @vaccination_schedule.notes
-    fill_in "Pet", with: @vaccination_schedule.pet_id
-    fill_in "Vaccine", with: @vaccination_schedule.vaccine_id
     click_on "Create Vaccination schedule"
 
     assert_text "Vaccination schedule was successfully created"
@@ -29,11 +29,11 @@ class VaccinationSchedulesTest < ApplicationSystemTestCase
     visit vaccination_schedule_url(@vaccination_schedule)
     click_on "Edit this vaccination schedule", match: :first
 
+    select @vaccination_schedule.pet.name, from: "Pet"
+    select @vaccination_schedule.vaccine.name, from: "Vaccine"
+    select @vaccination_schedule.frequency.how_often, from: "Frequency"
     fill_in "Date given", with: @vaccination_schedule.date_given
-    fill_in "Frequency", with: @vaccination_schedule.frequency_id
     fill_in "Notes", with: @vaccination_schedule.notes
-    fill_in "Pet", with: @vaccination_schedule.pet_id
-    fill_in "Vaccine", with: @vaccination_schedule.vaccine_id
     click_on "Update Vaccination schedule"
 
     assert_text "Vaccination schedule was successfully updated"
