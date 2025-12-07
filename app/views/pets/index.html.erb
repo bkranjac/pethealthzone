@@ -1,16 +1,1 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Pets" %>
-
-<h1>Pets</h1>
-
-<div id="pets">
-  <% @pets.each do |pet| %>
-    <%= render pet %>
-    <p>
-      <%= link_to "Show this pet", pet %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New pet", new_pet_path %>
+<div id="pets-index-root" class="container mx-auto px-4 py-8"></div>

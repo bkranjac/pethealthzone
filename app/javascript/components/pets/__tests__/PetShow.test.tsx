@@ -1,0 +1,217 @@
+import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { PetShow } from '../PetShow';
+import { Pet } from '../../../types/pet';
+
+const mockPet: Pet = {
+  id: 1,
+  name: 'Buddy',
+  nickname: 'Bud',
+  pet_type: 'Dog',
+  breed: 'Labrador',
+  gender: 'Male',
+  birthday: '2020-01-15',
+  date_admitted: '2020-02-01',
+  notes: 'Friendly and energetic dog',
+};
+
+describe('PetShow', () => {
+  beforeEach(() => {
+    (global.fetch as jest.Mock).mockClear();
+    (global.confirm as jest.Mock).mockClear();
+  });
+
+  it('displays loading state initially', () => {
+    (global.fetch as jest.Mock).mockImplementation(() =>
+      new Promise(() => {}) // Never resolves
+    );
+
+    render(<PetShow petId={1} />);
+    expect(screen.getByText('Loading pet...')).toBeInTheDocument();
+  });
+
+  it('fetches and displays pet details', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPet,
+    });
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('"Bud"')).toBeInTheDocument();
+    expect(screen.getByText('Dog')).toBeInTheDocument();
+    expect(screen.getByText('Labrador')).toBeInTheDocument();
+    expect(screen.getByText('Male')).toBeInTheDocument();
+    expect(screen.getByText('Friendly and energetic dog')).toBeInTheDocument();
+  });
+
+  it('displays error message when fetch fails', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+    });
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Failed to fetch pet/)).toBeInTheDocument();
+    });
+  });
+
+  it('calls fetch with correct URL', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPet,
+    });
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/v1/pets/1', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    });
+  });
+
+  it('formats dates correctly', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPet,
+    });
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    // Dates should be formatted as locale strings
+    const birthdayDate = new Date('2020-01-15').toLocaleDateString();
+    const admittedDate = new Date('2020-02-01').toLocaleDateString();
+
+    expect(screen.getByText(birthdayDate)).toBeInTheDocument();
+    expect(screen.getByText(admittedDate)).toBeInTheDocument();
+  });
+
+  it('displays edit and delete buttons', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPet,
+    });
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Edit')).toBeInTheDocument();
+      expect(screen.getByText('Delete')).toBeInTheDocument();
+    });
+
+    const editLink = screen.getByText('Edit');
+    expect(editLink).toHaveAttribute('href', '/pets/1/edit');
+  });
+
+  it('handles delete with confirmation and redirects', async () => {
+    (global.fetch as jest.Mock)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockPet,
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+      });
+
+    (global.confirm as jest.Mock).mockReturnValue(true);
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getByText('Delete');
+    fireEvent.click(deleteButton);
+
+    expect(global.confirm).toHaveBeenCalledWith('Are you sure you want to delete this pet?');
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/v1/pets/1', expect.objectContaining({
+        method: 'DELETE',
+      }));
+    });
+
+    // Note: Navigation via window.location.assign() cannot be tested in JSDOM
+    // The delete functionality is verified by confirming the DELETE API call was made
+  });
+
+  it('does not delete when confirmation is cancelled', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPet,
+    });
+
+    (global.confirm as jest.Mock).mockReturnValue(false);
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getByText('Delete');
+    fireEvent.click(deleteButton);
+
+    expect(global.confirm).toHaveBeenCalled();
+
+    // Verify that fetch was NOT called when user cancels
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(1); // Only the initial fetch for pet data
+    });
+  });
+
+  it('displays back to pets link', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPet,
+    });
+
+    render(<PetShow petId={1} />);
+
+    await waitFor(() => {
+      const backLink = screen.getByText('Back to Pets');
+      expect(backLink).toHaveAttribute('href', '/pets');
+    });
+  });
+
+  it('handles pet without optional fields', async () => {
+    const minimalPet: Pet = {
+      id: 2,
+      name: 'Rex',
+      pet_type: 'Dog',
+      breed: 'Mixed',
+      birthday: '2021-03-10',
+      date_admitted: '2021-04-01',
+    };
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => minimalPet,
+    });
+
+    render(<PetShow petId={2} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Rex')).toBeInTheDocument();
+    });
+
+    // Should not display nickname and notes fields
+    expect(screen.queryByText('"')).not.toBeInTheDocument(); // No nickname quotes
+    // Notes section should not be present
+    const noteLabels = screen.queryAllByText('Notes:');
+    expect(noteLabels.length).toBe(0);
+  });
+});

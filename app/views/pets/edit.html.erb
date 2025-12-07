@@ -1,12 +1,1 @@
-<% content_for :title, "Editing pet" %>
-
-<h1>Editing pet</h1>
-
-<%= render "form", pet: @pet %>
-
-<br>
-
-<div>
-  <%= link_to "Show this pet", @pet %> |
-  <%= link_to "Back to pets", pets_path %>
-</div>
+<div id="pet-edit-root" data-pet-id="<%= @pet.id %>" class="container mx-auto px-4 py-8"></div>
