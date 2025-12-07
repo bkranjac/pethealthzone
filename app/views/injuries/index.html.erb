@@ -1,16 +1,1 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Injuries" %>
-
-<h1>Injuries</h1>
-
-<div id="injuries">
-  <% @injuries.each do |injury| %>
-    <%= render injury %>
-    <p>
-      <%= link_to "Show this injury", injury %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New injury", new_injury_path %>
+<div id="injuries_index" class="container mx-auto px-4 py-8"></div>

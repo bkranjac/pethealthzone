@@ -1,12 +1,1 @@
-<% content_for :title, "Editing injury" %>
-
-<h1>Editing injury</h1>
-
-<%= render "form", injury: @injury %>
-
-<br>
-
-<div>
-  <%= link_to "Show this injury", @injury %> |
-  <%= link_to "Back to injuries", injuries_path %>
-</div>
+<div id="injury_form" data-mode="edit" data-injury-id="<%= @injury.id %>" class="container mx-auto px-4 py-8"></div>

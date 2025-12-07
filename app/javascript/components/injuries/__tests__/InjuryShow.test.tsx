@@ -1,0 +1,195 @@
+import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { InjuryShow } from '../InjuryShow';
+import { Injury } from '../../../types/injury';
+
+const mockInjury: Injury = {
+  id: 1,
+  description: 'Broken leg from fall',
+  severity: 'high',
+  created_at: '2024-01-15T10:00:00Z',
+  updated_at: '2024-01-16T12:00:00Z',
+};
+
+describe('InjuryShow', () => {
+  beforeEach(() => {
+    (global.fetch as jest.Mock).mockClear();
+    (global.confirm as jest.Mock).mockClear();
+  });
+
+  it('displays loading state initially', () => {
+    (global.fetch as jest.Mock).mockImplementation(() =>
+      new Promise(() => {}) // Never resolves
+    );
+
+    render(<InjuryShow injuryId={1} />);
+    expect(screen.getByText('Loading injury...')).toBeInTheDocument();
+  });
+
+  it('fetches and displays injury details', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockInjury,
+    });
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Injury #1')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('Broken leg from fall')).toBeInTheDocument();
+    expect(screen.getByText('high')).toBeInTheDocument();
+  });
+
+  it('displays error message when fetch fails', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+    });
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Failed to fetch injury/)).toBeInTheDocument();
+    });
+  });
+
+  it('calls fetch with correct URL', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockInjury,
+    });
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/v1/injuries/1', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    });
+  });
+
+  it('displays created and updated timestamps', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockInjury,
+    });
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Injury #1')).toBeInTheDocument();
+    });
+
+    const createdDate = new Date('2024-01-15T10:00:00Z').toLocaleString();
+    const updatedDate = new Date('2024-01-16T12:00:00Z').toLocaleString();
+
+    expect(screen.getByText(createdDate)).toBeInTheDocument();
+    expect(screen.getByText(updatedDate)).toBeInTheDocument();
+  });
+
+  it('displays edit and delete buttons', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockInjury,
+    });
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Edit')).toBeInTheDocument();
+      expect(screen.getByText('Delete')).toBeInTheDocument();
+    });
+
+    const editLink = screen.getByText('Edit');
+    expect(editLink).toHaveAttribute('href', '/injuries/1/edit');
+  });
+
+  it('handles delete with confirmation', async () => {
+    (global.fetch as jest.Mock)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockInjury,
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+      });
+
+    (global.confirm as jest.Mock).mockReturnValue(true);
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Injury #1')).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getByText('Delete');
+    fireEvent.click(deleteButton);
+
+    expect(global.confirm).toHaveBeenCalledWith('Are you sure you want to delete this injury?');
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/v1/injuries/1', expect.objectContaining({
+        method: 'DELETE',
+      }));
+    });
+
+    // Note: Navigation via window.location.assign() cannot be tested in JSDOM
+    // The delete functionality is verified by confirming the DELETE API call was made
+  });
+
+  it('does not delete when confirmation is cancelled', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockInjury,
+    });
+
+    (global.confirm as jest.Mock).mockReturnValue(false);
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Injury #1')).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getByText('Delete');
+    fireEvent.click(deleteButton);
+
+    expect(global.confirm).toHaveBeenCalled();
+
+    // Verify that fetch was NOT called when user cancels
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(1); // Only the initial fetch for injury data
+    });
+  });
+
+  it('displays back to injuries link', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockInjury,
+    });
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      const backLink = screen.getByText('← Back to Injuries');
+      expect(backLink).toHaveAttribute('href', '/injuries');
+    });
+  });
+
+  it('applies correct severity styling', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockInjury,
+    });
+
+    render(<InjuryShow injuryId={1} />);
+
+    await waitFor(() => {
+      const severityBadge = screen.getByText('high');
+      expect(severityBadge).toHaveClass('bg-orange-100', 'text-orange-800');
+    });
+  });
+});
