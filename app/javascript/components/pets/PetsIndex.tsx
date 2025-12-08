@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pet } from '../../types/pet';
 import { useResource } from '../../hooks/useResource';
 
 export const PetsIndex: React.FC = () => {
-  const { data: pets, loading, error, deleteItem } = useResource<Pet>('/api/v1/pets');
+  // Try to get initial data from server-side rendered data attribute
+  const rootElement = document.getElementById('pets-index-root');
+  const initialDataJson = rootElement?.getAttribute('data-pets');
+  const initialData: Pet[] = initialDataJson ? JSON.parse(initialDataJson) : [];
+
+  const { data: pets, loading, error, deleteItem } = useResource<Pet>('/api/v1/pets', {
+    autoFetch: initialData.length === 0  // Only fetch if no initial data
+  });
+
+  // Use initial data if available, otherwise use fetched data
+  const displayPets = initialData.length > 0 ? initialData : pets;
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this pet?')) {
@@ -37,11 +47,11 @@ export const PetsIndex: React.FC = () => {
         </a>
       </div>
 
-      {pets.length === 0 ? (
+      {displayPets.length === 0 ? (
         <p className="text-gray-500">No pets found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {pets.map((pet) => (
+          {displayPets.map((pet) => (
             <div key={pet.id} className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow">
               <h2 className="text-xl font-semibold mb-2">{pet.name}</h2>
               {pet.nickname && (

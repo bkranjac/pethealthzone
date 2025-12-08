@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Injury } from '../../types/injury';
 import { useResource } from '../../hooks/useResource';
 
 export const InjuriesIndex: React.FC = () => {
-  const { data: injuries, loading, error, deleteItem } = useResource<Injury>('/api/v1/injuries');
+  // Try to get initial data from server-side rendered data attribute
+  const rootElement = document.getElementById('injuries_index');
+  const initialDataJson = rootElement?.getAttribute('data-injuries');
+  const initialData: Injury[] = initialDataJson ? JSON.parse(initialDataJson) : [];
+
+  const { data: injuries, loading, error, deleteItem } = useResource<Injury>('/api/v1/injuries', {
+    autoFetch: initialData.length === 0  // Only fetch if no initial data
+  });
+
+  // Use initial data if available, otherwise use fetched data
+  const displayInjuries = initialData.length > 0 ? initialData : injuries;
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this injury?')) {
@@ -37,13 +47,13 @@ export const InjuriesIndex: React.FC = () => {
         </a>
       </div>
 
-      {injuries.length === 0 ? (
+      {displayInjuries.length === 0 ? (
         <div className="text-center p-8 bg-gray-100 rounded">
           <p className="text-gray-600">No injuries found.</p>
         </div>
       ) : (
         <div className="grid gap-4">
-          {injuries.map((injury) => (
+          {displayInjuries.map((injury) => (
             <div key={injury.id} className="bg-white shadow rounded-lg p-6">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
