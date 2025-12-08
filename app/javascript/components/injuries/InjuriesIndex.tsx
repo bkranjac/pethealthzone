@@ -1,35 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Injury } from '../../types/injury';
+import { useResource } from '../../hooks/useResource';
 
 export const InjuriesIndex: React.FC = () => {
-  const [injuries, setInjuries] = useState<Injury[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetchInjuries();
-  }, []);
-
-  const fetchInjuries = async () => {
-    try {
-      const response = await fetch('/api/v1/injuries', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch injuries');
-      }
-
-      const data: Injury[] = await response.json();
-      setInjuries(data);
-      setLoading(false);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      setLoading(false);
-    }
-  };
+  const { data: injuries, loading, error, deleteItem } = useResource<Injury>('/api/v1/injuries');
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this injury?')) {
@@ -37,22 +11,7 @@ export const InjuriesIndex: React.FC = () => {
     }
 
     try {
-      const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content || '';
-
-      const response = await fetch(`/api/v1/injuries/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete injury');
-      }
-
-      // Remove from local state
-      setInjuries(injuries.filter(injury => injury.id !== id));
+      await deleteItem(id);
     } catch (err) {
       alert(err instanceof Error ? err.message : 'An error occurred');
     }
@@ -74,7 +33,7 @@ export const InjuriesIndex: React.FC = () => {
           href="/injuries/new"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          New Injury
+          New injury
         </a>
       </div>
 

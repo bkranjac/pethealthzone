@@ -259,7 +259,7 @@ export const PetForm: React.FC<PetFormProps> = ({ petId, mode }) => {
             href="/pets"
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
           >
-            Cancel
+            Back
           </a>
         </div>
       </form>

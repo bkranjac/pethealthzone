@@ -90,13 +90,13 @@ export const PetShow: React.FC<PetShowProps> = ({ petId }) => {
               href={`/pets/${pet.id}/edit`}
               className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
             >
-              Edit
+              Edit this pet
             </a>
             <button
               onClick={handleDelete}
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             >
-              Delete
+              Destroy this pet
             </button>
           </div>
         </div>
@@ -137,7 +137,7 @@ export const PetShow: React.FC<PetShowProps> = ({ petId }) => {
             href="/pets"
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           >
-            Back to Pets
+            Back
           </a>
         </div>
       </div>

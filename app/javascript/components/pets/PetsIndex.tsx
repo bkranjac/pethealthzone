@@ -1,35 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Pet } from '../../types/pet';
+import { useResource } from '../../hooks/useResource';
 
 export const PetsIndex: React.FC = () => {
-  const [pets, setPets] = useState<Pet[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetchPets();
-  }, []);
-
-  const fetchPets = async () => {
-    try {
-      const response = await fetch('/api/v1/pets', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch pets');
-      }
-
-      const data = await response.json();
-      setPets(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: pets, loading, error, deleteItem } = useResource<Pet>('/api/v1/pets');
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this pet?')) {
@@ -37,19 +11,7 @@ export const PetsIndex: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`/api/v1/pets/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content || '',
-        },
-      });
-
-      if (response.ok) {
-        setPets(pets.filter(pet => pet.id !== id));
-      } else {
-        throw new Error('Failed to delete pet');
-      }
+      await deleteItem(id);
     } catch (err) {
       alert(err instanceof Error ? err.message : 'An error occurred');
     }
@@ -71,7 +33,7 @@ export const PetsIndex: React.FC = () => {
           href="/pets/new"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          New Pet
+          New pet
         </a>
       </div>
 

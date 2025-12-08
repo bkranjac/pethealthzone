@@ -224,7 +224,7 @@ describe('PetForm', () => {
     it('displays cancel button linking to pets index', () => {
       render(<PetForm mode="new" />);
 
-      const cancelLink = screen.getByText('Cancel');
+      const cancelLink = screen.getByText('Back');
       expect(cancelLink).toHaveAttribute('href', '/pets');
     });
   });

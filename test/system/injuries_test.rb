@@ -15,10 +15,11 @@ class InjuriesTest < ApplicationSystemTestCase
     click_on "New injury"
 
     fill_in "Description", with: @injury.description
-    fill_in "Severity", with: @injury.severity
+    select @injury.severity, from: "Severity"
     click_on "Create Injury"
 
-    assert_text "Injury was successfully created"
+    # Verify we're on the show page
+    assert_selector "h1", text: /Injury #\d+/
     click_on "Back"
   end
 
@@ -26,18 +27,26 @@ class InjuriesTest < ApplicationSystemTestCase
     visit injury_url(@injury)
     click_on "Edit this injury", match: :first
 
-    fill_in "Description", with: @injury.description
-    fill_in "Severity", with: @injury.severity
+    fill_in "Description", with: "Updated description"
+    select "Critical", from: "Severity"
     click_on "Update Injury"
 
-    assert_text "Injury was successfully updated"
-    click_on "Back"
+    # Verify we're back on the show page with updated data
+    assert_text "Updated description"
+    assert_text "Critical"
   end
 
   test "should destroy Injury" do
-    visit injury_url(@injury)
-    click_on "Destroy this injury", match: :first
+    visit injuries_url
+    injury_count = all(".bg-white.shadow.rounded-lg").count
 
-    assert_text "Injury was successfully destroyed"
+    visit injury_url(@injury)
+    accept_confirm do
+      click_on "Destroy this injury", match: :first
+    end
+
+    # Verify we're redirected to index and injury is gone
+    assert_selector "h1", text: "Injuries"
+    assert_equal injury_count - 1, all(".bg-white.shadow.rounded-lg").count
   end
 end

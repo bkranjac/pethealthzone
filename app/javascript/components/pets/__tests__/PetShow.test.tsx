@@ -107,11 +107,11 @@ describe('PetShow', () => {
     render(<PetShow petId={1} />);
 
     await waitFor(() => {
-      expect(screen.getByText('Edit')).toBeInTheDocument();
-      expect(screen.getByText('Delete')).toBeInTheDocument();
+      expect(screen.getByText('Edit this pet')).toBeInTheDocument();
+      expect(screen.getByText('Destroy this pet')).toBeInTheDocument();
     });
 
-    const editLink = screen.getByText('Edit');
+    const editLink = screen.getByText('Edit this pet');
     expect(editLink).toHaveAttribute('href', '/pets/1/edit');
   });
 
@@ -133,7 +133,7 @@ describe('PetShow', () => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Delete');
+    const deleteButton = screen.getByText('Destroy this pet');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalledWith('Are you sure you want to delete this pet?');
@@ -162,7 +162,7 @@ describe('PetShow', () => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Delete');
+    const deleteButton = screen.getByText('Destroy this pet');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalled();
@@ -182,7 +182,7 @@ describe('PetShow', () => {
     render(<PetShow petId={1} />);
 
     await waitFor(() => {
-      const backLink = screen.getByText('Back to Pets');
+      const backLink = screen.getByText('Back');
       expect(backLink).toHaveAttribute('href', '/pets');
     });
   });

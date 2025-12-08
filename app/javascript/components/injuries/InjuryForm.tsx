@@ -134,10 +134,10 @@ export const InjuryForm: React.FC<InjuryFormProps> = ({ mode, injuryId }) => {
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select severity</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-            <option value="critical">Critical</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
           </select>
         </div>
 
@@ -153,7 +153,7 @@ export const InjuryForm: React.FC<InjuryFormProps> = ({ mode, injuryId }) => {
             href="/injuries"
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
           >
-            Cancel
+            Back
           </a>
         </div>
       </form>

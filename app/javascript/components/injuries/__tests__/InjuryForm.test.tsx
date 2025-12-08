@@ -7,7 +7,7 @@ import { Injury } from '../../../types/injury';
 const mockInjury: Injury = {
   id: 1,
   description: 'Broken leg from fall',
-  severity: 'high',
+  severity: 'High',
 };
 
 describe('InjuryForm', () => {
@@ -36,7 +36,7 @@ describe('InjuryForm', () => {
       render(<InjuryForm mode="new" />);
 
       await user.type(screen.getByLabelText(/Description/), 'Broken leg from fall');
-      await user.selectOptions(screen.getByLabelText(/Severity/), 'high');
+      await user.selectOptions(screen.getByLabelText(/Severity/), 'High');
 
       const submitButton = screen.getByText('Create Injury');
       fireEvent.click(submitButton);
@@ -66,7 +66,7 @@ describe('InjuryForm', () => {
       render(<InjuryForm mode="new" />);
 
       await user.type(screen.getByLabelText(/Description/), 'Test injury');
-      await user.selectOptions(screen.getByLabelText(/Severity/), 'low');
+      await user.selectOptions(screen.getByLabelText(/Severity/), 'Low');
 
       const submitButton = screen.getByText('Create Injury');
       fireEvent.click(submitButton);
@@ -86,7 +86,7 @@ describe('InjuryForm', () => {
       render(<InjuryForm mode="new" />);
 
       await user.type(screen.getByLabelText(/Description/), 'Test injury');
-      await user.selectOptions(screen.getByLabelText(/Severity/), 'medium');
+      await user.selectOptions(screen.getByLabelText(/Severity/), 'Medium');
 
       const submitButton = screen.getByText('Create Injury');
       fireEvent.click(submitButton);
@@ -117,7 +117,7 @@ describe('InjuryForm', () => {
       const severitySelect = screen.getByLabelText(/Severity/) as HTMLSelectElement;
 
       expect(descriptionInput.value).toBe('Broken leg from fall');
-      expect(severitySelect.value).toBe('high');
+      expect(severitySelect.value).toBe('High');
       expect(screen.getByText('Edit Injury')).toBeInTheDocument();
     });
 
@@ -194,9 +194,9 @@ describe('InjuryForm', () => {
       render(<InjuryForm mode="new" />);
 
       const severitySelect = screen.getByLabelText(/Severity/);
-      await user.selectOptions(severitySelect, 'critical');
+      await user.selectOptions(severitySelect, 'Critical');
 
-      expect((severitySelect as HTMLSelectElement).value).toBe('critical');
+      expect((severitySelect as HTMLSelectElement).value).toBe('Critical');
     });
   });
 
@@ -204,7 +204,7 @@ describe('InjuryForm', () => {
     it('displays cancel button linking to injuries index', () => {
       render(<InjuryForm mode="new" />);
 
-      const cancelLink = screen.getByText('Cancel');
+      const cancelLink = screen.getByText('Back');
       expect(cancelLink).toHaveAttribute('href', '/injuries');
     });
   });
@@ -222,10 +222,10 @@ describe('InjuryForm', () => {
       render(<InjuryForm mode="new" />);
 
       await user.type(screen.getByLabelText(/Description/), 'Test injury description');
-      await user.selectOptions(screen.getByLabelText(/Severity/), 'medium');
+      await user.selectOptions(screen.getByLabelText(/Severity/), 'Medium');
 
       expect((screen.getByLabelText(/Description/) as HTMLTextAreaElement).value).toBe('Test injury description');
-      expect((screen.getByLabelText(/Severity/) as HTMLSelectElement).value).toBe('medium');
+      expect((screen.getByLabelText(/Severity/) as HTMLSelectElement).value).toBe('Medium');
     });
   });
 });

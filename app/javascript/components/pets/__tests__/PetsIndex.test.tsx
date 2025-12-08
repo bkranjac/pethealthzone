@@ -63,14 +63,14 @@ describe('PetsIndex', () => {
   });
 
   it('displays error message when fetch fails', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce({
-      ok: false,
-    });
+    (global.fetch as jest.Mock).mockRejectedValueOnce(
+      new Error('Failed to fetch data')
+    );
 
     render(<PetsIndex />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Failed to fetch pets/)).toBeInTheDocument();
+      expect(screen.getByText(/Failed to fetch data/)).toBeInTheDocument();
     });
   });
 
@@ -99,6 +99,7 @@ describe('PetsIndex', () => {
       expect(global.fetch).toHaveBeenCalledWith('/api/v1/pets', {
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': 'test-csrf-token',
         },
       });
     });
@@ -187,7 +188,7 @@ describe('PetsIndex', () => {
     render(<PetsIndex />);
 
     await waitFor(() => {
-      const newLink = screen.getByText('New Pet');
+      const newLink = screen.getByText('New pet');
       expect(newLink).toHaveAttribute('href', '/pets/new');
     });
   });

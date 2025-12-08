@@ -99,11 +99,11 @@ describe('InjuryShow', () => {
     render(<InjuryShow injuryId={1} />);
 
     await waitFor(() => {
-      expect(screen.getByText('Edit')).toBeInTheDocument();
-      expect(screen.getByText('Delete')).toBeInTheDocument();
+      expect(screen.getByText('Edit this injury')).toBeInTheDocument();
+      expect(screen.getByText('Destroy this injury')).toBeInTheDocument();
     });
 
-    const editLink = screen.getByText('Edit');
+    const editLink = screen.getByText('Edit this injury');
     expect(editLink).toHaveAttribute('href', '/injuries/1/edit');
   });
 
@@ -125,7 +125,7 @@ describe('InjuryShow', () => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Delete');
+    const deleteButton = screen.getByText('Destroy this injury');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalledWith('Are you sure you want to delete this injury?');
@@ -154,7 +154,7 @@ describe('InjuryShow', () => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Delete');
+    const deleteButton = screen.getByText('Destroy this injury');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalled();
@@ -174,7 +174,7 @@ describe('InjuryShow', () => {
     render(<InjuryShow injuryId={1} />);
 
     await waitFor(() => {
-      const backLink = screen.getByText('← Back to Injuries');
+      const backLink = screen.getByText('Back');
       expect(backLink).toHaveAttribute('href', '/injuries');
     });
   });
