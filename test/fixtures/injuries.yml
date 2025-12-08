@@ -2,8 +2,8 @@
 
 one:
   description: Broken leg
-  severity: Severe
+  severity: High
 
 two:
   description: Minor scratch
-  severity: Mild
+  severity: Low

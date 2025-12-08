@@ -1,10 +1,1 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @injury %>
-
-<div>
-  <%= link_to "Edit this injury", edit_injury_path(@injury) %> |
-  <%= link_to "Back to injuries", injuries_path %>
-
-  <%= button_to "Destroy this injury", @injury, method: :delete %>
-</div>
+<div id="injury_show" data-injury-id="<%= @injury.id %>" class="container mx-auto px-4 py-8"></div>

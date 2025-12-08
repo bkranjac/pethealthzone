@@ -19,10 +19,16 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body>
+    <% if notice.present? %>
+      <p class="notice" style="color: green"><%= notice %></p>
+    <% end %>
+    <% if alert.present? %>
+      <p class="alert" style="color: red"><%= alert %></p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

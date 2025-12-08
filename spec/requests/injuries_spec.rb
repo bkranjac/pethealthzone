@@ -7,13 +7,12 @@ RSpec.describe "Injuries", type: :request do
       expect(response).to be_successful
     end
 
-    it "displays all injuries" do
+    it "displays React container for injuries" do
       injury1 = create(:injury, description: "Broken leg", severity: "Severe")
       injury2 = create(:injury, description: "Minor cut", severity: "Mild")
 
       get injuries_path
-      expect(response.body).to include("Broken leg")
-      expect(response.body).to include("Minor cut")
+      expect(response.body).to include('id="injuries_index"')
     end
   end
 

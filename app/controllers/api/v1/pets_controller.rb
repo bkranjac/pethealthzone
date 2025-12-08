@@ -4,11 +4,14 @@ module Api
       before_action :set_pet, only: %i[ show update destroy ]
 
       def index
+        Rails.logger.info "==== API V1 Pets#index called ===="
         @pets = Pet.all
+        Rails.logger.info "==== Found #{@pets.count} pets ===="
         render json: @pets
       end
 
       def show
+        Rails.logger.info "==== API V1 Pets#show called for pet #{params[:id]} ===="
         render json: @pet
       end
 
