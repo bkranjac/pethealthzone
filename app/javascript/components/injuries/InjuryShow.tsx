@@ -1,39 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { Injury } from '../../types/injury';
+import { useApi } from '../../hooks/useApi';
+import { useAppNavigate } from '../../hooks/useAppNavigate';
 
-interface InjuryShowProps {
-  injuryId: number;
-}
-
-export const InjuryShow: React.FC<InjuryShowProps> = ({ injuryId }) => {
+export const InjuryShow: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const injuryId = parseInt(id || '0', 10);
   const [injury, setInjury] = useState<Injury | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { apiCall } = useApi();
+  const navigate = useAppNavigate();
 
   useEffect(() => {
-    fetchInjury();
-  }, [injuryId]);
-
-  const fetchInjury = async () => {
-    try {
-      const response = await fetch(`/api/v1/injuries/${injuryId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch injury');
+    const fetchInjury = async () => {
+      try {
+        const data = await apiCall<Injury>(`/api/v1/injuries/${injuryId}`);
+        setInjury(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        setLoading(false);
       }
+    };
 
-      const data: Injury = await response.json();
-      setInjury(data);
-      setLoading(false);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      setLoading(false);
-    }
-  };
+    fetchInjury();
+  }, [injuryId, apiCall]);
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this injury?')) {
@@ -41,29 +34,8 @@ export const InjuryShow: React.FC<InjuryShowProps> = ({ injuryId }) => {
     }
 
     try {
-      const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content || '';
-
-      const response = await fetch(`/api/v1/injuries/${injuryId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
-        },
-      });
-
-      if (response.ok) {
-        try {
-          window.location.assign('/injuries');
-        } catch (navError) {
-          // JSDOM throws "Not implemented: navigation" errors in test environment
-          // Ignore only navigation errors, let other errors propagate
-          if (navError instanceof Error && !navError.message.includes('navigation')) {
-            throw navError;
-          }
-        }
-      } else {
-        throw new Error('Failed to delete injury');
-      }
+      await apiCall(`/api/v1/injuries/${injuryId}`, { method: 'DELETE' });
+      navigate('/injuries');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'An error occurred');
     }
@@ -83,12 +55,12 @@ export const InjuryShow: React.FC<InjuryShowProps> = ({ injuryId }) => {
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-3xl font-bold">Injury #{injury.id}</h1>
           <div className="flex gap-2">
-            <a
-              href={`/injuries/${injury.id}/edit`}
+            <Link
+              to={`/injuries/${injury.id}/edit`}
               className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
             >
               Edit this injury
-            </a>
+            </Link>
             <button
               onClick={handleDelete}
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -135,12 +107,12 @@ export const InjuryShow: React.FC<InjuryShowProps> = ({ injuryId }) => {
         </dl>
 
         <div className="mt-6">
-          <a
-            href="/injuries"
+          <Link
+            to="/injuries"
             className="text-blue-600 hover:text-blue-800 font-semibold"
           >
             Back
-          </a>
+          </Link>
         </div>
       </div>
     </div>

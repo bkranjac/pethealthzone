@@ -1,12 +1,16 @@
 import React, { useState, useEffect, FormEvent } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { Pet, PetFormData } from '../../types/pet';
+import { useApi } from '../../hooks/useApi';
+import { useAppNavigate } from '../../hooks/useAppNavigate';
 
 interface PetFormProps {
-  petId?: number;
   mode: 'new' | 'edit';
 }
 
-export const PetForm: React.FC<PetFormProps> = ({ petId, mode }) => {
+export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
+  const { id } = useParams<{ id: string }>();
+  const petId = mode === 'edit' ? parseInt(id || '0', 10) : undefined;
   const [formData, setFormData] = useState<PetFormData>({
     pet_type: '',
     breed: '',
@@ -20,41 +24,35 @@ export const PetForm: React.FC<PetFormProps> = ({ petId, mode }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { apiCall } = useApi();
+  const navigate = useAppNavigate();
 
   useEffect(() => {
+    const fetchPet = async () => {
+      try {
+        const pet = await apiCall<Pet>(`/api/v1/pets/${petId}`);
+        if (pet) {
+          setFormData({
+            pet_type: pet.pet_type,
+            breed: pet.breed,
+            picture: pet.picture || '',
+            birthday: pet.birthday,
+            name: pet.name,
+            nickname: pet.nickname || '',
+            gender: pet.gender || '',
+            date_admitted: pet.date_admitted,
+            notes: pet.notes || '',
+          });
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      }
+    };
+
     if (mode === 'edit' && petId) {
       fetchPet();
     }
-  }, [mode, petId]);
-
-  const fetchPet = async () => {
-    try {
-      const response = await fetch(`/api/v1/pets/${petId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch pet');
-      }
-
-      const pet: Pet = await response.json();
-      setFormData({
-        pet_type: pet.pet_type,
-        breed: pet.breed,
-        picture: pet.picture || '',
-        birthday: pet.birthday,
-        name: pet.name,
-        nickname: pet.nickname || '',
-        gender: pet.gender || '',
-        date_admitted: pet.date_admitted,
-        notes: pet.notes || '',
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    }
-  };
+  }, [mode, petId, apiCall]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -65,29 +63,13 @@ export const PetForm: React.FC<PetFormProps> = ({ petId, mode }) => {
       const url = mode === 'edit' ? `/api/v1/pets/${petId}` : '/api/v1/pets';
       const method = mode === 'edit' ? 'PUT' : 'POST';
 
-      const response = await fetch(url, {
+      const pet = await apiCall<Pet>(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content || '',
-        },
         body: JSON.stringify({ pet: formData }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.errors?.join(', ') || 'Failed to save pet');
-      }
-
-      const pet: Pet = await response.json();
-      try {
-        window.location.assign(`/pets/${pet.id}`);
-      } catch (navError) {
-        // JSDOM throws "Not implemented: navigation" errors in test environment
-        // Ignore only navigation errors, let other errors propagate
-        if (navError instanceof Error && !navError.message.includes('navigation')) {
-          throw navError;
-        }
+      if (pet) {
+        navigate(`/pets/${pet.id}`);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -255,12 +237,12 @@ export const PetForm: React.FC<PetFormProps> = ({ petId, mode }) => {
           >
             {loading ? 'Saving...' : mode === 'edit' ? 'Update Pet' : 'Create Pet'}
           </button>
-          <a
-            href="/pets"
+          <Link
+            to="/pets"
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
           >
             Back
-          </a>
+          </Link>
         </div>
       </form>
     </div>

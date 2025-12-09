@@ -1,8 +1,25 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { InjuryForm } from '../InjuryForm';
 import { Injury } from '../../../types/injury';
+
+// Helper to render component with router
+const renderWithRouter = (mode: 'new' | 'edit', injuryId?: number) => {
+  const path = mode === 'new' ? '/injuries/new' : `/injuries/${injuryId}/edit`;
+  const routePath = mode === 'new' ? '/injuries/new' : '/injuries/:id/edit';
+
+  return render(
+    <MemoryRouter initialEntries={[path]}>
+      <Routes>
+        <Route path={routePath} element={<InjuryForm mode={mode} />} />
+        <Route path="/injuries/:id" element={<div>Injury Show Page</div>} />
+        <Route path="/injuries" element={<div>Injuries Index Page</div>} />
+      </Routes>
+    </MemoryRouter>
+  );
+};
 
 const mockInjury: Injury = {
   id: 1,
@@ -17,7 +34,7 @@ describe('InjuryForm', () => {
 
   describe('New Mode', () => {
     it('renders form in new mode', () => {
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       expect(screen.getByText('New Injury')).toBeInTheDocument();
       expect(screen.getByLabelText(/Description/)).toBeInTheDocument();
@@ -33,7 +50,7 @@ describe('InjuryForm', () => {
         json: async () => ({ ...mockInjury }),
       });
 
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       await user.type(screen.getByLabelText(/Description/), 'Broken leg from fall');
       await user.selectOptions(screen.getByLabelText(/Severity/), 'High');
@@ -63,7 +80,7 @@ describe('InjuryForm', () => {
         json: async () => ({ errors: ['Description is required', 'Severity is required'] }),
       });
 
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       await user.type(screen.getByLabelText(/Description/), 'Test injury');
       await user.selectOptions(screen.getByLabelText(/Severity/), 'Low');
@@ -83,7 +100,7 @@ describe('InjuryForm', () => {
         new Promise(() => {}) // Never resolves
       );
 
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       await user.type(screen.getByLabelText(/Description/), 'Test injury');
       await user.selectOptions(screen.getByLabelText(/Severity/), 'Medium');
@@ -105,7 +122,7 @@ describe('InjuryForm', () => {
         json: async () => mockInjury,
       });
 
-      render(<InjuryForm mode="edit" injuryId={1} />);
+      renderWithRouter('edit', 1);
 
       // Wait for the data to be loaded into the form fields
       await waitFor(() => {
@@ -134,7 +151,7 @@ describe('InjuryForm', () => {
           json: async () => ({ ...mockInjury, description: 'Updated description' }),
         });
 
-      render(<InjuryForm mode="edit" injuryId={1} />);
+      renderWithRouter('edit', 1);
 
       await waitFor(() => {
         expect(screen.getByDisplayValue('Broken leg from fall')).toBeInTheDocument();
@@ -161,7 +178,7 @@ describe('InjuryForm', () => {
     it('displays error when fetch fails', async () => {
       (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Failed to fetch injury'));
 
-      render(<InjuryForm mode="edit" injuryId={1} />);
+      renderWithRouter('edit', 1);
 
       await waitFor(() => {
         expect(screen.getByText(/Failed to fetch injury/)).toBeInTheDocument();
@@ -171,13 +188,13 @@ describe('InjuryForm', () => {
 
   describe('Form Validation', () => {
     it('marks required fields', () => {
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       expect(screen.getAllByText('*').length).toBeGreaterThan(0);
     });
 
     it('includes severity dropdown with options', () => {
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       const severitySelect = screen.getByLabelText(/Severity/) as HTMLSelectElement;
 
@@ -191,7 +208,7 @@ describe('InjuryForm', () => {
 
     it('allows selecting severity', async () => {
       const user = userEvent.setup();
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       const severitySelect = screen.getByLabelText(/Severity/);
       await user.selectOptions(severitySelect, 'Critical');
@@ -202,7 +219,7 @@ describe('InjuryForm', () => {
 
   describe('Navigation', () => {
     it('displays cancel button linking to injuries index', () => {
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       const cancelLink = screen.getByText('Back');
       expect(cancelLink).toHaveAttribute('href', '/injuries');
@@ -211,7 +228,7 @@ describe('InjuryForm', () => {
 
   describe('All Form Fields', () => {
     it('renders all input fields', () => {
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       expect(screen.getByLabelText(/Description/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Severity/)).toBeInTheDocument();
@@ -219,7 +236,7 @@ describe('InjuryForm', () => {
 
     it('allows entering data in all fields', async () => {
       const user = userEvent.setup();
-      render(<InjuryForm mode="new" />);
+      renderWithRouter('new');
 
       await user.type(screen.getByLabelText(/Description/), 'Test injury description');
       await user.selectOptions(screen.getByLabelText(/Severity/), 'Medium');

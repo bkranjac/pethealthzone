@@ -1,8 +1,25 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { PetForm } from '../PetForm';
 import { Pet } from '../../../types/pet';
+
+// Helper to render component with router
+const renderWithRouter = (mode: 'new' | 'edit', petId?: number) => {
+  const path = mode === 'new' ? '/pets/new' : `/pets/${petId}/edit`;
+  const routePath = mode === 'new' ? '/pets/new' : '/pets/:id/edit';
+
+  return render(
+    <MemoryRouter initialEntries={[path]}>
+      <Routes>
+        <Route path={routePath} element={<PetForm mode={mode} />} />
+        <Route path="/pets/:id" element={<div>Pet Show Page</div>} />
+        <Route path="/pets" element={<div>Pets Index Page</div>} />
+      </Routes>
+    </MemoryRouter>
+  );
+};
 
 const mockPet: Pet = {
   id: 1,
@@ -23,7 +40,7 @@ describe('PetForm', () => {
 
   describe('New Mode', () => {
     it('renders form in new mode', () => {
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       expect(screen.getByText('New Pet')).toBeInTheDocument();
       expect(screen.getByLabelText(/Name/)).toBeInTheDocument();
@@ -40,7 +57,7 @@ describe('PetForm', () => {
         json: async () => ({ ...mockPet }),
       });
 
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
       await user.type(screen.getByLabelText(/Type/), 'Dog');
@@ -72,7 +89,7 @@ describe('PetForm', () => {
         json: async () => ({ errors: ['Name is required', 'Type is required'] }),
       });
 
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       // Fill in required fields
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
@@ -94,7 +111,7 @@ describe('PetForm', () => {
         new Promise(() => {}) // Never resolves
       );
 
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       // Fill in required fields
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
@@ -111,7 +128,7 @@ describe('PetForm', () => {
     });
 
     it('sets default date_admitted to today', () => {
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       const dateInput = screen.getByLabelText(/Date Admitted/) as HTMLInputElement;
       const today = new Date().toISOString().split('T')[0];
@@ -127,7 +144,7 @@ describe('PetForm', () => {
         json: async () => mockPet,
       });
 
-      render(<PetForm mode="edit" petId={1} />);
+      renderWithRouter('edit', 1);
 
       // Wait for the data to be loaded into the form fields
       await waitFor(() => {
@@ -156,7 +173,7 @@ describe('PetForm', () => {
           json: async () => ({ ...mockPet, name: 'Max' }),
         });
 
-      render(<PetForm mode="edit" petId={1} />);
+      renderWithRouter('edit', 1);
 
       await waitFor(() => {
         expect(screen.getByDisplayValue('Buddy')).toBeInTheDocument();
@@ -183,7 +200,7 @@ describe('PetForm', () => {
     it('displays error when fetch fails', async () => {
       (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Failed to fetch pet'));
 
-      render(<PetForm mode="edit" petId={1} />);
+      renderWithRouter('edit', 1);
 
       await waitFor(() => {
         expect(screen.getByText(/Failed to fetch pet/)).toBeInTheDocument();
@@ -193,13 +210,13 @@ describe('PetForm', () => {
 
   describe('Form Validation', () => {
     it('marks required fields', () => {
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       expect(screen.getAllByText('*').length).toBeGreaterThan(0);
     });
 
     it('includes gender dropdown with options', () => {
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       const genderSelect = screen.getByLabelText(/Gender/) as HTMLSelectElement;
 
@@ -211,7 +228,7 @@ describe('PetForm', () => {
 
     it('allows selecting gender', async () => {
       const user = userEvent.setup();
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       const genderSelect = screen.getByLabelText(/Gender/);
       await user.selectOptions(genderSelect, 'Male');
@@ -222,7 +239,7 @@ describe('PetForm', () => {
 
   describe('Navigation', () => {
     it('displays cancel button linking to pets index', () => {
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       const cancelLink = screen.getByText('Back');
       expect(cancelLink).toHaveAttribute('href', '/pets');
@@ -231,7 +248,7 @@ describe('PetForm', () => {
 
   describe('All Form Fields', () => {
     it('renders all input fields', () => {
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       expect(screen.getByLabelText(/^Name/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Nickname/)).toBeInTheDocument();
@@ -246,7 +263,7 @@ describe('PetForm', () => {
 
     it('allows entering data in all fields', async () => {
       const user = userEvent.setup();
-      render(<PetForm mode="new" />);
+      renderWithRouter('new');
 
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
       await user.type(screen.getByLabelText(/Nickname/), 'Bud');

@@ -1,7 +1,17 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { PetsIndex } from '../PetsIndex';
 import { Pet } from '../../../types/pet';
+
+// Helper to render component with router
+const renderWithRouter = () => {
+  return render(
+    <MemoryRouter>
+      <PetsIndex />
+    </MemoryRouter>
+  );
+};
 
 const mockPets: Pet[] = [
   {
@@ -37,7 +47,7 @@ describe('PetsIndex', () => {
       new Promise(() => {}) // Never resolves
     );
 
-    render(<PetsIndex />);
+    renderWithRouter();
     expect(screen.getByText('Loading pets...')).toBeInTheDocument();
   });
 
@@ -47,7 +57,7 @@ describe('PetsIndex', () => {
       json: async () => mockPets,
     });
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -67,7 +77,7 @@ describe('PetsIndex', () => {
       new Error('Failed to fetch data')
     );
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText(/Failed to fetch data/)).toBeInTheDocument();
@@ -80,7 +90,7 @@ describe('PetsIndex', () => {
       json: async () => [],
     });
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('No pets found.')).toBeInTheDocument();
@@ -93,7 +103,7 @@ describe('PetsIndex', () => {
       json: async () => mockPets,
     });
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/v1/pets', {
@@ -113,11 +123,13 @@ describe('PetsIndex', () => {
       })
       .mockResolvedValueOnce({
         ok: true,
+        status: 204,
+        json: async () => null,
       });
 
     (global.confirm as jest.Mock).mockReturnValue(true);
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -147,7 +159,7 @@ describe('PetsIndex', () => {
 
     (global.confirm as jest.Mock).mockReturnValue(false);
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -166,7 +178,7 @@ describe('PetsIndex', () => {
       json: async () => mockPets,
     });
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -185,7 +197,7 @@ describe('PetsIndex', () => {
       json: async () => mockPets,
     });
 
-    render(<PetsIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       const newLink = screen.getByText('New pet');
