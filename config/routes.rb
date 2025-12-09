@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   # SPA catch-all route (must be last!)
   # This serves the React SPA for all non-API HTML requests
-  get '*path', to: 'spa#index', constraints: ->(req) {
+  get "*path", to: "spa#index", constraints: ->(req) {
     !req.xhr? && req.format.html?
   }
 
