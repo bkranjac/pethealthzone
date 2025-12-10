@@ -13,6 +13,21 @@ import { InjuriesIndex } from './components/injuries/InjuriesIndex';
 import { InjuryShow } from './components/injuries/InjuryShow';
 import { InjuryForm } from './components/injuries/InjuryForm';
 
+// Import Frequency components
+import { FrequenciesIndex } from './components/frequencies/FrequenciesIndex';
+import { FrequencyShow } from './components/frequencies/FrequencyShow';
+import { FrequencyForm } from './components/frequencies/FrequencyForm';
+
+// Import Food components
+import { FoodsIndex } from './components/foods/FoodsIndex';
+import { FoodShow } from './components/foods/FoodShow';
+import { FoodForm } from './components/foods/FoodForm';
+
+// Import Medication components
+import { MedicationsIndex } from './components/medications/MedicationsIndex';
+import { MedicationShow } from './components/medications/MedicationShow';
+import { MedicationForm } from './components/medications/MedicationForm';
+
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -32,6 +47,24 @@ export const App: React.FC = () => {
           <Route path="/injuries/new" element={<InjuryForm mode="new" />} />
           <Route path="/injuries/:id" element={<InjuryShow />} />
           <Route path="/injuries/:id/edit" element={<InjuryForm mode="edit" />} />
+
+          {/* Frequencies routes */}
+          <Route path="/frequencies" element={<FrequenciesIndex />} />
+          <Route path="/frequencies/new" element={<FrequencyForm mode="new" />} />
+          <Route path="/frequencies/:id" element={<FrequencyShow />} />
+          <Route path="/frequencies/:id/edit" element={<FrequencyForm mode="edit" />} />
+
+          {/* Foods routes */}
+          <Route path="/foods" element={<FoodsIndex />} />
+          <Route path="/foods/new" element={<FoodForm mode="new" />} />
+          <Route path="/foods/:id" element={<FoodShow />} />
+          <Route path="/foods/:id/edit" element={<FoodForm mode="edit" />} />
+
+          {/* Medications routes */}
+          <Route path="/medications" element={<MedicationsIndex />} />
+          <Route path="/medications/new" element={<MedicationForm mode="new" />} />
+          <Route path="/medications/:id" element={<MedicationShow />} />
+          <Route path="/medications/:id/edit" element={<MedicationForm mode="edit" />} />
 
           {/* 404 Not Found */}
           <Route path="*" element={<NotFound />} />
