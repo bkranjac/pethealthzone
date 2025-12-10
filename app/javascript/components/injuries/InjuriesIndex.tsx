@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Injury } from '../../types/injury';
 import { useResource } from '../../hooks/useResource';
 
 export const InjuriesIndex: React.FC = () => {
-  // Try to get initial data from server-side rendered data attribute
-  const rootElement = document.getElementById('injuries_index');
-  const initialDataJson = rootElement?.getAttribute('data-injuries');
-  const initialData: Injury[] = initialDataJson ? JSON.parse(initialDataJson) : [];
-
-  const { data: injuries, loading, error, deleteItem } = useResource<Injury>('/api/v1/injuries', {
-    autoFetch: initialData.length === 0  // Only fetch if no initial data
-  });
-
-  // Use initial data if available, otherwise use fetched data
-  const displayInjuries = initialData.length > 0 ? initialData : injuries;
+  const { data: injuries, loading, error, deleteItem } = useResource<Injury>('/api/v1/injuries');
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this injury?')) {
@@ -39,21 +30,21 @@ export const InjuriesIndex: React.FC = () => {
     <div className="injuries-index max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Injuries</h1>
-        <a
-          href="/injuries/new"
+        <Link
+          to="/injuries/new"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           New injury
-        </a>
+        </Link>
       </div>
 
-      {displayInjuries.length === 0 ? (
+      {injuries.length === 0 ? (
         <div className="text-center p-8 bg-gray-100 rounded">
           <p className="text-gray-600">No injuries found.</p>
         </div>
       ) : (
         <div className="grid gap-4">
-          {displayInjuries.map((injury) => (
+          {injuries.map((injury) => (
             <div key={injury.id} className="bg-white shadow rounded-lg p-6">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
@@ -76,18 +67,18 @@ export const InjuriesIndex: React.FC = () => {
                   </p>
                 </div>
                 <div className="flex gap-2 ml-4">
-                  <a
-                    href={`/injuries/${injury.id}`}
+                  <Link
+                    to={`/injuries/${injury.id}`}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   >
                     View
-                  </a>
-                  <a
-                    href={`/injuries/${injury.id}/edit`}
+                  </Link>
+                  <Link
+                    to={`/injuries/${injury.id}/edit`}
                     className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Edit
-                  </a>
+                  </Link>
                   <button
                     onClick={() => handleDelete(injury.id)}
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

@@ -1,7 +1,17 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { InjuriesIndex } from '../InjuriesIndex';
 import { Injury } from '../../../types/injury';
+
+// Helper to render component with router
+const renderWithRouter = () => {
+  return render(
+    <MemoryRouter>
+      <InjuriesIndex />
+    </MemoryRouter>
+  );
+};
 
 const mockInjuries: Injury[] = [
   {
@@ -26,7 +36,7 @@ describe('InjuriesIndex', () => {
       new Promise(() => {}) // Never resolves
     );
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
     expect(screen.getByText('Loading injuries...')).toBeInTheDocument();
   });
 
@@ -36,7 +46,7 @@ describe('InjuriesIndex', () => {
       json: async () => mockInjuries,
     });
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -54,7 +64,7 @@ describe('InjuriesIndex', () => {
       new Error('Failed to fetch data')
     );
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText(/Failed to fetch data/)).toBeInTheDocument();
@@ -67,7 +77,7 @@ describe('InjuriesIndex', () => {
       json: async () => [],
     });
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('No injuries found.')).toBeInTheDocument();
@@ -80,7 +90,7 @@ describe('InjuriesIndex', () => {
       json: async () => mockInjuries,
     });
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/v1/injuries', {
@@ -100,11 +110,13 @@ describe('InjuriesIndex', () => {
       })
       .mockResolvedValueOnce({
         ok: true,
+        status: 204,
+        json: async () => null,
       });
 
     (global.confirm as jest.Mock).mockReturnValue(true);
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -134,7 +146,7 @@ describe('InjuriesIndex', () => {
 
     (global.confirm as jest.Mock).mockReturnValue(false);
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -153,7 +165,7 @@ describe('InjuriesIndex', () => {
       json: async () => mockInjuries,
     });
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -172,7 +184,7 @@ describe('InjuriesIndex', () => {
       json: async () => mockInjuries,
     });
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       const newLink = screen.getByText('New injury');
@@ -186,7 +198,7 @@ describe('InjuriesIndex', () => {
       json: async () => mockInjuries,
     });
 
-    render(<InjuriesIndex />);
+    renderWithRouter();
 
     await waitFor(() => {
       const highSeverity = screen.getByText('high');

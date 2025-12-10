@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { Injury } from '../../types/injury';
+import { useApi } from '../../hooks/useApi';
+import { useAppNavigate } from '../../hooks/useAppNavigate';
 
 interface InjuryFormProps {
   mode: 'new' | 'edit';
-  injuryId?: number;
 }
 
 interface FormData {
@@ -11,41 +13,37 @@ interface FormData {
   severity: string;
 }
 
-export const InjuryForm: React.FC<InjuryFormProps> = ({ mode, injuryId }) => {
+export const InjuryForm: React.FC<InjuryFormProps> = ({ mode }) => {
+  const { id } = useParams<{ id: string }>();
+  const injuryId = mode === 'edit' ? parseInt(id || '0', 10) : undefined;
   const [formData, setFormData] = useState<FormData>({
     description: '',
     severity: '',
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { apiCall } = useApi();
+  const navigate = useAppNavigate();
 
   useEffect(() => {
+    const fetchInjury = async () => {
+      try {
+        const injury = await apiCall<Injury>(`/api/v1/injuries/${injuryId}`);
+        if (injury) {
+          setFormData({
+            description: injury.description,
+            severity: injury.severity,
+          });
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      }
+    };
+
     if (mode === 'edit' && injuryId) {
       fetchInjury();
     }
-  }, [mode, injuryId]);
-
-  const fetchInjury = async () => {
-    try {
-      const response = await fetch(`/api/v1/injuries/${injuryId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch injury');
-      }
-
-      const injury: Injury = await response.json();
-      setFormData({
-        description: injury.description,
-        severity: injury.severity,
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    }
-  };
+  }, [mode, injuryId, apiCall]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,33 +51,16 @@ export const InjuryForm: React.FC<InjuryFormProps> = ({ mode, injuryId }) => {
     setError(null);
 
     try {
-      const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content || '';
       const url = mode === 'edit' ? `/api/v1/injuries/${injuryId}` : '/api/v1/injuries';
       const method = mode === 'edit' ? 'PUT' : 'POST';
 
-      const response = await fetch(url, {
+      const injury = await apiCall<Injury>(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
-        },
         body: JSON.stringify({ injury: formData }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.errors?.join(', ') || 'Failed to save injury');
-      }
-
-      const injury: Injury = await response.json();
-      try {
-        window.location.assign(`/injuries/${injury.id}`);
-      } catch (navError) {
-        // JSDOM throws "Not implemented: navigation" errors in test environment
-        // Ignore only navigation errors, let other errors propagate
-        if (navError instanceof Error && !navError.message.includes('navigation')) {
-          throw navError;
-        }
+      if (injury) {
+        navigate(`/injuries/${injury.id}`);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -149,12 +130,12 @@ export const InjuryForm: React.FC<InjuryFormProps> = ({ mode, injuryId }) => {
           >
             {loading ? 'Saving...' : mode === 'edit' ? 'Update Injury' : 'Create Injury'}
           </button>
-          <a
-            href="/injuries"
+          <Link
+            to="/injuries"
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
           >
             Back
-          </a>
+          </Link>
         </div>
       </form>
     </div>

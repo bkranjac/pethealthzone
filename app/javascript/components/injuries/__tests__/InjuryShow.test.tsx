@@ -1,7 +1,19 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { InjuryShow } from '../InjuryShow';
 import { Injury } from '../../../types/injury';
+
+// Helper to render component with router
+const renderWithRouter = (injuryId: number) => {
+  return render(
+    <MemoryRouter initialEntries={[`/injuries/${injuryId}`]}>
+      <Routes>
+        <Route path="/injuries/:id" element={<InjuryShow />} />
+      </Routes>
+    </MemoryRouter>
+  );
+};
 
 const mockInjury: Injury = {
   id: 1,
@@ -22,7 +34,7 @@ describe('InjuryShow', () => {
       new Promise(() => {}) // Never resolves
     );
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
     expect(screen.getByText('Loading injury...')).toBeInTheDocument();
   });
 
@@ -32,7 +44,7 @@ describe('InjuryShow', () => {
       json: async () => mockInjury,
     });
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -45,9 +57,10 @@ describe('InjuryShow', () => {
   it('displays error message when fetch fails', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
+      json: async () => ({ errors: ['Failed to fetch injury'] }),
     });
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText(/Failed to fetch injury/)).toBeInTheDocument();
@@ -60,12 +73,13 @@ describe('InjuryShow', () => {
       json: async () => mockInjury,
     });
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/v1/injuries/1', {
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': 'test-csrf-token',
         },
       });
     });
@@ -77,7 +91,7 @@ describe('InjuryShow', () => {
       json: async () => mockInjury,
     });
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -96,7 +110,7 @@ describe('InjuryShow', () => {
       json: async () => mockInjury,
     });
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Edit this injury')).toBeInTheDocument();
@@ -115,11 +129,13 @@ describe('InjuryShow', () => {
       })
       .mockResolvedValueOnce({
         ok: true,
+        status: 204,
+        json: async () => null,
       });
 
     (global.confirm as jest.Mock).mockReturnValue(true);
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -148,7 +164,7 @@ describe('InjuryShow', () => {
 
     (global.confirm as jest.Mock).mockReturnValue(false);
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
@@ -171,7 +187,7 @@ describe('InjuryShow', () => {
       json: async () => mockInjury,
     });
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       const backLink = screen.getByText('Back');
@@ -185,7 +201,7 @@ describe('InjuryShow', () => {
       json: async () => mockInjury,
     });
 
-    render(<InjuryShow injuryId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       const severityBadge = screen.getByText('high');

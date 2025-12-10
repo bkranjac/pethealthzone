@@ -1,15 +1,17 @@
+import { useCallback } from 'react';
+
 /**
  * Custom hook for making API calls with automatic CSRF token handling
  */
 export function useApi() {
-  const getCsrfToken = (): string => {
+  const getCsrfToken = useCallback((): string => {
     return (
       document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
         ?.content || ''
     );
-  };
+  }, []);
 
-  const apiCall = async <T = any>(
+  const apiCall = useCallback(async <T = any>(
     url: string,
     options: RequestInit = {}
   ): Promise<T | null> => {
@@ -35,7 +37,7 @@ export function useApi() {
     }
 
     return response.json();
-  };
+  }, [getCsrfToken]);
 
   return { apiCall, getCsrfToken };
 }

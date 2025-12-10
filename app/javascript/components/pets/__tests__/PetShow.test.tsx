@@ -1,7 +1,19 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { PetShow } from '../PetShow';
 import { Pet } from '../../../types/pet';
+
+// Helper to render component with router
+const renderWithRouter = (petId: number) => {
+  return render(
+    <MemoryRouter initialEntries={[`/pets/${petId}`]}>
+      <Routes>
+        <Route path="/pets/:id" element={<PetShow />} />
+      </Routes>
+    </MemoryRouter>
+  );
+};
 
 const mockPet: Pet = {
   id: 1,
@@ -26,7 +38,7 @@ describe('PetShow', () => {
       new Promise(() => {}) // Never resolves
     );
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
     expect(screen.getByText('Loading pet...')).toBeInTheDocument();
   });
 
@@ -36,7 +48,7 @@ describe('PetShow', () => {
       json: async () => mockPet,
     });
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -52,9 +64,10 @@ describe('PetShow', () => {
   it('displays error message when fetch fails', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
+      json: async () => ({ errors: ['Failed to fetch pet'] }),
     });
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText(/Failed to fetch pet/)).toBeInTheDocument();
@@ -67,12 +80,13 @@ describe('PetShow', () => {
       json: async () => mockPet,
     });
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/v1/pets/1', {
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': 'test-csrf-token',
         },
       });
     });
@@ -84,7 +98,7 @@ describe('PetShow', () => {
       json: async () => mockPet,
     });
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -104,7 +118,7 @@ describe('PetShow', () => {
       json: async () => mockPet,
     });
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Edit this pet')).toBeInTheDocument();
@@ -123,11 +137,13 @@ describe('PetShow', () => {
       })
       .mockResolvedValueOnce({
         ok: true,
+        status: 204,
+        json: async () => null,
       });
 
     (global.confirm as jest.Mock).mockReturnValue(true);
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -156,7 +172,7 @@ describe('PetShow', () => {
 
     (global.confirm as jest.Mock).mockReturnValue(false);
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
@@ -179,7 +195,7 @@ describe('PetShow', () => {
       json: async () => mockPet,
     });
 
-    render(<PetShow petId={1} />);
+    renderWithRouter(1);
 
     await waitFor(() => {
       const backLink = screen.getByText('Back');
@@ -202,7 +218,7 @@ describe('PetShow', () => {
       json: async () => minimalPet,
     });
 
-    render(<PetShow petId={2} />);
+    renderWithRouter(2);
 
     await waitFor(() => {
       expect(screen.getByText('Rex')).toBeInTheDocument();

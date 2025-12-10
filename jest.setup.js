@@ -1,4 +1,9 @@
 require('@testing-library/jest-dom');
+const { TextEncoder, TextDecoder } = require('util');
+
+// Polyfill TextEncoder/TextDecoder for React Router
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 // Mock CSRF token
 Object.defineProperty(document, 'querySelector', {

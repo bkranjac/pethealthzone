@@ -1,18 +1,5 @@
 Rails.application.routes.draw do
-  resources :checks_schedules
-  resources :pet_foods
-  resources :vaccination_schedules
-  resources :medication_schedules
-  resources :medications
-  resources :injury_reports
-  resources :injuries
-  resources :vaccines
-  resources :checks
-  resources :frequencies
-  resources :foods
-  resources :pets
-
-  # API routes
+  # API routes - keep these unchanged
   namespace :api do
     namespace :v1 do
       resources :pets
@@ -30,16 +17,15 @@ Rails.application.routes.draw do
     end
   end
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # SPA catch-all route (must be last!)
+  # This serves the React SPA for all non-API HTML requests
+  get "*path", to: "spa#index", constraints: ->(req) {
+    !req.xhr? && req.format.html?
+  }
 
-  # Defines the root path route ("/")
-  root "pets#index"
+  # Root serves the SPA
+  root "spa#index"
 end
