@@ -28,6 +28,16 @@ import { MedicationsIndex } from './components/medications/MedicationsIndex';
 import { MedicationShow } from './components/medications/MedicationShow';
 import { MedicationForm } from './components/medications/MedicationForm';
 
+// Import Vaccine components
+import { VaccinesIndex } from './components/vaccines/VaccinesIndex';
+import { VaccineShow } from './components/vaccines/VaccineShow';
+import { VaccineForm } from './components/vaccines/VaccineForm';
+
+// Import Check components
+import { ChecksIndex } from './components/checks/ChecksIndex';
+import { CheckShow } from './components/checks/CheckShow';
+import { CheckForm } from './components/checks/CheckForm';
+
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -65,6 +75,18 @@ export const App: React.FC = () => {
           <Route path="/medications/new" element={<MedicationForm mode="new" />} />
           <Route path="/medications/:id" element={<MedicationShow />} />
           <Route path="/medications/:id/edit" element={<MedicationForm mode="edit" />} />
+
+          {/* Vaccines routes */}
+          <Route path="/vaccines" element={<VaccinesIndex />} />
+          <Route path="/vaccines/new" element={<VaccineForm mode="new" />} />
+          <Route path="/vaccines/:id" element={<VaccineShow />} />
+          <Route path="/vaccines/:id/edit" element={<VaccineForm mode="edit" />} />
+
+          {/* Checks routes */}
+          <Route path="/checks" element={<ChecksIndex />} />
+          <Route path="/checks/new" element={<CheckForm mode="new" />} />
+          <Route path="/checks/:id" element={<CheckShow />} />
+          <Route path="/checks/:id/edit" element={<CheckForm mode="edit" />} />
 
           {/* 404 Not Found */}
           <Route path="*" element={<NotFound />} />
