@@ -28,6 +28,36 @@ import { MedicationsIndex } from './components/medications/MedicationsIndex';
 import { MedicationShow } from './components/medications/MedicationShow';
 import { MedicationForm } from './components/medications/MedicationForm';
 
+// Import Vaccine components
+import { VaccinesIndex } from './components/vaccines/VaccinesIndex';
+import { VaccineShow } from './components/vaccines/VaccineShow';
+import { VaccineForm } from './components/vaccines/VaccineForm';
+
+// Import Check components
+import { ChecksIndex } from './components/checks/ChecksIndex';
+import { CheckShow } from './components/checks/CheckShow';
+import { CheckForm } from './components/checks/CheckForm';
+
+// Import MedicationSchedule components
+import { MedicationSchedulesIndex } from './components/medication_schedules/MedicationSchedulesIndex';
+import { MedicationScheduleShow } from './components/medication_schedules/MedicationScheduleShow';
+import { MedicationScheduleForm } from './components/medication_schedules/MedicationScheduleForm';
+
+// Import VaccinationSchedule components
+import { VaccinationSchedulesIndex } from './components/vaccination_schedules/VaccinationSchedulesIndex';
+import { VaccinationScheduleShow } from './components/vaccination_schedules/VaccinationScheduleShow';
+import { VaccinationScheduleForm } from './components/vaccination_schedules/VaccinationScheduleForm';
+
+// Import PetFood components
+import { PetFoodsIndex } from './components/pet_foods/PetFoodsIndex';
+import { PetFoodShow } from './components/pet_foods/PetFoodShow';
+import { PetFoodForm } from './components/pet_foods/PetFoodForm';
+
+// Import ChecksSchedule components
+import { ChecksSchedulesIndex } from './components/checks_schedules/ChecksSchedulesIndex';
+import { ChecksScheduleShow } from './components/checks_schedules/ChecksScheduleShow';
+import { ChecksScheduleForm } from './components/checks_schedules/ChecksScheduleForm';
+
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -65,6 +95,42 @@ export const App: React.FC = () => {
           <Route path="/medications/new" element={<MedicationForm mode="new" />} />
           <Route path="/medications/:id" element={<MedicationShow />} />
           <Route path="/medications/:id/edit" element={<MedicationForm mode="edit" />} />
+
+          {/* Vaccines routes */}
+          <Route path="/vaccines" element={<VaccinesIndex />} />
+          <Route path="/vaccines/new" element={<VaccineForm mode="new" />} />
+          <Route path="/vaccines/:id" element={<VaccineShow />} />
+          <Route path="/vaccines/:id/edit" element={<VaccineForm mode="edit" />} />
+
+          {/* Checks routes */}
+          <Route path="/checks" element={<ChecksIndex />} />
+          <Route path="/checks/new" element={<CheckForm mode="new" />} />
+          <Route path="/checks/:id" element={<CheckShow />} />
+          <Route path="/checks/:id/edit" element={<CheckForm mode="edit" />} />
+
+          {/* Medication Schedules routes */}
+          <Route path="/medication_schedules" element={<MedicationSchedulesIndex />} />
+          <Route path="/medication_schedules/new" element={<MedicationScheduleForm mode="new" />} />
+          <Route path="/medication_schedules/:id" element={<MedicationScheduleShow />} />
+          <Route path="/medication_schedules/:id/edit" element={<MedicationScheduleForm mode="edit" />} />
+
+          {/* Vaccination Schedules routes */}
+          <Route path="/vaccination_schedules" element={<VaccinationSchedulesIndex />} />
+          <Route path="/vaccination_schedules/new" element={<VaccinationScheduleForm mode="new" />} />
+          <Route path="/vaccination_schedules/:id" element={<VaccinationScheduleShow />} />
+          <Route path="/vaccination_schedules/:id/edit" element={<VaccinationScheduleForm mode="edit" />} />
+
+          {/* Pet Foods routes */}
+          <Route path="/pet_foods" element={<PetFoodsIndex />} />
+          <Route path="/pet_foods/new" element={<PetFoodForm mode="new" />} />
+          <Route path="/pet_foods/:id" element={<PetFoodShow />} />
+          <Route path="/pet_foods/:id/edit" element={<PetFoodForm mode="edit" />} />
+
+          {/* Checks Schedules routes */}
+          <Route path="/checks_schedules" element={<ChecksSchedulesIndex />} />
+          <Route path="/checks_schedules/new" element={<ChecksScheduleForm mode="new" />} />
+          <Route path="/checks_schedules/:id" element={<ChecksScheduleShow />} />
+          <Route path="/checks_schedules/:id/edit" element={<ChecksScheduleForm mode="edit" />} />
 
           {/* 404 Not Found */}
           <Route path="*" element={<NotFound />} />
