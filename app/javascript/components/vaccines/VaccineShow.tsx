@@ -74,10 +74,14 @@ export const VaccineShow: React.FC = () => {
             </div>
           )}
 
-          <div>
-            <span className="font-semibold text-gray-700">Frequency ID:</span>
-            <p className="text-gray-900 mt-1">{vaccine.frequency_id}</p>
-          </div>
+          {vaccine.frequency && (
+            <div>
+              <span className="font-semibold text-gray-700">Frequency:</span>
+              <p className="text-gray-900 mt-1">
+                Every {vaccine.frequency.interval_days} {vaccine.frequency.interval_days === 1 ? 'day' : 'days'}
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-4 mt-6">

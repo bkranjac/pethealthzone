@@ -46,9 +46,12 @@ export const ChecksIndex: React.FC = () => {
               className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
             >
               <h2 className="text-xl font-semibold mb-2">{check.name}</h2>
-              <p className="text-gray-600 mb-3">
-                <span className="font-medium">Frequency ID:</span> {check.frequency_id}
-              </p>
+              {check.frequency && (
+                <p className="text-gray-600 mb-3">
+                  <span className="font-medium">Frequency:</span> Every {check.frequency.interval_days}{' '}
+                  {check.frequency.interval_days === 1 ? 'day' : 'days'}
+                </p>
+              )}
 
               <div className="flex gap-2 mt-4">
                 <Link
