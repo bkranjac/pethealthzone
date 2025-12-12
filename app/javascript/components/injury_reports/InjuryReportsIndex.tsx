@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useResource } from '../../hooks/useResource';
 import { InjuryReport } from '../../types/injuryReport';
+import { PostItCard } from '../common/PostItCard';
 
 export const InjuryReportsIndex: React.FC = () => {
   const { data: reports, loading, error, deleteItem } = useResource<InjuryReport>('/api/v1/injury_reports');
@@ -13,75 +14,82 @@ export const InjuryReportsIndex: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading injury reports...</div>;
+    return <div className="text-center p-4">Loading injury reports...</div>;
   }
 
   if (error) {
-    return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        {error}
-      </div>
-    );
+    return <div className="text-center p-4 text-red-600">Error: {error}</div>;
   }
 
   return (
-    <div className="injury-reports-index">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Injury Reports</h1>
+    <div className="injury-reports-index max-w-7xl mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-gray-800">Injury Reports</h1>
         <Link
           to="/injury_reports/new"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all"
         >
-          New injury report
+          + Add Report
         </Link>
       </div>
 
       {reports.length === 0 ? (
-        <p className="text-gray-600">No injury reports found.</p>
+        <div className="text-center p-12 bg-gray-50 rounded-lg">
+          <p className="text-gray-500 text-lg">No injury reports found. Hopefully it stays that way!</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {reports.map((report) => (
-            <div
-              key={report.id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
-            >
-              <div className="mb-2">
-                <span className="font-medium text-gray-700">Pet ID:</span> {report.pet_id}
-              </div>
-              <div className="mb-2">
-                <span className="font-medium text-gray-700">Injury ID:</span> {report.injury_id}
-              </div>
-              <div className="mb-2">
-                <span className="font-medium text-gray-700">Report Date:</span>{' '}
-                {new Date(report.report_date).toLocaleDateString()}
-              </div>
-              {report.notes && (
-                <div className="mb-3">
-                  <span className="font-medium text-gray-700">Notes:</span> {report.notes}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {reports.map((report, index) => (
+            <PostItCard key={report.id} colorIndex={index}>
+              <div className="min-h-[180px] flex flex-col">
+                <h2 className="text-xl font-bold mb-3 text-gray-800">Report #{report.id}</h2>
+                <div className="mb-4 flex-grow">
+                  <div className="space-y-1">
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Pet ID:</span>{' '}
+                      <span className="text-gray-600">{report.pet_id}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Injury ID:</span>{' '}
+                      <span className="text-gray-600">{report.injury_id}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Report Date:</span>{' '}
+                      <span className="text-gray-600">
+                        {new Date(report.report_date).toLocaleDateString()}
+                      </span>
+                    </p>
+                    {report.notes && (
+                      <p className="text-sm">
+                        <span className="font-semibold text-gray-700">Notes:</span>{' '}
+                        <span className="text-gray-600">{report.notes}</span>
+                      </p>
+                    )}
+                  </div>
                 </div>
-              )}
 
-              <div className="flex gap-2 mt-4">
-                <Link
-                  to={`/injury_reports/${report.id}`}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to={`/injury_reports/${report.id}/edit`}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(report.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Delete
-                </button>
+                <div className="flex gap-2 mt-auto pt-4 border-t border-gray-300">
+                  <Link
+                    to={`/injury_reports/${report.id}`}
+                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/injury_reports/${report.id}/edit`}
+                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(report.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
+            </PostItCard>
           ))}
         </div>
       )}

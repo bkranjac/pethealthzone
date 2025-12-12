@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useResource } from '../../hooks/useResource';
 import { Vaccine } from '../../types/vaccine';
+import { PostItCard } from '../common/PostItCard';
 
 export const VaccinesIndex: React.FC = () => {
   const { data: vaccines, loading, error, deleteItem } = useResource<Vaccine>('/api/v1/vaccines');
@@ -13,72 +14,77 @@ export const VaccinesIndex: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading vaccines...</div>;
+    return <div className="text-center p-4">Loading vaccines...</div>;
   }
 
   if (error) {
-    return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        {error}
-      </div>
-    );
+    return <div className="text-center p-4 text-red-600">Error: {error}</div>;
   }
 
   return (
-    <div className="vaccines-index">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Vaccines</h1>
+    <div className="vaccines-index max-w-7xl mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-gray-800">Vaccines</h1>
         <Link
           to="/vaccines/new"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all"
         >
-          New vaccine
+          + Add Vaccine
         </Link>
       </div>
 
       {vaccines.length === 0 ? (
-        <p className="text-gray-600">No vaccines found.</p>
+        <div className="text-center p-12 bg-gray-50 rounded-lg">
+          <p className="text-gray-500 text-lg">No vaccines found. Add your first vaccine to get started!</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {vaccines.map((vaccine) => (
-            <div
-              key={vaccine.id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
-            >
-              <h2 className="text-xl font-semibold mb-2">{vaccine.name}</h2>
-              {vaccine.description && (
-                <p className="text-gray-600 mb-1">
-                  <span className="font-medium">Description:</span> {vaccine.description}
-                </p>
-              )}
-              {vaccine.frequency && (
-                <p className="text-gray-600 mb-3">
-                  <span className="font-medium">Frequency:</span> Every {vaccine.frequency.interval_days}{' '}
-                  {vaccine.frequency.interval_days === 1 ? 'day' : 'days'}
-                </p>
-              )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {vaccines.map((vaccine, index) => (
+            <PostItCard key={vaccine.id} colorIndex={index}>
+              <div className="min-h-[200px] flex flex-col">
+                <h2 className="text-2xl font-bold mb-3 text-gray-800">{vaccine.name}</h2>
+                <div className="mb-4 flex-grow">
+                  <div className="space-y-1">
+                    {vaccine.description && (
+                      <p className="text-sm">
+                        <span className="font-semibold text-gray-700">Description:</span>{' '}
+                        <span className="text-gray-600">{vaccine.description}</span>
+                      </p>
+                    )}
+                    {vaccine.frequency && (
+                      <p className="text-sm">
+                        <span className="font-semibold text-gray-700">Frequency:</span>{' '}
+                        <span className="text-gray-600">
+                          Every {vaccine.frequency.interval_days}{' '}
+                          {vaccine.frequency.interval_days === 1 ? 'day' : 'days'}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                </div>
 
-              <div className="flex gap-2 mt-4">
-                <Link
-                  to={`/vaccines/${vaccine.id}`}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to={`/vaccines/${vaccine.id}/edit`}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(vaccine.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Delete
-                </button>
+                <div className="flex gap-2 mt-auto pt-4 border-t border-gray-300">
+                  <Link
+                    to={`/vaccines/${vaccine.id}`}
+                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/vaccines/${vaccine.id}/edit`}
+                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(vaccine.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
+            </PostItCard>
           ))}
         </div>
       )}

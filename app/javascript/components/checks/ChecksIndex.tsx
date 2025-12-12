@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useResource } from '../../hooks/useResource';
 import { Check } from '../../types/check';
+import { PostItCard } from '../common/PostItCard';
 
 export const ChecksIndex: React.FC = () => {
   const { data: checks, loading, error, deleteItem } = useResource<Check>('/api/v1/checks');
@@ -13,67 +14,64 @@ export const ChecksIndex: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading checks...</div>;
+    return <div className="text-center p-4">Loading checks...</div>;
   }
 
   if (error) {
-    return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        {error}
-      </div>
-    );
+    return <div className="text-center p-4 text-red-600">Error: {error}</div>;
   }
 
   return (
-    <div className="checks-index">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Checks</h1>
+    <div className="checks-index max-w-7xl mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-gray-800">Health Checks</h1>
         <Link
           to="/checks/new"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all"
         >
-          New check
+          + Add Check
         </Link>
       </div>
 
       {checks.length === 0 ? (
-        <p className="text-gray-600">No checks found.</p>
+        <div className="text-center p-12 bg-gray-50 rounded-lg">
+          <p className="text-gray-500 text-lg">No checks found. Add your first check to get started!</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {checks.map((check) => (
-            <div
-              key={check.id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
-            >
-              <h2 className="text-xl font-semibold mb-2">{check.name}</h2>
-              {check.frequency && (
-                <p className="text-gray-600 mb-3">
-                  <span className="font-medium">Frequency:</span> Every {check.frequency.interval_days}{' '}
-                  {check.frequency.interval_days === 1 ? 'day' : 'days'}
-                </p>
-              )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {checks.map((check, index) => (
+            <PostItCard key={check.id} colorIndex={index}>
+              <div className="min-h-[180px] flex flex-col">
+                <h2 className="text-xl font-bold mb-2 text-gray-800">{check.name}</h2>
+                {check.frequency && (
+                  <p className="text-gray-600 text-sm mb-4 flex-grow">
+                    Every {check.frequency.interval_days}{' '}
+                    {check.frequency.interval_days === 1 ? 'day' : 'days'}
+                  </p>
+                )}
 
-              <div className="flex gap-2 mt-4">
-                <Link
-                  to={`/checks/${check.id}`}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to={`/checks/${check.id}/edit`}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(check.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Delete
-                </button>
+                <div className="flex gap-2 mt-auto pt-3 border-t border-gray-300">
+                  <Link
+                    to={`/checks/${check.id}`}
+                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold py-2 px-2 rounded flex-1 text-center transition-colors"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/checks/${check.id}/edit`}
+                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2 rounded flex-1 text-center transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(check.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-2 rounded flex-1 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
+            </PostItCard>
           ))}
         </div>
       )}

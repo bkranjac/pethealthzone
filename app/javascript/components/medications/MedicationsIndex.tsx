@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useResource } from '../../hooks/useResource';
 import { Medication } from '../../types/medication';
+import { PostItCard } from '../common/PostItCard';
 
 export const MedicationsIndex: React.FC = () => {
   const { data: medications, loading, error, deleteItem } = useResource<Medication>('/api/v1/medications');
@@ -13,71 +14,76 @@ export const MedicationsIndex: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading medications...</div>;
+    return <div className="text-center p-4">Loading medications...</div>;
   }
 
   if (error) {
-    return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        {error}
-      </div>
-    );
+    return <div className="text-center p-4 text-red-600">Error: {error}</div>;
   }
 
   return (
-    <div className="medications-index">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Medications</h1>
+    <div className="medications-index max-w-7xl mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-gray-800">Medications</h1>
         <Link
           to="/medications/new"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all"
         >
-          New medication
+          + Add Medication
         </Link>
       </div>
 
       {medications.length === 0 ? (
-        <p className="text-gray-600">No medications found.</p>
+        <div className="text-center p-12 bg-gray-50 rounded-lg">
+          <p className="text-gray-500 text-lg">No medications found. Add your first medication to get started!</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {medications.map((medication) => (
-            <div
-              key={medication.id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
-            >
-              <h2 className="text-xl font-semibold mb-2">{medication.name}</h2>
-              <p className="text-gray-600 mb-1">
-                <span className="font-medium">Amount:</span> {medication.amount}
-              </p>
-              <p className="text-gray-600 mb-1">
-                <span className="font-medium">Purpose:</span> {medication.purpose}
-              </p>
-              <p className="text-gray-600 mb-3">
-                <span className="font-medium">Expires:</span>{' '}
-                {new Date(medication.expiration_date).toLocaleDateString()}
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {medications.map((medication, index) => (
+            <PostItCard key={medication.id} colorIndex={index}>
+              <div className="min-h-[220px] flex flex-col">
+                <h2 className="text-2xl font-bold mb-3 text-gray-800">{medication.name}</h2>
+                <div className="mb-4 flex-grow">
+                  <div className="space-y-1">
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Amount:</span>{' '}
+                      <span className="text-gray-600">{medication.amount}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Purpose:</span>{' '}
+                      <span className="text-gray-600">{medication.purpose}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Expires:</span>{' '}
+                      <span className="text-gray-600">
+                        {new Date(medication.expiration_date).toLocaleDateString()}
+                      </span>
+                    </p>
+                  </div>
+                </div>
 
-              <div className="flex gap-2 mt-4">
-                <Link
-                  to={`/medications/${medication.id}`}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to={`/medications/${medication.id}/edit`}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(medication.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Delete
-                </button>
+                <div className="flex gap-2 mt-auto pt-4 border-t border-gray-300">
+                  <Link
+                    to={`/medications/${medication.id}`}
+                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/medications/${medication.id}/edit`}
+                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(medication.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
+            </PostItCard>
           ))}
         </div>
       )}
