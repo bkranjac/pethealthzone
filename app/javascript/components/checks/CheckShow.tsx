@@ -67,14 +67,14 @@ export const CheckShow: React.FC = () => {
         <h1 className="text-3xl font-bold mb-6">{check.name}</h1>
 
         <div className="space-y-4">
-          {check.frequency && (
-            <div>
-              <span className="font-semibold text-gray-700">Frequency:</span>
-              <p className="text-gray-900 mt-1">
-                Every {check.frequency.interval_days} {check.frequency.interval_days === 1 ? 'day' : 'days'}
-              </p>
-            </div>
-          )}
+          <div>
+            <span className="font-semibold text-gray-700">Frequency:</span>
+            <p className="text-gray-900 mt-1">
+              {check.frequency?.interval_days
+                ? `Every ${check.frequency.interval_days} ${check.frequency.interval_days === 1 ? 'day' : 'days'}`
+                : `Frequency ID: ${check.frequency_id}`}
+            </p>
+          </div>
         </div>
 
         <div className="flex gap-4 mt-6">

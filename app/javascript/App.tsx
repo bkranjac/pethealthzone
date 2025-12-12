@@ -58,6 +58,11 @@ import { ChecksSchedulesIndex } from './components/checks_schedules/ChecksSchedu
 import { ChecksScheduleShow } from './components/checks_schedules/ChecksScheduleShow';
 import { ChecksScheduleForm } from './components/checks_schedules/ChecksScheduleForm';
 
+// Import InjuryReport components
+import { InjuryReportsIndex } from './components/injury_reports/InjuryReportsIndex';
+import { InjuryReportShow } from './components/injury_reports/InjuryReportShow';
+import { InjuryReportForm } from './components/injury_reports/InjuryReportForm';
+
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -131,6 +136,12 @@ export const App: React.FC = () => {
           <Route path="/checks_schedules/new" element={<ChecksScheduleForm mode="new" />} />
           <Route path="/checks_schedules/:id" element={<ChecksScheduleShow />} />
           <Route path="/checks_schedules/:id/edit" element={<ChecksScheduleForm mode="edit" />} />
+
+          {/* Injury Reports routes */}
+          <Route path="/injury_reports" element={<InjuryReportsIndex />} />
+          <Route path="/injury_reports/new" element={<InjuryReportForm mode="new" />} />
+          <Route path="/injury_reports/:id" element={<InjuryReportShow />} />
+          <Route path="/injury_reports/:id/edit" element={<InjuryReportForm mode="edit" />} />
 
           {/* 404 Not Found */}
           <Route path="*" element={<NotFound />} />
