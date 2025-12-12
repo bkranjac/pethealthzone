@@ -42,7 +42,7 @@ module Api
       end
 
       def frequency_params
-        params.require(:frequency).permit(:how_often)
+        params.require(:frequency).permit(:name, :interval_days)
       end
     end
   end

@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :frequency do
-    how_often { %w[Daily Weekly Monthly Quarterly Annually].sample }
+    name { %w[Daily Weekly Monthly Quarterly Annually].sample }
+    interval_days { [1, 7, 30, 90, 365].sample }
   end
 end

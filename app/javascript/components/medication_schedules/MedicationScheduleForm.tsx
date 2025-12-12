@@ -137,7 +137,7 @@ export const MedicationScheduleForm: React.FC<MedicationScheduleFormProps> = ({ 
             value={formData.frequency_id}
             onChange={handleChange}
             options={frequencies}
-            getLabel={(freq) => `Every ${freq.interval_days} ${freq.interval_days === 1 ? 'day' : 'days'}`}
+            getLabel={(freq) => freq.name}
             required
             loading={frequenciesLoading}
             placeholder="Select frequency"

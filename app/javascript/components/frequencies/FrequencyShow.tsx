@@ -54,9 +54,10 @@ export const FrequencyShow: React.FC = () => {
       <div className="bg-white shadow rounded-lg p-6">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h1 className="text-3xl font-bold mb-2">
+            <h1 className="text-3xl font-bold mb-2">{frequency.name}</h1>
+            <p className="text-gray-600">
               Every {frequency.interval_days} {frequency.interval_days === 1 ? 'day' : 'days'}
-            </h1>
+            </p>
           </div>
           <div className="flex gap-2">
             <Link
@@ -75,6 +76,10 @@ export const FrequencyShow: React.FC = () => {
         </div>
 
         <dl className="grid grid-cols-1 gap-4">
+          <div>
+            <dt className="font-semibold text-gray-700">Name:</dt>
+            <dd className="mt-1">{frequency.name}</dd>
+          </div>
           <div>
             <dt className="font-semibold text-gray-700">Interval Days:</dt>
             <dd className="mt-1">{frequency.interval_days}</dd>

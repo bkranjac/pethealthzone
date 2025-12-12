@@ -1,7 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  how_often: Daily
+  name: Daily
+  interval_days: 1
 
 two:
-  how_often: Weekly
+  name: Weekly
+  interval_days: 7
