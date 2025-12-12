@@ -17,9 +17,10 @@ RSpec.describe Frequency, type: :model do
   end
 
   describe 'creation' do
-    it 'creates a frequency with how_often attribute' do
-      frequency = create(:frequency, how_often: 'Weekly')
-      expect(frequency.how_often).to eq('Weekly')
+    it 'creates a frequency with name and interval_days attributes' do
+      frequency = create(:frequency, name: 'Weekly', interval_days: 7)
+      expect(frequency.name).to eq('Weekly')
+      expect(frequency.interval_days).to eq(7)
     end
   end
 end

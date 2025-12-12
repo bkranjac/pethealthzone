@@ -7,5 +7,6 @@ class Frequency < ApplicationRecord
   has_many :pet_foods, dependent: :destroy
 
   # Validations
-  validates :how_often, presence: true
+  validates :name, presence: true
+  validates :interval_days, presence: true, numericality: { only_integer: true, greater_than: 0 }
 end

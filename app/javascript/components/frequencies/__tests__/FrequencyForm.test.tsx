@@ -23,6 +23,7 @@ const renderWithRouter = (mode: 'new' | 'edit', frequencyId?: number) => {
 
 const mockFrequency: Frequency = {
   id: 1,
+  name: 'Test Frequency',
   interval_days: 7,
 };
 
@@ -36,6 +37,7 @@ describe('FrequencyForm', () => {
       renderWithRouter('new');
 
       expect(screen.getByText('New Frequency')).toBeInTheDocument();
+      expect(screen.getByLabelText(/Name/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Interval Days/)).toBeInTheDocument();
       expect(screen.getByText('Create Frequency')).toBeInTheDocument();
     });
@@ -50,9 +52,12 @@ describe('FrequencyForm', () => {
 
       renderWithRouter('new');
 
-      const input = screen.getByLabelText(/Interval Days/);
-      await user.clear(input);
-      await user.type(input, '7');
+      const nameInput = screen.getByLabelText(/Name/);
+      await user.type(nameInput, 'Weekly');
+
+      const intervalInput = screen.getByLabelText(/Interval Days/);
+      await user.clear(intervalInput);
+      await user.type(intervalInput, '7');
 
       const submitButton = screen.getByText('Create Frequency');
       fireEvent.click(submitButton);
@@ -78,6 +83,9 @@ describe('FrequencyForm', () => {
 
       renderWithRouter('new');
 
+      const nameInput = screen.getByLabelText(/Name/);
+      await user.type(nameInput, 'Test');
+
       const input = screen.getByLabelText(/Interval Days/);
       await user.clear(input);
       await user.type(input, '7');
@@ -99,9 +107,12 @@ describe('FrequencyForm', () => {
 
       renderWithRouter('new');
 
-      const input = screen.getByLabelText(/Interval Days/);
-      await user.clear(input);
-      await user.type(input, '7');
+      const nameInput = screen.getByLabelText(/Name/);
+      await user.type(nameInput, 'Daily');
+
+      const intervalInput = screen.getByLabelText(/Interval Days/);
+      await user.clear(intervalInput);
+      await user.type(intervalInput, '1');
 
       const submitButton = screen.getByText('Create Frequency');
       fireEvent.click(submitButton);
@@ -123,8 +134,10 @@ describe('FrequencyForm', () => {
       renderWithRouter('edit', 1);
 
       await waitFor(() => {
-        const input = screen.getByLabelText(/Interval Days/) as HTMLInputElement;
-        expect(input.value).toBe('7');
+        const nameInput = screen.getByLabelText(/Name/) as HTMLInputElement;
+        expect(nameInput.value).toBe('Test Frequency');
+        const intervalInput = screen.getByLabelText(/Interval Days/) as HTMLInputElement;
+        expect(intervalInput.value).toBe('7');
       });
 
       expect(screen.getByText('Edit Frequency')).toBeInTheDocument();

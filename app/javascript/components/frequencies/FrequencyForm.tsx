@@ -13,6 +13,7 @@ export const FrequencyForm: React.FC<FrequencyFormProps> = ({ mode }) => {
   const { id } = useParams<{ id: string }>();
   const frequencyId = mode === 'edit' ? parseInt(id || '0', 10) : undefined;
   const [formData, setFormData] = useState<FrequencyFormData>({
+    name: '',
     interval_days: 1,
   });
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,7 @@ export const FrequencyForm: React.FC<FrequencyFormProps> = ({ mode }) => {
         const data = await apiCall<Frequency>(`/api/v1/frequencies/${frequencyId}`);
         if (data) {
           setFormData({
+            name: data.name,
             interval_days: data.interval_days,
           });
         }
@@ -87,6 +89,16 @@ export const FrequencyForm: React.FC<FrequencyFormProps> = ({ mode }) => {
         )}
 
         <form onSubmit={handleSubmit}>
+          <FormField
+            label="Name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            placeholder="Enter frequency name (e.g., Daily, Weekly, Monthly)"
+          />
+
           <FormField
             label="Interval Days"
             name="interval_days"

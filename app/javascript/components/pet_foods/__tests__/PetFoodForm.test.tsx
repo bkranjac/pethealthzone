@@ -42,8 +42,8 @@ const mockFoods: Food[] = [
 ];
 
 const mockFrequencies: Frequency[] = [
-  { id: 1, interval_days: 7 },
-  { id: 2, interval_days: 30 },
+  { id: 1, name: 'Weekly', interval_days: 7 },
+  { id: 2, name: 'Monthly', interval_days: 30 },
 ];
 
 describe('PetFoodForm', () => {

@@ -69,6 +69,6 @@ class FrequenciesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def frequency_params
-      params.expect(frequency: [ :how_often ])
+      params.expect(frequency: [ :name, :interval_days ])
     end
 end

@@ -41,9 +41,10 @@ export const FrequenciesIndex: React.FC = () => {
               key={frequency.id}
               className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
             >
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="text-xl font-semibold mb-2">{frequency.name}</h2>
+              <p className="text-gray-600 mb-3">
                 Every {frequency.interval_days} {frequency.interval_days === 1 ? 'day' : 'days'}
-              </h2>
+              </p>
 
               <div className="flex gap-2 mt-4">
                 <Link

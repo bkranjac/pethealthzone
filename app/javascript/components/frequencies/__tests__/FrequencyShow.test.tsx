@@ -17,6 +17,7 @@ const renderWithRouter = (frequencyId: number) => {
 
 const mockFrequency: Frequency = {
   id: 1,
+  name: 'Test Frequency',
   interval_days: 7,
 };
 

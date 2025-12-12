@@ -8,8 +8,8 @@ RSpec.describe "Frequencies", type: :request do
     end
 
     it "displays all frequencies" do
-      frequency1 = create(:frequency, how_often: "Daily")
-      frequency2 = create(:frequency, how_often: "Weekly")
+      frequency1 = create(:frequency, name: "Daily", interval_days: 1)
+      frequency2 = create(:frequency, name: "Weekly", interval_days: 7)
 
       get frequencies_path
       expect(response.body).to include("Daily")
@@ -27,7 +27,7 @@ RSpec.describe "Frequencies", type: :request do
 
   describe "POST /frequencies" do
     context "with valid parameters" do
-      let(:valid_attributes) { { how_often: "Monthly" } }
+      let(:valid_attributes) { { name: "Monthly", interval_days: 30 } }
 
       it "creates a new frequency" do
         expect {
@@ -42,7 +42,7 @@ RSpec.describe "Frequencies", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:invalid_attributes) { { how_often: nil } }
+      let(:invalid_attributes) { { name: nil, interval_days: nil } }
 
       it "does not create a new frequency" do
         expect {
@@ -53,15 +53,16 @@ RSpec.describe "Frequencies", type: :request do
   end
 
   describe "PATCH /frequencies/:id" do
-    let(:frequency) { create(:frequency, how_often: "Daily") }
+    let(:frequency) { create(:frequency, name: "Daily", interval_days: 1) }
 
     context "with valid parameters" do
-      let(:new_attributes) { { how_often: "Weekly" } }
+      let(:new_attributes) { { name: "Weekly", interval_days: 7 } }
 
       it "updates the frequency" do
         patch frequency_path(frequency), params: { frequency: new_attributes }
         frequency.reload
-        expect(frequency.how_often).to eq("Weekly")
+        expect(frequency.name).to eq("Weekly")
+        expect(frequency.interval_days).to eq(7)
       end
     end
   end
