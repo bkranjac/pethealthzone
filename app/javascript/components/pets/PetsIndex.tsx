@@ -44,16 +44,16 @@ export const PetsIndex: React.FC = () => {
           <p className="text-gray-500 text-lg">No pets found. Add your first pet to get started!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
           {pets.map((pet, index) => (
             <PostItCard key={pet.id} colorIndex={index}>
-              <div className="min-h-[250px] flex flex-col">
+              <div className="flex flex-col h-full" style={{ minHeight: '250px' }}>
                 <h2 className="text-2xl font-bold mb-1 text-gray-800">{pet.name}</h2>
-                {pet.nickname && (
-                  <p className="text-gray-600 italic text-sm mb-3">"{pet.nickname}"</p>
-                )}
+                <p className="text-gray-600 italic text-sm mb-3" style={{ minHeight: '20px' }}>
+                  {pet.nickname ? `"${pet.nickname}"` : '\u00A0'}
+                </p>
 
-                <div className="mb-4 flex-grow">
+                <div className="flex-1">
                   <div className="space-y-1">
                     <p className="text-sm">
                       <span className="font-semibold text-gray-700">Type:</span>{' '}
@@ -81,19 +81,22 @@ export const PetsIndex: React.FC = () => {
                 <div className="flex gap-2 mt-auto pt-4 border-t border-gray-300">
                   <Link
                     to={`/pets/${pet.id}`}
-                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors inline-block no-underline"
+                    style={{ textDecoration: 'none' }}
                   >
                     View
                   </Link>
                   <Link
                     to={`/pets/${pet.id}/edit`}
-                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors inline-block no-underline"
+                    style={{ textDecoration: 'none' }}
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(pet.id)}
-                    className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 transition-colors"
+                    className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors inline-block border-0"
+                    style={{ cursor: 'pointer' }}
                   >
                     Delete
                   </button>

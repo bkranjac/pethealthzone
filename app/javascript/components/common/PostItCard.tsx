@@ -20,11 +20,11 @@ const colors = [
 ];
 
 const rotations = [
-  -2,
-  -1,
   0,
-  1,
-  2,
+  0,
+  0,
+  0,
+  0,
 ];
 
 export const PostItCard: React.FC<PostItCardProps> = ({
@@ -57,6 +57,9 @@ export const PostItCard: React.FC<PostItCardProps> = ({
         backgroundColor: bgColor,
         transform: `rotate(${rotationDeg}deg)`,
         boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'rotate(0deg) translateY(-8px)';
@@ -75,7 +78,7 @@ export const PostItCard: React.FC<PostItCardProps> = ({
       />
 
       {/* Card content */}
-      <div className="relative z-10">
+      <div className="relative z-10 flex-1 flex flex-col">
         {children}
       </div>
     </div>
