@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Pet } from '../../types/pet';
 import { useResource } from '../../hooks/useResource';
 import { PostItCard } from '../common/PostItCard';
+import { calculateAge, getPetTypeIcon, getGenderIcon } from '../../utils/dateUtils';
 
 export const PetsIndex: React.FC = () => {
   const { data: pets, loading, error, deleteItem } = useResource<Pet>('/api/v1/pets');
@@ -56,24 +57,29 @@ export const PetsIndex: React.FC = () => {
                 <div className="flex-1">
                   <div className="space-y-1">
                     <p className="text-sm">
+                      <span className="text-base mr-1">{getPetTypeIcon(pet.pet_type)}</span>
                       <span className="font-semibold text-gray-700">Type:</span>{' '}
                       <span className="text-gray-600">{pet.pet_type}</span>
                     </p>
                     <p className="text-sm">
+                      <span className="text-base mr-1">🏷️</span>
                       <span className="font-semibold text-gray-700">Breed:</span>{' '}
                       <span className="text-gray-600">{pet.breed}</span>
                     </p>
                     {pet.gender && (
                       <p className="text-sm">
+                        <span className="text-base mr-1">{getGenderIcon(pet.gender)}</span>
                         <span className="font-semibold text-gray-700">Gender:</span>{' '}
                         <span className="text-gray-600">{pet.gender}</span>
                       </p>
                     )}
                     <p className="text-sm">
-                      <span className="font-semibold text-gray-700">Birthday:</span>{' '}
-                      <span className="text-gray-600">
-                        {new Date(pet.birthday).toLocaleDateString()}
-                      </span>
+                      <span className="text-base mr-1">🎂</span>
+                      <span className="font-semibold text-gray-700">Age:</span>{' '}
+                      <span className="text-gray-600">{calculateAge(pet.birthday)}</span>
+                    </p>
+                    <p className="text-xs text-gray-500 ml-5">
+                      Born: {new Date(pet.birthday).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
