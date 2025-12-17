@@ -51,8 +51,29 @@ export const PetShow: React.FC = () => {
 
   return (
     <div className="pet-show max-w-2xl mx-auto">
-      <div className="bg-white shadow rounded-lg p-6">
-        <div className="flex justify-between items-start mb-6">
+      <div className="bg-white shadow rounded-lg p-6" style={{ position: 'relative' }}>
+        {pet.picture && (
+          <div style={{ position: 'absolute', top: '24px', right: '24px', zIndex: 10 }}>
+            <div
+              style={{
+                width: '256px',
+                height: '256px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '2px solid #d1d5db',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+              }}
+            >
+              <img
+                src={pet.picture}
+                alt={pet.name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="flex justify-between items-start mb-6" style={{ marginRight: '280px' }}>
           <div>
             <h1 className="text-3xl font-bold mb-2">{pet.name}</h1>
             {pet.nickname && (
