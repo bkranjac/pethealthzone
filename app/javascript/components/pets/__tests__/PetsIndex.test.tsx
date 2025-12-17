@@ -67,7 +67,7 @@ describe('PetsIndex', () => {
     expect(screen.getByText('"Bud"')).toBeInTheDocument();
     expect(screen.getByText('"Whisk"')).toBeInTheDocument();
     expect(screen.getAllByText('Type:').length).toBeGreaterThan(0);
-    expect(screen.getByText('Dog')).toBeInTheDocument();
+    expect(screen.getAllByText('Dog').length).toBeGreaterThan(0); // Dog appears in filter dropdown too
     expect(screen.getAllByText('Breed:').length).toBeGreaterThan(0);
     expect(screen.getByText('Labrador')).toBeInTheDocument();
   });
@@ -93,7 +93,7 @@ describe('PetsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No pets found.')).toBeInTheDocument();
+      expect(screen.getByText(/No pets found/)).toBeInTheDocument();
     });
   });
 
@@ -200,8 +200,218 @@ describe('PetsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New pet');
+      const newLink = screen.getByText('+ Add New Pet');
       expect(newLink).toHaveAttribute('href', '/pets/new');
+    });
+  });
+
+  // Search and Filter tests
+  it('filters pets by search term (name)', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.getByText('Whiskers')).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText('Search by name, breed, type...');
+    fireEvent.change(searchInput, { target: { value: 'Buddy' } });
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.queryByText('Whiskers')).not.toBeInTheDocument();
+    });
+  });
+
+  it('filters pets by search term (breed)', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText('Search by name, breed, type...');
+    fireEvent.change(searchInput, { target: { value: 'Siamese' } });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Buddy')).not.toBeInTheDocument();
+      expect(screen.getByText('Whiskers')).toBeInTheDocument();
+    });
+  });
+
+  it('filters pets by pet type', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.getByText('Whiskers')).toBeInTheDocument();
+    });
+
+    const typeFilter = screen.getByLabelText('Pet Type');
+    fireEvent.change(typeFilter, { target: { value: 'Dog' } });
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.queryByText('Whiskers')).not.toBeInTheDocument();
+    });
+  });
+
+  it('filters pets by gender', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.getByText('Whiskers')).toBeInTheDocument();
+    });
+
+    const genderFilter = screen.getByLabelText('Gender');
+    fireEvent.change(genderFilter, { target: { value: 'Female' } });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Buddy')).not.toBeInTheDocument();
+      expect(screen.getByText('Whiskers')).toBeInTheDocument();
+    });
+  });
+
+  it('combines search and filters', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.getByText('Whiskers')).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText('Search by name, breed, type...');
+    const typeFilter = screen.getByLabelText('Pet Type');
+
+    fireEvent.change(searchInput, { target: { value: 'Bu' } });
+    fireEvent.change(typeFilter, { target: { value: 'Dog' } });
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.queryByText('Whiskers')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows clear filters button when filters are active', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    expect(screen.queryByText('Clear Filters')).not.toBeInTheDocument();
+
+    const searchInput = screen.getByPlaceholderText('Search by name, breed, type...');
+    fireEvent.change(searchInput, { target: { value: 'Buddy' } }); // Use matching term
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Clear Filters').length).toBeGreaterThan(0);
+    });
+  });
+
+  it('clears all filters when clear button is clicked', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText('Search by name, breed, type...') as HTMLInputElement;
+    const typeFilter = screen.getByLabelText('Pet Type') as HTMLSelectElement;
+
+    fireEvent.change(searchInput, { target: { value: 'Buddy' } });
+    fireEvent.change(typeFilter, { target: { value: 'Dog' } });
+
+    await waitFor(() => {
+      expect(screen.getByText('Clear Filters')).toBeInTheDocument();
+    });
+
+    const clearButton = screen.getByText('Clear Filters');
+    fireEvent.click(clearButton);
+
+    await waitFor(() => {
+      expect(searchInput.value).toBe('');
+      expect(typeFilter.value).toBe('');
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+      expect(screen.getByText('Whiskers')).toBeInTheDocument();
+    });
+  });
+
+  it('displays filtered count correctly', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Showing 2 of 2 pets')).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText('Search by name, breed, type...');
+    fireEvent.change(searchInput, { target: { value: 'Buddy' } });
+
+    await waitFor(() => {
+      expect(screen.getByText('Showing 1 of 2 pets (filtered)')).toBeInTheDocument();
+    });
+  });
+
+  it('shows no matches message when filters match no pets', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPets,
+    });
+
+    renderWithRouter();
+
+    await waitFor(() => {
+      expect(screen.getByText('Buddy')).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText('Search by name, breed, type...');
+    fireEvent.change(searchInput, { target: { value: 'NonexistentPet' } });
+
+    await waitFor(() => {
+      expect(screen.getByText('No pets match your filters.')).toBeInTheDocument();
+      expect(screen.queryByText('Buddy')).not.toBeInTheDocument();
+      expect(screen.queryByText('Whiskers')).not.toBeInTheDocument();
     });
   });
 });
