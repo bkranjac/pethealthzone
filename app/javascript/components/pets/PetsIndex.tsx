@@ -30,6 +30,23 @@ export const PetsIndex: React.FC = () => {
 
   return (
     <div className="pets-index max-w-7xl mx-auto px-4 py-8">
+      <style>{`
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .pet-card-entrance {
+          animation: slideInUp 0.5s ease-out forwards;
+          opacity: 0;
+        }
+      `}</style>
+
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold text-gray-800">My Pets</h1>
         <Link
@@ -47,7 +64,12 @@ export const PetsIndex: React.FC = () => {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
           {pets.map((pet, index) => (
-            <PostItCard key={pet.id} colorIndex={index}>
+            <div
+              key={pet.id}
+              className="pet-card-entrance"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <PostItCard colorIndex={index}>
               <div className="flex flex-col h-full" style={{ minHeight: '250px' }}>
                 <h2 className="text-2xl font-bold mb-1 text-gray-800">{pet.name}</h2>
                 <p className="text-gray-600 italic text-sm mb-3" style={{ minHeight: '20px' }}>
@@ -109,6 +131,7 @@ export const PetsIndex: React.FC = () => {
                 </div>
               </div>
             </PostItCard>
+            </div>
           ))}
         </div>
       )}
