@@ -82,6 +82,84 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const resizeImage = (file: File, maxWidth: number, maxHeight: number): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // Calculate new dimensions while maintaining aspect ratio
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = (width * maxHeight) / height;
+              height = maxHeight;
+            }
+          }
+
+          // Create canvas and resize
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+
+          if (!ctx) {
+            reject(new Error('Failed to get canvas context'));
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Convert to base64 with quality compression (0.7 = 70% quality)
+          const resizedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+          resolve(resizedBase64);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 10MB before resize)
+    if (file.size > 10 * 1024 * 1024) {
+      setError('Image must be smaller than 10MB');
+      return;
+    }
+
+    try {
+      // Resize image to max 400x400 while maintaining aspect ratio
+      const resizedBase64 = await resizeImage(file, 400, 400);
+
+      // Log the size for debugging
+      console.log('Original file size:', (file.size / 1024).toFixed(2), 'KB');
+      console.log('Resized base64 length:', (resizedBase64.length / 1024).toFixed(2), 'KB');
+
+      setFormData(prev => ({ ...prev, picture: resizedBase64 }));
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to process image');
+    }
+  };
+
   return (
     <div className="pet-form max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">
@@ -203,16 +281,36 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
 
         <div className="mb-4">
           <label htmlFor="picture" className="block font-semibold mb-2">
-            Picture URL
+            Picture
           </label>
           <input
-            type="text"
+            type="file"
             id="picture"
             name="picture"
-            value={formData.picture}
-            onChange={handleChange}
+            accept="image/*"
+            onChange={handleFileChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {formData.picture && (
+            <div className="mt-3" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div
+                style={{
+                  width: '160px',
+                  height: '160px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '1px solid #d1d5db',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                <img
+                  src={formData.picture}
+                  alt="Pet preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="mb-6">
