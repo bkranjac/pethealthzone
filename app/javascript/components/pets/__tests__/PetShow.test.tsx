@@ -199,7 +199,7 @@ describe('PetShow', () => {
     renderWithRouter(1);
 
     await waitFor(() => {
-      const backLink = screen.getByText('← Back to Pets');
+      const backLink = screen.getByText('← Back To Pets');
       expect(backLink).toHaveAttribute('href', '/pets');
     });
   });
