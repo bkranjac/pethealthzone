@@ -80,5 +80,5 @@ Instead of pen and paper, let's use AI to helps us generate an app to track thos
 https://github.com/bkranjac/pethealthzone#
 
 ## Current UI
-[Pets dashboard](screenshots/ui_v4.png)
+[Pets dashboard](/screenshots/ui_v4.png)
 
