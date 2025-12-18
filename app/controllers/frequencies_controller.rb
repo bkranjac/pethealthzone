@@ -5,20 +5,36 @@ class FrequenciesController < ApplicationController
   # GET /frequencies or /frequencies.json
   def index
     delegate_to_api(:index)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @frequencies }
+    end
   end
 
   # GET /frequencies/1 or /frequencies/1.json
   def show
     delegate_to_api(:show)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @frequency }
+    end
   end
 
   # GET /frequencies/new
   def new
     @frequency = Frequency.new
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @frequency }
+    end
   end
 
   # GET /frequencies/1/edit
   def edit
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @frequency }
+    end
   end
 
   # POST /frequencies or /frequencies.json
@@ -28,9 +44,9 @@ class FrequenciesController < ApplicationController
     respond_to do |format|
       if @frequency.persisted?
         format.html { redirect_to @frequency, notice: "Frequency was successfully created." }
-        format.json { render :show, status: :created, location: @frequency }
+        format.json { render json: @frequency, status: :created, location: @frequency }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @frequency.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +59,9 @@ class FrequenciesController < ApplicationController
     respond_to do |format|
       if @frequency.errors.empty?
         format.html { redirect_to @frequency, notice: "Frequency was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @frequency }
+        format.json { render json: @frequency, status: :ok, location: @frequency }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @frequency.errors, status: :unprocessable_entity }
       end
     end

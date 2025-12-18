@@ -3,22 +3,38 @@ class MedicationSchedulesController < ApplicationController
   before_action :set_medication_schedule, only: %i[ show edit update destroy ]
 
   # GET /medication_schedules or /medication_schedules.json
-  def index
+def index
     delegate_to_api(:index)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @medication_schedules }
+    end
   end
 
   # GET /medication_schedules/1 or /medication_schedules/1.json
-  def show
+def show
     delegate_to_api(:show)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @medication_schedule }
+    end
   end
 
   # GET /medication_schedules/new
-  def new
+def new
     @medication_schedule = MedicationSchedule.new
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @medication_schedule }
+    end
   end
 
   # GET /medication_schedules/1/edit
-  def edit
+def edit
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @medication_schedule }
+    end
   end
 
   # POST /medication_schedules or /medication_schedules.json
@@ -28,9 +44,9 @@ class MedicationSchedulesController < ApplicationController
     respond_to do |format|
       if @medication_schedule.persisted?
         format.html { redirect_to @medication_schedule, notice: "Medication schedule was successfully created." }
-        format.json { render :show, status: :created, location: @medication_schedule }
+        format.json { render json: @medication_schedule, status: :created, location: @medication_schedule }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @medication_schedule.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +59,9 @@ class MedicationSchedulesController < ApplicationController
     respond_to do |format|
       if @medication_schedule.errors.empty?
         format.html { redirect_to @medication_schedule, notice: "Medication schedule was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @medication_schedule }
+        format.json { render json: @medication_schedule, status: :ok, location: @medication_schedule }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @medication_schedule.errors, status: :unprocessable_entity }
       end
     end

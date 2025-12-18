@@ -113,11 +113,11 @@ describe('InjuryShow', () => {
     renderWithRouter(1);
 
     await waitFor(() => {
-      expect(screen.getByText('Edit this injury')).toBeInTheDocument();
-      expect(screen.getByText('Destroy this injury')).toBeInTheDocument();
+      expect(screen.getByText('Edit')).toBeInTheDocument();
+      expect(screen.getByText('Delete')).toBeInTheDocument();
     });
 
-    const editLink = screen.getByText('Edit this injury');
+    const editLink = screen.getByText('Edit');
     expect(editLink).toHaveAttribute('href', '/injuries/1/edit');
   });
 
@@ -141,7 +141,7 @@ describe('InjuryShow', () => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Destroy this injury');
+    const deleteButton = screen.getByText('Delete');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalledWith('Are you sure you want to delete this injury?');
@@ -170,7 +170,7 @@ describe('InjuryShow', () => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Destroy this injury');
+    const deleteButton = screen.getByText('Delete');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalled();
@@ -190,7 +190,7 @@ describe('InjuryShow', () => {
     renderWithRouter(1);
 
     await waitFor(() => {
-      const backLink = screen.getByText('Back');
+      const backLink = screen.getByText('← Back To Injuries');
       expect(backLink).toHaveAttribute('href', '/injuries');
     });
   });
@@ -205,7 +205,7 @@ describe('InjuryShow', () => {
 
     await waitFor(() => {
       const severityBadge = screen.getByText('high');
-      expect(severityBadge).toHaveClass('bg-orange-100', 'text-orange-800');
+      expect(severityBadge).toHaveClass('bg-orange-600', 'text-white');
     });
   });
 });

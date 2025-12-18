@@ -1,14 +1,13 @@
 # README
 
-Pet Health Zone is an application to track pets health. 
+Pet Zone Health is an application to track pets health. 
 It was developed for Cat Chillin Zone, senior cat rescue non profit (https://www.catchillinzone.com/)
 Instead of pen and paper, let's use AI to helps us generate an app to track those small things that take time to make sure our cats are up to date on medications.
 
 ## 🧩 Features
-* Allows creation of pets, edit, update and delete.
+* Allows creation of pets as well as edit, update and delete with correspoinding UI.
 * It covers injuries, medical history and vaccinations for pets.
-* Created using ClaudeCode Sonnet 4.5 in terminal mode.
-* VS Code 
+* Created using ClaudeCode Sonnet 4.5 in terminal mode / VS Code.
 * 
 
 ## 📦 Tech Stack
@@ -48,13 +47,28 @@ Instead of pen and paper, let's use AI to helps us generate an app to track thos
    ```
 
 ### Running the App
+Locally:
 ```
+rails s 
+http://localhost:3000/pets
+```
+### Running tests
+**Front end**
+```
+yarn test
+```
+**Back end**
+```
+bundle exec rspec
+```
+
 
 ## 📂 Project Structure
 
 ├── app/           # React frontend
 │   ├── javascript/
 |   |---|-- components
+|   |---|--|-- __tests__
 |   |---|-- controllers
 |   |---|-- hooks
 |   |---|-- types
@@ -65,11 +79,13 @@ Instead of pen and paper, let's use AI to helps us generate an app to track thos
 │   ├── api/v1
 │   ├── models/
 │   ├── views/
+├── helpers/           # Rails backend
 ├── config/           # configuration and scripts
 |   |---|routes.rb
 |   |---|database.yml
 ├── db/
 |   |---|migrate/ 
+├── spec/           # Rails tests
 └── README.md
 
 

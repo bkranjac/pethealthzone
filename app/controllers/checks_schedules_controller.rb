@@ -3,22 +3,38 @@ class ChecksSchedulesController < ApplicationController
   before_action :set_checks_schedule, only: %i[ show edit update destroy ]
 
   # GET /checks_schedules or /checks_schedules.json
-  def index
+def index
     delegate_to_api(:index)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @checks_schedules }
+    end
   end
 
   # GET /checks_schedules/1 or /checks_schedules/1.json
-  def show
+def show
     delegate_to_api(:show)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @checks_schedule }
+    end
   end
 
   # GET /checks_schedules/new
-  def new
+def new
     @checks_schedule = ChecksSchedule.new
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @checks_schedule }
+    end
   end
 
   # GET /checks_schedules/1/edit
-  def edit
+def edit
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @checks_schedule }
+    end
   end
 
   # POST /checks_schedules or /checks_schedules.json
@@ -28,9 +44,9 @@ class ChecksSchedulesController < ApplicationController
     respond_to do |format|
       if @checks_schedule.persisted?
         format.html { redirect_to @checks_schedule, notice: "Checks schedule was successfully created." }
-        format.json { render :show, status: :created, location: @checks_schedule }
+        format.json { render json: @checks_schedule, status: :created, location: @checks_schedule }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @checks_schedule.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +59,9 @@ class ChecksSchedulesController < ApplicationController
     respond_to do |format|
       if @checks_schedule.errors.empty?
         format.html { redirect_to @checks_schedule, notice: "Checks schedule was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @checks_schedule }
+        format.json { render json: @checks_schedule, status: :ok, location: @checks_schedule }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @checks_schedule.errors, status: :unprocessable_entity }
       end
     end

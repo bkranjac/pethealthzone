@@ -3,22 +3,38 @@ class ChecksController < ApplicationController
   before_action :set_check, only: %i[ show edit update destroy ]
 
   # GET /checks or /checks.json
-  def index
+def index
     delegate_to_api(:index)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @checks }
+    end
   end
 
   # GET /checks/1 or /checks/1.json
-  def show
+def show
     delegate_to_api(:show)
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @check }
+    end
   end
 
   # GET /checks/new
-  def new
+def new
     @check = Check.new
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @check }
+    end
   end
 
   # GET /checks/1/edit
-  def edit
+def edit
+    respond_to do |format|
+      format.html { render template: 'spa/index', layout: false }
+      format.json { render json: @check }
+    end
   end
 
   # POST /checks or /checks.json
@@ -28,9 +44,9 @@ class ChecksController < ApplicationController
     respond_to do |format|
       if @check.persisted?
         format.html { redirect_to @check, notice: "Check was successfully created." }
-        format.json { render :show, status: :created, location: @check }
+        format.json { render json: @check, status: :created, location: @check }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @check.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +59,9 @@ class ChecksController < ApplicationController
     respond_to do |format|
       if @check.errors.empty?
         format.html { redirect_to @check, notice: "Check was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @check }
+        format.json { render json: @check, status: :ok, location: @check }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
         format.json { render json: @check.errors, status: :unprocessable_entity }
       end
     end

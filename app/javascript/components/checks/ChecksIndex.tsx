@@ -42,7 +42,7 @@ export const ChecksIndex: React.FC = () => {
           {checks.map((check, index) => (
             <PostItCard key={check.id} colorIndex={index}>
               <div className="min-h-[180px] flex flex-col">
-                <h2 className="text-xl font-bold mb-2 text-gray-800">{check.name}</h2>
+                <h2 className="text-xl font-bold mb-2 text-gray-800">{check.check_type}</h2>
                 {check.frequency && (
                   <p className="text-gray-600 text-sm mb-4 flex-grow">
                     Every {check.frequency.interval_days}{' '}

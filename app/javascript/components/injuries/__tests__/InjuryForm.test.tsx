@@ -36,10 +36,10 @@ describe('InjuryForm', () => {
     it('renders form in new mode', () => {
       renderWithRouter('new');
 
-      expect(screen.getByText('New Injury')).toBeInTheDocument();
+      expect(screen.getByText('Report New Injury')).toBeInTheDocument();
       expect(screen.getByLabelText(/Description/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Severity/)).toBeInTheDocument();
-      expect(screen.getByText('Create Injury')).toBeInTheDocument();
+      expect(screen.getByText('Report Injury')).toBeInTheDocument();
     });
 
     it('submits form with valid data', async () => {
@@ -55,7 +55,7 @@ describe('InjuryForm', () => {
       await user.type(screen.getByLabelText(/Description/), 'Broken leg from fall');
       await user.selectOptions(screen.getByLabelText(/Severity/), 'High');
 
-      const submitButton = screen.getByText('Create Injury');
+      const submitButton = screen.getByText('Report Injury');
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -85,7 +85,7 @@ describe('InjuryForm', () => {
       await user.type(screen.getByLabelText(/Description/), 'Test injury');
       await user.selectOptions(screen.getByLabelText(/Severity/), 'Low');
 
-      const submitButton = screen.getByText('Create Injury');
+      const submitButton = screen.getByText('Report Injury');
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -105,7 +105,7 @@ describe('InjuryForm', () => {
       await user.type(screen.getByLabelText(/Description/), 'Test injury');
       await user.selectOptions(screen.getByLabelText(/Severity/), 'Medium');
 
-      const submitButton = screen.getByText('Create Injury');
+      const submitButton = screen.getByText('Report Injury');
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -199,7 +199,7 @@ describe('InjuryForm', () => {
       const severitySelect = screen.getByLabelText(/Severity/) as HTMLSelectElement;
 
       expect(severitySelect).toBeInTheDocument();
-      expect(screen.getByText('Select severity')).toBeInTheDocument();
+      expect(screen.getByText('Select severity level')).toBeInTheDocument();
       expect(screen.getByText('Low')).toBeInTheDocument();
       expect(screen.getByText('Medium')).toBeInTheDocument();
       expect(screen.getByText('High')).toBeInTheDocument();
@@ -221,7 +221,7 @@ describe('InjuryForm', () => {
     it('displays cancel button linking to injuries index', () => {
       renderWithRouter('new');
 
-      const cancelLink = screen.getByText('Back');
+      const cancelLink = screen.getByText('Cancel');
       expect(cancelLink).toHaveAttribute('href', '/injuries');
     });
   });
