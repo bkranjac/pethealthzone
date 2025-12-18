@@ -213,34 +213,34 @@ export const PetsIndex: React.FC = () => {
                 <div className="flex-1">
                   <div className="space-y-0.5">
                     <p className="text-xs">
-                      <span className="text-sm mr-1">{getPetTypeIcon(pet.pet_type)}</span>
+                      <span className="text-xl mr-1">{getPetTypeIcon(pet.pet_type)}</span>
                       <span className="font-semibold text-gray-700">Type:</span>{' '}
                       <span className="text-gray-600">{pet.pet_type}</span>
                     </p>
                     <p className="text-xs">
-                      <span className="text-sm mr-1">🏷️</span>
+                      <span className="text-xl mr-1">🏷️</span>
                       <span className="font-semibold text-gray-700">Breed:</span>{' '}
                       <span className="text-gray-600">{pet.breed}</span>
                     </p>
                     {pet.gender && (
                       <p className="text-xs">
-                        <span className="text-sm mr-1">{getGenderIcon(pet.gender)}</span>
+                        <span className="text-xl mr-1">{getGenderIcon(pet.gender)}</span>
                         <span className="font-semibold text-gray-700">Gender:</span>{' '}
                         <span className="text-gray-600">{pet.gender}</span>
                       </p>
                     )}
                     <p className="text-xs">
-                      <span className="text-sm mr-1">🎂</span>
+                      <span className="text-xl mr-1">🎂</span>
                       <span className="font-semibold text-gray-700">Age:</span>{' '}
                       <span className="text-gray-600">{calculateAge(pet.birthday)}</span>
                     </p>
-                    <p className="text-xs text-gray-500 ml-4">
+                    <p className="text-xs text-gray-500 ml-6">
                       Born: {new Date(pet.birthday).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-1 mt-auto pt-2 border-t border-gray-300">
+                <div className="flex gap-2 mt-auto pt-2 border-t border-gray-300">
                   <Link
                     to={`/pets/${pet.id}`}
                     className="bg-gray-600 hover:bg-gray-700 text-white font-bold rounded flex-1 text-center transition-colors inline-block no-underline"

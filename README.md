@@ -72,13 +72,9 @@ Instead of pen and paper, let's use AI to helps us generate an app to track thos
 |   |---|migrate/ 
 └── README.md
 
-## 📄 License
-
-[MIT](https://opensource.org/licenses/MIT)
 
 ## 🔗 Links
 https://github.com/bkranjac/pethealthzone#
 
 ## Current UI
-[Pets dashboard](/screenshots/ui_v4.png)
-
+![Pet health dashboard](/screenshots/ui_v4.png)
