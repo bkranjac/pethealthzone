@@ -17,7 +17,7 @@ export const VaccineForm: React.FC<VaccineFormProps> = ({ mode }) => {
   const vaccineId = mode === 'edit' ? parseInt(id || '0', 10) : undefined;
   const [formData, setFormData] = useState<VaccineFormData>({
     name: '',
-    description: '',
+    mandatory: false,
     frequency_id: 0,
   });
   const [loading, setLoading] = useState(false);
@@ -33,7 +33,7 @@ export const VaccineForm: React.FC<VaccineFormProps> = ({ mode }) => {
         if (data) {
           setFormData({
             name: data.name,
-            description: data.description || '',
+            mandatory: data.mandatory,
             frequency_id: data.frequency_id,
           });
         }
@@ -74,10 +74,12 @@ export const VaccineForm: React.FC<VaccineFormProps> = ({ mode }) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'frequency_id' ? parseInt(value) || 0 : value,
+      [name]: type === 'checkbox' ? checked : (name === 'frequency_id' ? parseInt(value) || 0 : value),
     }));
   };
 
@@ -105,14 +107,18 @@ export const VaccineForm: React.FC<VaccineFormProps> = ({ mode }) => {
             placeholder="Enter vaccine name"
           />
 
-          <FormField
-            label="Description"
-            name="description"
-            type="textarea"
-            value={formData.description || ''}
-            onChange={handleChange}
-            placeholder="Enter vaccine description (optional)"
-          />
+          <div className="mb-4">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="mandatory"
+                checked={formData.mandatory}
+                onChange={handleChange}
+                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+              />
+              <span className="text-sm font-medium text-gray-700">Required Vaccine</span>
+            </label>
+          </div>
 
           <ResourceSelect
             label="Frequency"

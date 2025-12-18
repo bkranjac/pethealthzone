@@ -7,8 +7,7 @@ export interface PetFood {
   pet_id: number;
   food_id: number;
   frequency_id: number;
-  date_started: string;
-  date_ended?: string;
+  started_at: string;
   notes?: string;
   pet?: Pet;
   food?: Food;
@@ -21,7 +20,6 @@ export interface PetFoodFormData {
   pet_id: number;
   food_id: number;
   frequency_id: number;
-  date_started: string;
-  date_ended?: string;
+  started_at: string;
   notes?: string;
 }

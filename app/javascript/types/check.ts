@@ -2,7 +2,7 @@ import { Frequency } from './frequency';
 
 export interface Check {
   id: number;
-  name: string;
+  check_type: string;
   description?: string;
   frequency_id: number;
   frequency?: Frequency;

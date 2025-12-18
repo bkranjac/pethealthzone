@@ -3,7 +3,7 @@ import { Frequency } from './frequency';
 export interface Vaccine {
   id: number;
   name: string;
-  description?: string;
+  mandatory: boolean;
   frequency_id: number;
   frequency?: Frequency;
   created_at?: string;
@@ -12,6 +12,6 @@ export interface Vaccine {
 
 export interface VaccineFormData {
   name: string;
-  description?: string;
+  mandatory: boolean;
   frequency_id: number;
 }

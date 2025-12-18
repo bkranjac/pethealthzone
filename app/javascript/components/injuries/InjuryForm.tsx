@@ -74,67 +74,79 @@ export const InjuryForm: React.FC<InjuryFormProps> = ({ mode }) => {
   };
 
   return (
-    <div className="injury-form max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">
-        {mode === 'edit' ? 'Edit Injury' : 'New Injury'}
-      </h1>
+    <div className="injury-form" style={{ maxWidth: '500px', margin: '0 auto', padding: '0 1rem' }}>
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold text-gray-800">
+          {mode === 'edit' ? 'Edit Injury' : 'Report New Injury'}
+        </h1>
+      </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
+          <strong className="font-bold">Error: </strong>
+          <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
-        <div className="mb-4">
-          <label htmlFor="description" className="block font-semibold mb-2">
-            Description <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            rows={4}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Describe the injury..."
-          />
+      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6">
+        {/* Injury Details Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fef3c7', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Injury Details</h2>
+          <div>
+            <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-1">
+              Description <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              rows={4}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Describe the injury in detail..."
+            />
+          </div>
         </div>
 
-        <div className="mb-6">
-          <label htmlFor="severity" className="block font-semibold mb-2">
-            Severity <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="severity"
-            name="severity"
-            value={formData.severity}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select severity</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-            <option value="Critical">Critical</option>
-          </select>
+        {/* Severity Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fed7aa', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Severity Level</h2>
+          <div>
+            <label htmlFor="severity" className="block text-sm font-semibold text-gray-700 mb-1">
+              Severity <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="severity"
+              name="severity"
+              value={formData.severity}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select severity level</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </div>
         </div>
 
-        <div className="flex gap-3">
+        {/* Action Buttons */}
+        <div className="flex gap-8 pt-4 border-t border-gray-200">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Saving...' : mode === 'edit' ? 'Update Injury' : 'Create Injury'}
+            {loading ? 'Saving...' : mode === 'edit' ? 'Update Injury' : 'Report Injury'}
           </button>
           <Link
             to="/injuries"
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg inline-block transition-colors"
           >
-            Back
+            Cancel
           </Link>
         </div>
       </form>

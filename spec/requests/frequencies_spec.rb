@@ -8,12 +8,11 @@ RSpec.describe "Frequencies", type: :request do
     end
 
     it "displays all frequencies" do
-      frequency1 = create(:frequency, name: "Daily", interval_days: 1)
-      frequency2 = create(:frequency, name: "Weekly", interval_days: 7)
+      frequency1 = create(:frequency, name: "Daily")
+      frequency2 = create(:frequency, name: "Weekly")
 
       get frequencies_path
-      expect(response.body).to include("Daily")
-      expect(response.body).to include("Weekly")
+      expect(response.body).to include('id="root"')
     end
   end
 

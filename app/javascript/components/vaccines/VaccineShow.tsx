@@ -67,12 +67,10 @@ export const VaccineShow: React.FC = () => {
         <h1 className="text-3xl font-bold mb-6">{vaccine.name}</h1>
 
         <div className="space-y-4">
-          {vaccine.description && (
-            <div>
-              <span className="font-semibold text-gray-700">Description:</span>
-              <p className="text-gray-900 mt-1">{vaccine.description}</p>
-            </div>
-          )}
+          <div>
+            <span className="font-semibold text-gray-700">Required:</span>
+            <p className="text-gray-900 mt-1">{vaccine.mandatory ? 'Yes' : 'No'}</p>
+          </div>
 
           <div>
             <span className="font-semibold text-gray-700">Frequency:</span>

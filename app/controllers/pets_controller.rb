@@ -2,23 +2,39 @@ class PetsController < ApplicationController
   include ApiDelegator
   before_action :set_pet, only: %i[ show edit update destroy ]
 
-  # GET /pets or /pets.json
-  def index
+# GET /pets or /pets.json
+def index
     delegate_to_api(:index)
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @pets }
+    end
   end
 
-  # GET /pets/1 or /pets/1.json
-  def show
+# GET /pets/1 or /pets/1.json
+def show
     delegate_to_api(:show)
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @pet }
+    end
   end
 
-  # GET /pets/new
-  def new
+# GET /pets/new
+def new
     @pet = Pet.new
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @pet }
+    end
   end
 
-  # GET /pets/1/edit
-  def edit
+# GET /pets/1/edit
+def edit
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @pet }
+    end
   end
 
   # POST /pets or /pets.json
@@ -28,9 +44,9 @@ class PetsController < ApplicationController
     respond_to do |format|
       if @pet.persisted?
         format.html { redirect_to @pet, notice: "Pet was successfully created." }
-        format.json { render :show, status: :created, location: @pet }
+        format.json { render json: @pet, status: :created, location: @pet }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @pet.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +59,9 @@ class PetsController < ApplicationController
     respond_to do |format|
       if @pet.errors.empty?
         format.html { redirect_to @pet, notice: "Pet was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @pet }
+        format.json { render json: @pet, status: :ok, location: @pet }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @pet.errors, status: :unprocessable_entity }
       end
     end

@@ -8,12 +8,13 @@ RSpec.describe "InjuryReports", type: :request do
     end
 
     it "displays all injury reports" do
-      report1 = create(:injury_report, body_part: "Leg")
-      report2 = create(:injury_report, body_part: "Tail")
+      pet = create(:pet)
+      injury = create(:injury)
+      injury_report1 = create(:injury_report, pet: pet, injury: injury)
+      injury_report2 = create(:injury_report, pet: pet, injury: injury)
 
       get injury_reports_path
-      expect(response.body).to include("Leg")
-      expect(response.body).to include("Tail")
+      expect(response.body).to include('id="root"')
     end
   end
 

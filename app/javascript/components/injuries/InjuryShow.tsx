@@ -50,69 +50,94 @@ export const InjuryShow: React.FC = () => {
   }
 
   return (
-    <div className="injury-show max-w-2xl mx-auto">
-      <div className="bg-white shadow rounded-lg p-6">
-        <div className="flex justify-between items-start mb-6">
-          <h1 className="text-3xl font-bold">Injury #{injury.id}</h1>
-          <div className="flex gap-2">
-            <Link
-              to={`/injuries/${injury.id}/edit`}
-              className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Edit this injury
-            </Link>
-            <button
-              onClick={handleDelete}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Destroy this injury
-            </button>
+    <div className="injury-show" style={{ maxWidth: '500px', margin: '0 auto', padding: '0 1rem' }}>
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        {/* Basic Information Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fef3c7', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Injury Details</h2>
+          <h1 className="text-3xl font-bold mb-3 text-gray-800">Injury #{injury.id}</h1>
+          <div>
+            <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+              <span className="text-3xl mr-2">📝</span>
+              Description
+            </dt>
+            <dd className="ml-11 text-gray-900">{injury.description}</dd>
           </div>
         </div>
 
-        <dl className="grid grid-cols-1 gap-4">
+        {/* Severity Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fed7aa', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Severity</h2>
           <div>
-            <dt className="font-semibold text-gray-700">Description:</dt>
-            <dd className="mt-1 text-gray-900">{injury.description}</dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-700">Severity:</dt>
-            <dd className="mt-1">
-              <span className={`px-3 py-1 rounded text-sm font-medium ${
-                injury.severity === 'critical' ? 'bg-red-100 text-red-800' :
-                injury.severity === 'high' ? 'bg-orange-100 text-orange-800' :
-                injury.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-green-100 text-green-800'
+            <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+              <span className="text-3xl mr-2">⚠️</span>
+              Level
+            </dt>
+            <dd className="ml-11">
+              <span className={`px-3 py-1 rounded-full text-sm font-bold uppercase ${
+                injury.severity === 'critical' ? 'bg-red-700 text-white' :
+                injury.severity === 'high' ? 'bg-orange-600 text-white' :
+                injury.severity === 'medium' ? 'bg-yellow-600 text-white' :
+                'bg-green-600 text-white'
               }`}>
                 {injury.severity}
               </span>
             </dd>
           </div>
-          {injury.created_at && (
-            <div>
-              <dt className="font-semibold text-gray-700">Created:</dt>
-              <dd className="mt-1 text-gray-900">
-                {new Date(injury.created_at).toLocaleString()}
-              </dd>
-            </div>
-          )}
-          {injury.updated_at && (
-            <div>
-              <dt className="font-semibold text-gray-700">Last Updated:</dt>
-              <dd className="mt-1 text-gray-900">
-                {new Date(injury.updated_at).toLocaleString()}
-              </dd>
-            </div>
-          )}
-        </dl>
+        </div>
 
-        <div className="mt-6">
+        {/* Timestamps Section */}
+        {(injury.created_at || injury.updated_at) && (
+          <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#e9d5ff', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+            <h2 className="text-lg font-bold mb-3 text-gray-800">Timestamps</h2>
+            <dl className="space-y-3">
+              {injury.created_at && (
+                <div>
+                  <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+                    <span className="text-3xl mr-2">📅</span>
+                    Created
+                  </dt>
+                  <dd className="ml-11 text-gray-900">
+                    {new Date(injury.created_at).toLocaleString()}
+                  </dd>
+                </div>
+              )}
+              {injury.updated_at && (
+                <div>
+                  <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+                    <span className="text-3xl mr-2">🔄</span>
+                    Last Updated
+                  </dt>
+                  <dd className="ml-11 text-gray-900">
+                    {new Date(injury.updated_at).toLocaleString()}
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex pt-4 border-t border-gray-200" style={{ gap: '2rem' }}>
           <Link
             to="/injuries"
-            className="text-blue-600 hover:text-blue-800 font-semibold"
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"
           >
-            Back
+            ← Back To Injuries
           </Link>
+          <Link
+            to={`/injuries/${injury.id}/edit`}
+            className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+            style={{ marginLeft: '1rem' }}
+          >
+            Edit
+          </Link>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-colors ml-auto"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

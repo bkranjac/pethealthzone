@@ -10,10 +10,8 @@ RSpec.describe "Checks", type: :request do
     it "displays all checks" do
       check1 = create(:check, check_type: "Physical")
       check2 = create(:check, check_type: "Dental")
-
       get checks_path
-      expect(response.body).to include("Physical")
-      expect(response.body).to include("Dental")
+      expect(response.body).to include('id="root"')
     end
   end
 

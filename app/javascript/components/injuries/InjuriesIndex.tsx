@@ -39,8 +39,8 @@ export const InjuriesIndex: React.FC = () => {
   }
 
   return (
-    <div className="injuries-index max-w-6xl mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
+    <div className="injuries-index max-w-7xl mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-gray-800">Injuries</h1>
         <Link
           to="/injuries/new"
@@ -51,8 +51,8 @@ export const InjuriesIndex: React.FC = () => {
       </div>
 
       {injuries.length === 0 ? (
-        <div className="text-center p-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500 text-lg">No injuries found. Hopefully it stays that way!</p>
+        <div className="text-center p-12 rounded-lg" style={{ backgroundColor: '#fef3c7', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <p className="text-gray-700 text-lg font-semibold">No injuries found. Hopefully it stays that way!</p>
         </div>
       ) : (
         <div className="space-y-6">
@@ -65,10 +65,12 @@ export const InjuriesIndex: React.FC = () => {
                   </h2>
                   <div className="space-y-2">
                     <div>
+                      <span className="text-xl mr-1">📝</span>
                       <span className="font-semibold text-gray-700">Description:</span>
-                      <p className="text-gray-600 mt-1">{injury.description}</p>
+                      <p className="text-gray-600 mt-1 ml-6">{injury.description}</p>
                     </div>
                     <div>
+                      <span className="text-xl mr-1">⚠️</span>
                       <span className="font-semibold text-gray-700">Severity:</span>{' '}
                       <span className={`px-3 py-1 rounded-full text-sm font-bold uppercase ${
                         injury.severity === 'critical' ? 'bg-red-700 text-white' :
@@ -86,7 +88,7 @@ export const InjuriesIndex: React.FC = () => {
                     to={`/injuries/${injury.id}`}
                     className="bg-gray-600 hover:bg-gray-700 text-white text-sm font-bold py-2 px-4 rounded text-center transition-colors whitespace-nowrap"
                   >
-                    View Details
+                    View
                   </Link>
                   <Link
                     to={`/injuries/${injury.id}/edit`}

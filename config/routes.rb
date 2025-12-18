@@ -17,6 +17,20 @@ Rails.application.routes.draw do
     end
   end
 
+  # HTML routes for traditional Rails (needed for tests and backwards compatibility)
+  resources :pets
+  resources :foods
+  resources :frequencies
+  resources :checks
+  resources :vaccines
+  resources :injuries
+  resources :medications
+  resources :injury_reports
+  resources :medication_schedules
+  resources :vaccination_schedules
+  resources :pet_foods
+  resources :checks_schedules
+
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 

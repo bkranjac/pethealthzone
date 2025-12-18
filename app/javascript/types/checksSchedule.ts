@@ -5,9 +5,9 @@ export interface ChecksSchedule {
   id: number;
   pet_id: number;
   check_id: number;
-  scheduled_date: string;
-  completed_date?: string;
+  date_created: string;
   notes?: string;
+  performed: boolean;
   pet?: Pet;
   check?: Check;
   created_at?: string;
@@ -17,7 +17,7 @@ export interface ChecksSchedule {
 export interface ChecksScheduleFormData {
   pet_id: number;
   check_id: number;
-  scheduled_date: string;
-  completed_date?: string;
+  date_created: string;
   notes?: string;
+  performed: boolean;
 }

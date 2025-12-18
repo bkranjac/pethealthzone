@@ -9,11 +9,10 @@ RSpec.describe "Medications", type: :request do
 
     it "displays all medications" do
       medication1 = create(:medication, name: "Aspirin")
-      medication2 = create(:medication, name: "Antibiotic")
+      medication2 = create(:medication, name: "Antibiotics")
 
       get medications_path
-      expect(response.body).to include("Aspirin")
-      expect(response.body).to include("Antibiotic")
+      expect(response.body).to include('id="root"')
     end
   end
 

@@ -12,7 +12,7 @@ RSpec.describe "Injuries", type: :request do
       injury2 = create(:injury, description: "Minor cut", severity: "Mild")
 
       get injuries_path
-      expect(response.body).to include('id="injuries_index"')
+      expect(response.body).to include('id="root"')
     end
   end
 

@@ -5,20 +5,36 @@ class VaccinesController < ApplicationController
   # GET /vaccines or /vaccines.json
   def index
     delegate_to_api(:index)
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @vaccines }
+    end
   end
 
   # GET /vaccines/1 or /vaccines/1.json
   def show
     delegate_to_api(:show)
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @vaccine }
+    end
   end
 
   # GET /vaccines/new
   def new
     @vaccine = Vaccine.new
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @vaccine }
+    end
   end
 
   # GET /vaccines/1/edit
   def edit
+    respond_to do |format|
+      format.html { render template: "spa/index", layout: false }
+      format.json { render json: @vaccine }
+    end
   end
 
   # POST /vaccines or /vaccines.json
@@ -28,9 +44,9 @@ class VaccinesController < ApplicationController
     respond_to do |format|
       if @vaccine.persisted?
         format.html { redirect_to @vaccine, notice: "Vaccine was successfully created." }
-        format.json { render :show, status: :created, location: @vaccine }
+        format.json { render json: @vaccine, status: :created, location: @vaccine }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @vaccine.errors, status: :unprocessable_entity }
       end
     end
@@ -43,9 +59,9 @@ class VaccinesController < ApplicationController
     respond_to do |format|
       if @vaccine.errors.empty?
         format.html { redirect_to @vaccine, notice: "Vaccine was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @vaccine }
+        format.json { render json: @vaccine, status: :ok, location: @vaccine }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @vaccine.errors, status: :unprocessable_entity }
       end
     end

@@ -12,8 +12,7 @@ RSpec.describe "Vaccines", type: :request do
       vaccine2 = create(:vaccine, name: "Distemper")
 
       get vaccines_path
-      expect(response.body).to include("Rabies")
-      expect(response.body).to include("Distemper")
+      expect(response.body).to include('id="root"')
     end
   end
 

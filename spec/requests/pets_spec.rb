@@ -12,8 +12,7 @@ RSpec.describe "Pets", type: :request do
       pet2 = create(:pet, name: "Max")
 
       get pets_path
-      expect(response.body).to include("Buddy")
-      expect(response.body).to include("Max")
+      expect(response.body).to include('id="root"')
     end
   end
 
@@ -28,8 +27,7 @@ RSpec.describe "Pets", type: :request do
       pet = create(:pet, name: "Buddy", pet_type: "Dog")
       get pet_path(pet)
 
-      expect(response.body).to include("Buddy")
-      expect(response.body).to include("Dog")
+      expect(response.body).to include('id="root"')
     end
   end
 

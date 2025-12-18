@@ -5,8 +5,9 @@ export interface InjuryReport {
   id: number;
   pet_id: number;
   injury_id: number;
-  report_date: string;
-  notes?: string;
+  body_part: string;
+  description: string;
+  date: string;
   pet?: Pet;
   injury?: Injury;
   created_at?: string;
@@ -16,6 +17,7 @@ export interface InjuryReport {
 export interface InjuryReportFormData {
   pet_id: number;
   injury_id: number;
-  report_date: string;
-  notes?: string;
+  body_part: string;
+  description: string;
+  date: string;
 }

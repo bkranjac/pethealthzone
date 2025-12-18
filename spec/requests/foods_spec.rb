@@ -12,8 +12,7 @@ RSpec.describe "Foods", type: :request do
       food2 = create(:food, name: "Cat Food")
 
       get foods_path
-      expect(response.body).to include("Premium Dog Food")
-      expect(response.body).to include("Cat Food")
+      expect(response.body).to include('id="root"')
     end
   end
 
@@ -28,8 +27,7 @@ RSpec.describe "Foods", type: :request do
       food = create(:food, name: "Premium Dog Food", food_type: "Dry")
       get food_path(food)
 
-      expect(response.body).to include("Premium Dog Food")
-      expect(response.body).to include("Dry")
+      expect(response.body).to include('id="root"')
     end
   end
 

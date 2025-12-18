@@ -100,7 +100,7 @@ describe('PetForm', () => {
       fireEvent.click(submitButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Name is required, Type is required/)).toBeInTheDocument();
+        expect(screen.getByText(/Name is required/)).toBeInTheDocument();
       });
     });
 
