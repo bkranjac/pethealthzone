@@ -2,37 +2,37 @@ class FoodsController < ApplicationController
   include ApiDelegator
   before_action :set_food, only: %i[ show edit update destroy ]
 
-  # GET /foods or /foods.json
+# GET /foods or /foods.json
 def index
     delegate_to_api(:index)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @foods }
     end
   end
 
-  # GET /foods/1 or /foods/1.json
+# GET /foods/1 or /foods/1.json
 def show
     delegate_to_api(:show)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @food }
     end
   end
 
-  # GET /foods/new
+# GET /foods/new
 def new
     @food = Food.new
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @food }
     end
   end
 
-  # GET /foods/1/edit
+# GET /foods/1/edit
 def edit
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @food }
     end
   end
@@ -46,7 +46,7 @@ def edit
         format.html { redirect_to @food, notice: "Food was successfully created." }
         format.json { render json: @food, status: :created, location: @food }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @food.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +61,7 @@ def edit
         format.html { redirect_to @food, notice: "Food was successfully updated.", status: :see_other }
         format.json { render json: @food, status: :ok, location: @food }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @food.errors, status: :unprocessable_entity }
       end
     end

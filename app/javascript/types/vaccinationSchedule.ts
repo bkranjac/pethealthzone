@@ -7,8 +7,7 @@ export interface VaccinationSchedule {
   pet_id: number;
   vaccine_id: number;
   frequency_id: number;
-  date_started: string;
-  date_ended?: string;
+  date_given: string;
   notes?: string;
   pet?: Pet;
   vaccine?: Vaccine;
@@ -21,7 +20,6 @@ export interface VaccinationScheduleFormData {
   pet_id: number;
   vaccine_id: number;
   frequency_id: number;
-  date_started: string;
-  date_ended?: string;
+  date_given: string;
   notes?: string;
 }

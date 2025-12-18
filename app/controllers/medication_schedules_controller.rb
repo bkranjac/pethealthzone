@@ -2,37 +2,37 @@ class MedicationSchedulesController < ApplicationController
   include ApiDelegator
   before_action :set_medication_schedule, only: %i[ show edit update destroy ]
 
-  # GET /medication_schedules or /medication_schedules.json
+# GET /medication_schedules or /medication_schedules.json
 def index
     delegate_to_api(:index)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medication_schedules }
     end
   end
 
-  # GET /medication_schedules/1 or /medication_schedules/1.json
+# GET /medication_schedules/1 or /medication_schedules/1.json
 def show
     delegate_to_api(:show)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medication_schedule }
     end
   end
 
-  # GET /medication_schedules/new
+# GET /medication_schedules/new
 def new
     @medication_schedule = MedicationSchedule.new
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medication_schedule }
     end
   end
 
-  # GET /medication_schedules/1/edit
+# GET /medication_schedules/1/edit
 def edit
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medication_schedule }
     end
   end
@@ -46,7 +46,7 @@ def edit
         format.html { redirect_to @medication_schedule, notice: "Medication schedule was successfully created." }
         format.json { render json: @medication_schedule, status: :created, location: @medication_schedule }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @medication_schedule.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +61,7 @@ def edit
         format.html { redirect_to @medication_schedule, notice: "Medication schedule was successfully updated.", status: :see_other }
         format.json { render json: @medication_schedule, status: :ok, location: @medication_schedule }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @medication_schedule.errors, status: :unprocessable_entity }
       end
     end

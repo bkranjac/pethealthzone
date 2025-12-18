@@ -47,11 +47,16 @@ export const FoodsIndex: React.FC = () => {
             >
               <h2 className="text-xl font-semibold mb-2">{food.name}</h2>
               <p className="text-gray-600 mb-1">
-                <span className="font-medium">Brand:</span> {food.brand}
+                <span className="font-medium">Type:</span> {food.food_type}
               </p>
-              {food.ingredients && (
+              {food.amount && (
+                <p className="text-gray-600 mb-1 text-sm">
+                  <span className="font-medium">Amount:</span> {food.amount}
+                </p>
+              )}
+              {food.purpose && (
                 <p className="text-gray-600 mb-3 text-sm">
-                  <span className="font-medium">Ingredients:</span> {food.ingredients}
+                  <span className="font-medium">Purpose:</span> {food.purpose}
                 </p>
               )}
 

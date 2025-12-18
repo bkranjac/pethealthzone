@@ -6,7 +6,7 @@ class FrequenciesController < ApplicationController
   def index
     delegate_to_api(:index)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @frequencies }
     end
   end
@@ -15,7 +15,7 @@ class FrequenciesController < ApplicationController
   def show
     delegate_to_api(:show)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @frequency }
     end
   end
@@ -24,7 +24,7 @@ class FrequenciesController < ApplicationController
   def new
     @frequency = Frequency.new
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @frequency }
     end
   end
@@ -32,7 +32,7 @@ class FrequenciesController < ApplicationController
   # GET /frequencies/1/edit
   def edit
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @frequency }
     end
   end
@@ -46,7 +46,7 @@ class FrequenciesController < ApplicationController
         format.html { redirect_to @frequency, notice: "Frequency was successfully created." }
         format.json { render json: @frequency, status: :created, location: @frequency }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @frequency.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +61,7 @@ class FrequenciesController < ApplicationController
         format.html { redirect_to @frequency, notice: "Frequency was successfully updated.", status: :see_other }
         format.json { render json: @frequency, status: :ok, location: @frequency }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @frequency.errors, status: :unprocessable_entity }
       end
     end

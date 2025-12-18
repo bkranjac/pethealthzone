@@ -45,12 +45,10 @@ export const VaccinesIndex: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-3 text-gray-800">{vaccine.name}</h2>
                 <div className="mb-4 flex-grow">
                   <div className="space-y-1">
-                    {vaccine.description && (
-                      <p className="text-sm">
-                        <span className="font-semibold text-gray-700">Description:</span>{' '}
-                        <span className="text-gray-600">{vaccine.description}</span>
-                      </p>
-                    )}
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Required:</span>{' '}
+                      <span className="text-gray-600">{vaccine.mandatory ? 'Yes' : 'No'}</span>
+                    </p>
                     {vaccine.frequency && (
                       <p className="text-sm">
                         <span className="font-semibold text-gray-700">Frequency:</span>{' '}

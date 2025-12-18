@@ -58,7 +58,7 @@ group :development, :test do
   gem "faker", "~> 3.5"
   gem "shoulda-matchers", "~> 7.0"
 
-  gem 'byebug'
+  gem "byebug"
 end
 
 group :development do

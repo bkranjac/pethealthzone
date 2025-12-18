@@ -2,37 +2,37 @@ class MedicationsController < ApplicationController
   include ApiDelegator
   before_action :set_medication, only: %i[ show edit update destroy ]
 
-  # GET /medications or /medications.json
+# GET /medications or /medications.json
 def index
     delegate_to_api(:index)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medications }
     end
   end
 
-  # GET /medications/1 or /medications/1.json
+# GET /medications/1 or /medications/1.json
 def show
     delegate_to_api(:show)
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medication }
     end
   end
 
-  # GET /medications/new
+# GET /medications/new
 def new
     @medication = Medication.new
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medication }
     end
   end
 
-  # GET /medications/1/edit
+# GET /medications/1/edit
 def edit
     respond_to do |format|
-      format.html { render template: 'spa/index', layout: false }
+      format.html { render template: "spa/index", layout: false }
       format.json { render json: @medication }
     end
   end
@@ -46,7 +46,7 @@ def edit
         format.html { redirect_to @medication, notice: "Medication was successfully created." }
         format.json { render json: @medication, status: :created, location: @medication }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @medication.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +61,7 @@ def edit
         format.html { redirect_to @medication, notice: "Medication was successfully updated.", status: :see_other }
         format.json { render json: @medication, status: :ok, location: @medication }
       else
-        format.html { render template: 'spa/index', layout: false, status: :unprocessable_entity }
+        format.html { render template: "spa/index", layout: false, status: :unprocessable_entity }
         format.json { render json: @medication.errors, status: :unprocessable_entity }
       end
     end
