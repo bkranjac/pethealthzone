@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Pet } from '../../types/pet';
 import { useApi } from '../../hooks/useApi';
 import { useAppNavigate } from '../../hooks/useAppNavigate';
+import { calculateAge, getPetTypeIcon, getGenderIcon } from '../../utils/dateUtils';
 
 export const PetShow: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -73,67 +74,88 @@ export const PetShow: React.FC = () => {
           </div>
         )}
 
-        <div className="flex justify-between items-start mb-6" style={{ marginRight: '280px' }}>
-          <div>
-            <h1 className="text-3xl font-bold mb-2">{pet.name}</h1>
-            {pet.nickname && (
-              <p className="text-gray-600 text-lg">"{pet.nickname}"</p>
-            )}
-          </div>
-          <div className="flex gap-2">
-            <Link
-              to={`/pets/${pet.id}/edit`}
-              className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Edit this pet
-            </Link>
-            <button
-              onClick={handleDelete}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Destroy this pet
-            </button>
-          </div>
+        <div className="mb-6" style={{ marginRight: pet.picture ? '280px' : '0' }}>
+          <h1 className="text-4xl font-bold mb-2 text-gray-800">{pet.name}</h1>
+          {pet.nickname && (
+            <p className="text-gray-600 text-xl italic">"{pet.nickname}"</p>
+          )}
         </div>
 
-        <dl className="grid grid-cols-1 gap-4">
-          <div>
-            <dt className="font-semibold text-gray-700">Type:</dt>
-            <dd className="mt-1">{pet.pet_type}</dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-700">Breed:</dt>
-            <dd className="mt-1">{pet.breed}</dd>
-          </div>
-          {pet.gender && (
+        {/* Pet Information Card */}
+        <div className="bg-gray-50 rounded-lg p-6 mb-6" style={{ marginRight: pet.picture ? '280px' : '0' }}>
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Information</h2>
+          <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <dt className="font-semibold text-gray-700">Gender:</dt>
-              <dd className="mt-1">{pet.gender}</dd>
+              <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+                <span className="text-2xl mr-2">{getPetTypeIcon(pet.pet_type)}</span>
+                Pet Type
+              </dt>
+              <dd className="ml-9 text-gray-900">{pet.pet_type}</dd>
             </div>
-          )}
-          <div>
-            <dt className="font-semibold text-gray-700">Birthday:</dt>
-            <dd className="mt-1">{new Date(pet.birthday).toLocaleDateString()}</dd>
-          </div>
-          <div>
-            <dt className="font-semibold text-gray-700">Date Admitted:</dt>
-            <dd className="mt-1">{new Date(pet.date_admitted).toLocaleDateString()}</dd>
-          </div>
-          {pet.notes && (
             <div>
-              <dt className="font-semibold text-gray-700">Notes:</dt>
-              <dd className="mt-1 whitespace-pre-wrap">{pet.notes}</dd>
+              <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+                <span className="text-2xl mr-2">🏷️</span>
+                Breed
+              </dt>
+              <dd className="ml-9 text-gray-900">{pet.breed}</dd>
             </div>
-          )}
-        </dl>
+            {pet.gender && (
+              <div>
+                <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+                  <span className="text-2xl mr-2">{getGenderIcon(pet.gender)}</span>
+                  Gender
+                </dt>
+                <dd className="ml-9 text-gray-900">{pet.gender}</dd>
+              </div>
+            )}
+            <div>
+              <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+                <span className="text-2xl mr-2">🎂</span>
+                Age
+              </dt>
+              <dd className="ml-9">
+                <div className="text-gray-900">{calculateAge(pet.birthday)}</div>
+                <div className="text-sm text-gray-500">Born: {new Date(pet.birthday).toLocaleDateString()}</div>
+              </dd>
+            </div>
+            <div>
+              <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
+                <span className="text-2xl mr-2">📅</span>
+                Date Admitted
+              </dt>
+              <dd className="ml-9 text-gray-900">{new Date(pet.date_admitted).toLocaleDateString()}</dd>
+            </div>
+          </dl>
+        </div>
 
-        <div className="mt-6">
+        {/* Notes Section */}
+        {pet.notes && (
+          <div className="bg-amber-50 rounded-lg p-6 mb-6" style={{ marginRight: pet.picture ? '280px' : '0' }}>
+            <h2 className="text-xl font-bold mb-3 text-gray-800">Notes</h2>
+            <p className="text-gray-700 whitespace-pre-wrap">{pet.notes}</p>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex gap-3 pt-4 border-t border-gray-200">
           <Link
             to="/pets"
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"
           >
-            Back
+            ← Back to Pets
           </Link>
+          <Link
+            to={`/pets/${pet.id}/edit`}
+            className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+          >
+            Edit
+          </Link>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-colors ml-auto"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

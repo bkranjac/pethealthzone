@@ -108,7 +108,8 @@ describe('PetShow', () => {
     const birthdayDate = new Date('2020-01-15').toLocaleDateString();
     const admittedDate = new Date('2020-02-01').toLocaleDateString();
 
-    expect(screen.getByText(birthdayDate)).toBeInTheDocument();
+    // Birthday is shown in "Born: <date>" format
+    expect(screen.getByText(`Born: ${birthdayDate}`)).toBeInTheDocument();
     expect(screen.getByText(admittedDate)).toBeInTheDocument();
   });
 
@@ -121,11 +122,11 @@ describe('PetShow', () => {
     renderWithRouter(1);
 
     await waitFor(() => {
-      expect(screen.getByText('Edit this pet')).toBeInTheDocument();
-      expect(screen.getByText('Destroy this pet')).toBeInTheDocument();
+      expect(screen.getByText('Edit')).toBeInTheDocument();
+      expect(screen.getByText('Delete')).toBeInTheDocument();
     });
 
-    const editLink = screen.getByText('Edit this pet');
+    const editLink = screen.getByText('Edit');
     expect(editLink).toHaveAttribute('href', '/pets/1/edit');
   });
 
@@ -149,7 +150,7 @@ describe('PetShow', () => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Destroy this pet');
+    const deleteButton = screen.getByText('Delete');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalledWith('Are you sure you want to delete this pet?');
@@ -178,7 +179,7 @@ describe('PetShow', () => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Destroy this pet');
+    const deleteButton = screen.getByText('Delete');
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalled();
@@ -198,7 +199,7 @@ describe('PetShow', () => {
     renderWithRouter(1);
 
     await waitFor(() => {
-      const backLink = screen.getByText('Back');
+      const backLink = screen.getByText('← Back to Pets');
       expect(backLink).toHaveAttribute('href', '/pets');
     });
   });
@@ -226,8 +227,7 @@ describe('PetShow', () => {
 
     // Should not display nickname and notes fields
     expect(screen.queryByText('"')).not.toBeInTheDocument(); // No nickname quotes
-    // Notes section should not be present
-    const noteLabels = screen.queryAllByText('Notes:');
-    expect(noteLabels.length).toBe(0);
+    // Notes section should not be present (no Notes header)
+    expect(screen.queryByText('Notes')).not.toBeInTheDocument();
   });
 });

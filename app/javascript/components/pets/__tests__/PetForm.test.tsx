@@ -42,11 +42,11 @@ describe('PetForm', () => {
     it('renders form in new mode', () => {
       renderWithRouter('new');
 
-      expect(screen.getByText('New Pet')).toBeInTheDocument();
+      expect(screen.getByText('Add New Pet')).toBeInTheDocument();
       expect(screen.getByLabelText(/Name/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Type/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Birthday/)).toBeInTheDocument();
-      expect(screen.getByText('Create Pet')).toBeInTheDocument();
+      expect(screen.getByText('Add Pet')).toBeInTheDocument();
     });
 
     it('submits form with valid data', async () => {
@@ -64,7 +64,7 @@ describe('PetForm', () => {
       await user.type(screen.getByLabelText(/Breed/), 'Labrador');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
 
-      const submitButton = screen.getByText('Create Pet');
+      const submitButton = screen.getByText('Add Pet');
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -96,7 +96,7 @@ describe('PetForm', () => {
       await user.type(screen.getByLabelText(/Type/), 'Dog');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
 
-      const submitButton = screen.getByText('Create Pet');
+      const submitButton = screen.getByText('Add Pet');
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -118,7 +118,7 @@ describe('PetForm', () => {
       await user.type(screen.getByLabelText(/Type/), 'Dog');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
 
-      const submitButton = screen.getByText('Create Pet');
+      const submitButton = screen.getByText('Add Pet');
       fireEvent.click(submitButton);
 
       await waitFor(() => {
@@ -241,7 +241,7 @@ describe('PetForm', () => {
     it('displays cancel button linking to pets index', () => {
       renderWithRouter('new');
 
-      const cancelLink = screen.getByText('Back');
+      const cancelLink = screen.getByText('Cancel');
       expect(cancelLink).toHaveAttribute('href', '/pets');
     });
   });
@@ -257,11 +257,11 @@ describe('PetForm', () => {
       expect(screen.getByLabelText(/Gender/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Birthday/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Date Admitted/)).toBeInTheDocument();
-      expect(screen.getByLabelText(/Picture URL/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Upload Picture/)).toBeInTheDocument();
       expect(screen.getByLabelText(/Notes/)).toBeInTheDocument();
     });
 
-    it('allows entering data in all fields', async () => {
+    it('allows entering data in text fields', async () => {
       const user = userEvent.setup();
       renderWithRouter('new');
 
@@ -271,12 +271,13 @@ describe('PetForm', () => {
       await user.type(screen.getByLabelText(/Breed/), 'Labrador');
       await user.selectOptions(screen.getByLabelText(/Gender/), 'Male');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
-      await user.type(screen.getByLabelText(/Picture URL/), 'http://example.com/buddy.jpg');
       await user.type(screen.getByLabelText(/Notes/), 'Friendly dog');
 
       expect((screen.getByLabelText(/^Name/) as HTMLInputElement).value).toBe('Buddy');
       expect((screen.getByLabelText(/Nickname/) as HTMLInputElement).value).toBe('Bud');
       expect((screen.getByLabelText(/Type/) as HTMLInputElement).value).toBe('Dog');
+      expect((screen.getByLabelText(/Breed/) as HTMLInputElement).value).toBe('Labrador');
+      expect((screen.getByLabelText(/Notes/) as HTMLTextAreaElement).value).toBe('Friendly dog');
     });
   });
 });

@@ -161,185 +161,231 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
   };
 
   return (
-    <div className="pet-form max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">
-        {mode === 'edit' ? 'Edit Pet' : 'New Pet'}
-      </h1>
+    <div className="pet-form max-w-3xl mx-auto">
+      <div className="mb-6">
+        <h1 className="text-4xl font-bold text-gray-800">
+          {mode === 'edit' ? 'Edit Pet' : 'Add New Pet'}
+        </h1>
+        <p className="text-gray-600 mt-2">
+          {mode === 'edit' ? 'Update your pet\'s information' : 'Fill in the details to add a new pet to your care'}
+        </p>
+      </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <strong className="font-bold">Error: </strong>
+          <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
-        <div className="mb-4">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="nickname" className="block font-semibold mb-2">
-            Nickname
-          </label>
-          <input
-            type="text"
-            id="nickname"
-            name="nickname"
-            value={formData.nickname}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="pet_type" className="block font-semibold mb-2">
-            Type <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="pet_type"
-            name="pet_type"
-            value={formData.pet_type}
-            onChange={handleChange}
-            required
-            placeholder="e.g., Dog, Cat, Bird"
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="breed" className="block font-semibold mb-2">
-            Breed
-          </label>
-          <input
-            type="text"
-            id="breed"
-            name="breed"
-            value={formData.breed}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="gender" className="block font-semibold mb-2">
-            Gender
-          </label>
-          <select
-            id="gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="birthday" className="block font-semibold mb-2">
-            Birthday <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="date"
-            id="birthday"
-            name="birthday"
-            value={formData.birthday}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="date_admitted" className="block font-semibold mb-2">
-            Date Admitted <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="date"
-            id="date_admitted"
-            name="date_admitted"
-            value={formData.date_admitted}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="picture" className="block font-semibold mb-2">
-            Picture
-          </label>
-          <input
-            type="file"
-            id="picture"
-            name="picture"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {formData.picture && (
-            <div className="mt-3" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <div
-                style={{
-                  width: '160px',
-                  height: '160px',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: '1px solid #d1d5db',
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-                }}
-              >
-                <img
-                  src={formData.picture}
-                  alt="Pet preview"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              </div>
+      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6">
+        {/* Basic Information Section */}
+        <div className="bg-blue-50 rounded-lg p-5 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Basic Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
+                Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                placeholder="e.g., Buddy"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
-          )}
+
+            <div>
+              <label htmlFor="nickname" className="block text-sm font-semibold text-gray-700 mb-1">
+                Nickname
+              </label>
+              <input
+                type="text"
+                id="nickname"
+                name="nickname"
+                value={formData.nickname}
+                onChange={handleChange}
+                placeholder="e.g., Bud (optional)"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="mb-6">
-          <label htmlFor="notes" className="block font-semibold mb-2">
-            Notes
-          </label>
-          <textarea
-            id="notes"
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            rows={4}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        {/* Physical Details Section */}
+        <div className="bg-green-50 rounded-lg p-5 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Physical Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label htmlFor="pet_type" className="block text-sm font-semibold text-gray-700 mb-1">
+                Type <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="pet_type"
+                name="pet_type"
+                value={formData.pet_type}
+                onChange={handleChange}
+                required
+                placeholder="e.g., Dog, Cat, Bird"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Enter the type of pet</p>
+            </div>
+
+            <div>
+              <label htmlFor="breed" className="block text-sm font-semibold text-gray-700 mb-1">
+                Breed
+              </label>
+              <input
+                type="text"
+                id="breed"
+                name="breed"
+                value={formData.breed}
+                onChange={handleChange}
+                placeholder="e.g., Labrador"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">Specific breed or mix</p>
+            </div>
+
+            <div>
+              <label htmlFor="gender" className="block text-sm font-semibold text-gray-700 mb-1">
+                Gender
+              </label>
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
         </div>
 
-        <div className="flex gap-3">
+        {/* Dates Section */}
+        <div className="bg-purple-50 rounded-lg p-5 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Important Dates</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="birthday" className="block text-sm font-semibold text-gray-700 mb-1">
+                Birthday <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="date"
+                id="birthday"
+                name="birthday"
+                value={formData.birthday}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">When was your pet born?</p>
+            </div>
+
+            <div>
+              <label htmlFor="date_admitted" className="block text-sm font-semibold text-gray-700 mb-1">
+                Date Admitted <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="date"
+                id="date_admitted"
+                name="date_admitted"
+                value={formData.date_admitted}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">When did you start caring for this pet?</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Photo Section */}
+        <div className="bg-pink-50 rounded-lg p-5 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Photo</h2>
+          <div>
+            <label htmlFor="picture" className="block text-sm font-semibold text-gray-700 mb-1">
+              Upload Picture
+            </label>
+            <input
+              type="file"
+              id="picture"
+              name="picture"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            />
+            <p className="text-xs text-gray-500 mt-1">JPG, PNG, or GIF (max 10MB). Images will be automatically resized.</p>
+            {formData.picture && (
+              <div className="mt-4 flex justify-center">
+                <div>
+                  <p className="text-sm font-medium text-gray-700 mb-2 text-center">Preview:</p>
+                  <div
+                    style={{
+                      width: '160px',
+                      height: '160px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      border: '2px solid #d1d5db',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <img
+                      src={formData.picture}
+                      alt="Pet preview"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Additional Information Section */}
+        <div className="bg-amber-50 rounded-lg p-5 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Additional Information</h2>
+          <div>
+            <label htmlFor="notes" className="block text-sm font-semibold text-gray-700 mb-1">
+              Notes
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              rows={4}
+              placeholder="Any special information, medical conditions, dietary restrictions, or behavioral notes..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">Optional notes about your pet</p>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-3 pt-4 border-t border-gray-200">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Saving...' : mode === 'edit' ? 'Update Pet' : 'Create Pet'}
+            {loading ? 'Saving...' : mode === 'edit' ? 'Update Pet' : 'Add Pet'}
           </button>
           <Link
             to="/pets"
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg inline-block transition-colors"
           >
-            Back
+            Cancel
           </Link>
         </div>
       </form>
