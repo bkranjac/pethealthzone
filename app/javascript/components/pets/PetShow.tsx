@@ -51,40 +51,49 @@ export const PetShow: React.FC = () => {
   }
 
   return (
-    <div className="pet-show max-w-2xl mx-auto">
-      <div className="bg-white shadow rounded-lg p-6" style={{ position: 'relative' }}>
-        {pet.picture && (
-          <div style={{ position: 'absolute', top: '24px', right: '24px', zIndex: 10 }}>
-            <div
-              style={{
-                width: '256px',
-                height: '256px',
-                borderRadius: '50%',
-                overflow: 'hidden',
-                border: '2px solid #d1d5db',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-              }}
-            >
-              <img
-                src={pet.picture}
-                alt={pet.name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
-          </div>
-        )}
+    <div className="pet-show" style={{ maxWidth: '500px', margin: '0 auto', padding: '0 1rem' }}>
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        {/* Basic Information Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fef3c7', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Basic Information</h2>
 
-        <div className="mb-6" style={{ marginRight: pet.picture ? '280px' : '0' }}>
-          <h1 className="text-4xl font-bold mb-2 text-gray-800">{pet.name}</h1>
-          {pet.nickname && (
-            <p className="text-gray-600 text-xl italic">"{pet.nickname}"</p>
-          )}
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            {/* Name and nickname on the left */}
+            <div style={{ flex: 1 }}>
+              <h1 className="text-3xl font-bold mb-2 text-gray-800">{pet.name}</h1>
+              {pet.nickname && (
+                <p className="text-gray-600 text-lg italic">"{pet.nickname}"</p>
+              )}
+            </div>
+
+            {/* Photo on the right */}
+            {pet.picture && (
+              <div style={{ flexShrink: 0 }}>
+                <div
+                  style={{
+                    width: '120px',
+                    height: '120px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2px solid #d1d5db',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  <img
+                    src={pet.picture}
+                    alt={pet.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Pet Information Card */}
-        <div className="bg-gray-50 rounded-lg p-6 mb-6" style={{ marginRight: pet.picture ? '280px' : '0' }}>
-          <h2 className="text-xl font-bold mb-4 text-gray-800">Information</h2>
-          <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Physical Details Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#d1fae5', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Physical Details</h2>
+          <dl className="space-y-3">
             <div>
               <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
                 <span className="text-2xl mr-2">{getPetTypeIcon(pet.pet_type)}</span>
@@ -108,6 +117,13 @@ export const PetShow: React.FC = () => {
                 <dd className="ml-9 text-gray-900">{pet.gender}</dd>
               </div>
             )}
+          </dl>
+        </div>
+
+        {/* Dates Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#e9d5ff', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Dates</h2>
+          <dl className="space-y-3">
             <div>
               <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
                 <span className="text-2xl mr-2">🎂</span>
@@ -120,33 +136,34 @@ export const PetShow: React.FC = () => {
             </div>
             <div>
               <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
-                <span className="text-2xl mr-2">📅</span>
+                <span className="text-3xl mr-2">📅</span>
                 Date Admitted
               </dt>
-              <dd className="ml-9 text-gray-900">{new Date(pet.date_admitted).toLocaleDateString()}</dd>
+              <dd className="ml-11 text-gray-900">{new Date(pet.date_admitted).toLocaleDateString()}</dd>
             </div>
           </dl>
         </div>
 
         {/* Notes Section */}
         {pet.notes && (
-          <div className="bg-amber-50 rounded-lg p-6 mb-6" style={{ marginRight: pet.picture ? '280px' : '0' }}>
-            <h2 className="text-xl font-bold mb-3 text-gray-800">Notes</h2>
+          <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fed7aa', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+            <h2 className="text-lg font-bold mb-3 text-gray-800">Notes</h2>
             <p className="text-gray-700 whitespace-pre-wrap">{pet.notes}</p>
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-4 border-t border-gray-200">
+        <div className="flex pt-4 border-t border-gray-200" style={{ gap: '2rem' }}>
           <Link
             to="/pets"
             className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"
           >
-            ← Back to Pets
+            ← Back To Pets
           </Link>
           <Link
             to={`/pets/${pet.id}/edit`}
             className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+            style={{ marginLeft: '1rem' }}
           >
             Edit
           </Link>

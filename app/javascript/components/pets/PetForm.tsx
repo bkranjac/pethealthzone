@@ -161,80 +161,112 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
   };
 
   return (
-    <div className="pet-form max-w-3xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-4xl font-bold text-gray-800">
+    <div className="pet-form" style={{ maxWidth: '500px', margin: '0 auto', padding: '0 1rem' }}>
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold text-gray-800">
           {mode === 'edit' ? 'Edit Pet' : 'Add New Pet'}
         </h1>
-        <p className="text-gray-600 mt-2">
-          {mode === 'edit' ? 'Update your pet\'s information' : 'Fill in the details to add a new pet to your care'}
-        </p>
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
           <strong className="font-bold">Error: </strong>
           <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6">
+      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6" style={{ position: 'relative', width: '100%' }}>
         {/* Basic Information Section */}
-        <div className="bg-blue-50 rounded-lg p-5 mb-6">
-          <h2 className="text-xl font-bold mb-4 text-gray-800">Basic Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
-                Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                placeholder="e.g., Buddy"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fef3c7', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Basic Information</h2>
+
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            {/* Fields on the left */}
+            <div className="space-y-3" style={{ flex: 1 }}>
+              <div>
+                <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  placeholder="e.g., Buddy"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="nickname" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Nickname
+                </label>
+                <input
+                  type="text"
+                  id="nickname"
+                  name="nickname"
+                  value={formData.nickname}
+                  onChange={handleChange}
+                  placeholder="e.g., Bud"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="nickname" className="block text-sm font-semibold text-gray-700 mb-1">
-                Nickname
-              </label>
-              <input
-                type="text"
-                id="nickname"
-                name="nickname"
-                value={formData.nickname}
-                onChange={handleChange}
-                placeholder="e.g., Bud (optional)"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            {/* Photo Preview on the right */}
+            {formData.picture && (
+              <div style={{ flexShrink: 0 }}>
+                <div
+                  style={{
+                    width: '120px',
+                    height: '120px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2px solid #d1d5db',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  <img
+                    src={formData.picture}
+                    alt="Pet preview"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Physical Details Section */}
-        <div className="bg-green-50 rounded-lg p-5 mb-6">
-          <h2 className="text-xl font-bold mb-4 text-gray-800">Physical Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#d1fae5', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Physical Details</h2>
+          <div className="space-y-3">
             <div>
               <label htmlFor="pet_type" className="block text-sm font-semibold text-gray-700 mb-1">
                 Type <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
+              <select
                 id="pet_type"
                 name="pet_type"
                 value={formData.pet_type}
                 onChange={handleChange}
                 required
-                placeholder="e.g., Dog, Cat, Bird"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <p className="text-xs text-gray-500 mt-1">Enter the type of pet</p>
+              >
+                <option value="">Select type</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+                <option value="Bird">Bird</option>
+                <option value="Fish">Fish</option>
+                <option value="Rabbit">Rabbit</option>
+                <option value="Hamster">Hamster</option>
+                <option value="Guinea Pig">Guinea Pig</option>
+                <option value="Reptile">Reptile</option>
+                <option value="Turtle">Turtle</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <div>
@@ -250,7 +282,6 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
                 placeholder="e.g., Labrador"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <p className="text-xs text-gray-500 mt-1">Specific breed or mix</p>
             </div>
 
             <div>
@@ -273,9 +304,9 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
         </div>
 
         {/* Dates Section */}
-        <div className="bg-purple-50 rounded-lg p-5 mb-6">
-          <h2 className="text-xl font-bold mb-4 text-gray-800">Important Dates</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#e9d5ff', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Dates</h2>
+          <div className="space-y-3">
             <div>
               <label htmlFor="birthday" className="block text-sm font-semibold text-gray-700 mb-1">
                 Birthday <span className="text-red-500">*</span>
@@ -289,7 +320,6 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <p className="text-xs text-gray-500 mt-1">When was your pet born?</p>
             </div>
 
             <div>
@@ -305,14 +335,13 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <p className="text-xs text-gray-500 mt-1">When did you start caring for this pet?</p>
             </div>
           </div>
         </div>
 
-        {/* Photo Section */}
-        <div className="bg-pink-50 rounded-lg p-5 mb-6">
-          <h2 className="text-xl font-bold mb-4 text-gray-800">Photo</h2>
+        {/* Photo Upload Section */}
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fce7f3', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Photo</h2>
           <div>
             <label htmlFor="picture" className="block text-sm font-semibold text-gray-700 mb-1">
               Upload Picture
@@ -325,36 +354,13 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
               onChange={handleFileChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
-            <p className="text-xs text-gray-500 mt-1">JPG, PNG, or GIF (max 10MB). Images will be automatically resized.</p>
-            {formData.picture && (
-              <div className="mt-4 flex justify-center">
-                <div>
-                  <p className="text-sm font-medium text-gray-700 mb-2 text-center">Preview:</p>
-                  <div
-                    style={{
-                      width: '160px',
-                      height: '160px',
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      border: '2px solid #d1d5db',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    <img
-                      src={formData.picture}
-                      alt="Pet preview"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
+            <p className="text-xs text-gray-500 mt-1">Max 10MB. Auto-resized.</p>
           </div>
         </div>
 
         {/* Additional Information Section */}
-        <div className="bg-amber-50 rounded-lg p-5 mb-6">
-          <h2 className="text-xl font-bold mb-4 text-gray-800">Additional Information</h2>
+        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#fed7aa', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3 text-gray-800">Additional Information</h2>
           <div>
             <label htmlFor="notes" className="block text-sm font-semibold text-gray-700 mb-1">
               Notes
@@ -364,16 +370,15 @@ export const PetForm: React.FC<PetFormProps> = ({ mode }) => {
               name="notes"
               value={formData.notes}
               onChange={handleChange}
-              rows={4}
-              placeholder="Any special information, medical conditions, dietary restrictions, or behavioral notes..."
+              rows={3}
+              placeholder="Special information, medical conditions, dietary restrictions..."
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <p className="text-xs text-gray-500 mt-1">Optional notes about your pet</p>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-4 border-t border-gray-200">
+        <div className="flex gap-8 pt-4 border-t border-gray-200">
           <button
             type="submit"
             disabled={loading}

@@ -60,7 +60,7 @@ describe('PetForm', () => {
       renderWithRouter('new');
 
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
-      await user.type(screen.getByLabelText(/Type/), 'Dog');
+      await user.selectOptions(screen.getByLabelText(/Type/), 'Dog');
       await user.type(screen.getByLabelText(/Breed/), 'Labrador');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
 
@@ -93,7 +93,7 @@ describe('PetForm', () => {
 
       // Fill in required fields
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
-      await user.type(screen.getByLabelText(/Type/), 'Dog');
+      await user.selectOptions(screen.getByLabelText(/Type/), 'Dog');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
 
       const submitButton = screen.getByText('Add Pet');
@@ -115,7 +115,7 @@ describe('PetForm', () => {
 
       // Fill in required fields
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
-      await user.type(screen.getByLabelText(/Type/), 'Dog');
+      await user.selectOptions(screen.getByLabelText(/Type/), 'Dog');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
 
       const submitButton = screen.getByText('Add Pet');
@@ -267,7 +267,7 @@ describe('PetForm', () => {
 
       await user.type(screen.getByLabelText(/^Name/), 'Buddy');
       await user.type(screen.getByLabelText(/Nickname/), 'Bud');
-      await user.type(screen.getByLabelText(/Type/), 'Dog');
+      await user.selectOptions(screen.getByLabelText(/Type/), 'Dog');
       await user.type(screen.getByLabelText(/Breed/), 'Labrador');
       await user.selectOptions(screen.getByLabelText(/Gender/), 'Male');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
@@ -275,7 +275,7 @@ describe('PetForm', () => {
 
       expect((screen.getByLabelText(/^Name/) as HTMLInputElement).value).toBe('Buddy');
       expect((screen.getByLabelText(/Nickname/) as HTMLInputElement).value).toBe('Bud');
-      expect((screen.getByLabelText(/Type/) as HTMLInputElement).value).toBe('Dog');
+      expect((screen.getByLabelText(/Type/) as HTMLSelectElement).value).toBe('Dog');
       expect((screen.getByLabelText(/Breed/) as HTMLInputElement).value).toBe('Labrador');
       expect((screen.getByLabelText(/Notes/) as HTMLTextAreaElement).value).toBe('Friendly dog');
     });
