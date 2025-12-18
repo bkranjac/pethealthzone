@@ -96,25 +96,25 @@ export const PetShow: React.FC = () => {
           <dl className="space-y-3">
             <div>
               <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
-                <span className="text-2xl mr-2">{getPetTypeIcon(pet.pet_type)}</span>
+                <span className="text-3xl mr-2">{getPetTypeIcon(pet.pet_type)}</span>
                 Pet Type
               </dt>
-              <dd className="ml-9 text-gray-900">{pet.pet_type}</dd>
+              <dd className="ml-11 text-gray-900">{pet.pet_type}</dd>
             </div>
             <div>
               <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
-                <span className="text-2xl mr-2">🏷️</span>
+                <span className="text-3xl mr-2">🏷️</span>
                 Breed
               </dt>
-              <dd className="ml-9 text-gray-900">{pet.breed}</dd>
+              <dd className="ml-11 text-gray-900">{pet.breed}</dd>
             </div>
             {pet.gender && (
               <div>
                 <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
-                  <span className="text-2xl mr-2">{getGenderIcon(pet.gender)}</span>
+                  <span className="text-3xl mr-2">{getGenderIcon(pet.gender)}</span>
                   Gender
                 </dt>
-                <dd className="ml-9 text-gray-900">{pet.gender}</dd>
+                <dd className="ml-11 text-gray-900">{pet.gender}</dd>
               </div>
             )}
           </dl>
@@ -126,10 +126,10 @@ export const PetShow: React.FC = () => {
           <dl className="space-y-3">
             <div>
               <dt className="flex items-center text-sm font-semibold text-gray-700 mb-1">
-                <span className="text-2xl mr-2">🎂</span>
+                <span className="text-3xl mr-2">🎂</span>
                 Age
               </dt>
-              <dd className="ml-9">
+              <dd className="ml-11">
                 <div className="text-gray-900">{calculateAge(pet.birthday)}</div>
                 <div className="text-sm text-gray-500">Born: {new Date(pet.birthday).toLocaleDateString()}</div>
               </dd>
