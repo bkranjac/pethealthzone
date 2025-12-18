@@ -94,7 +94,7 @@ export const PetsIndex: React.FC = () => {
       </div>
 
       {/* Search and Filter Bar */}
-      <div className="mb-6 bg-gray-50 p-4 rounded-lg">
+      <div className="mb-6 p-4 rounded-lg" style={{ backgroundColor: '#dbeafe', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
         <div className="flex flex-wrap gap-3 items-end">
           <div className="flex-1 min-w-[200px]">
             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
@@ -162,15 +162,15 @@ export const PetsIndex: React.FC = () => {
       </div>
 
       {pets.length === 0 ? (
-        <div className="text-center p-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500 text-lg">No pets found. Add your first pet to get started!</p>
+        <div className="text-center p-12 rounded-lg" style={{ backgroundColor: '#fef3c7', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <p className="text-gray-700 text-lg font-semibold">No pets found. Add your first pet to get started!</p>
         </div>
       ) : filteredPets.length === 0 ? (
-        <div className="text-center p-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500 text-lg">No pets match your filters.</p>
+        <div className="text-center p-12 rounded-lg" style={{ backgroundColor: '#fed7aa', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <p className="text-gray-700 text-lg font-semibold">No pets match your filters.</p>
           <button
             onClick={clearFilters}
-            className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md transition-colors"
+            className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-colors shadow-md"
           >
             Clear Filters
           </button>
