@@ -19,8 +19,9 @@ export const InjuryReportForm: React.FC<InjuryReportFormProps> = ({ mode }) => {
   const [formData, setFormData] = useState<InjuryReportFormData>({
     pet_id: 0,
     injury_id: 0,
-    report_date: '',
-    notes: '',
+    date: '',
+    body_part: '',
+    description: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,8 +38,9 @@ export const InjuryReportForm: React.FC<InjuryReportFormProps> = ({ mode }) => {
           setFormData({
             pet_id: data.pet_id,
             injury_id: data.injury_id,
-            report_date: data.report_date,
-            notes: data.notes || '',
+            date: data.date,
+            body_part: data.body_part,
+            description: data.description,
           });
         }
       } catch (err) {
@@ -126,21 +128,32 @@ export const InjuryReportForm: React.FC<InjuryReportFormProps> = ({ mode }) => {
           />
 
           <FormField
-            label="Report Date"
-            name="report_date"
+            label="Date"
+            name="date"
             type="date"
-            value={formData.report_date}
+            value={formData.date}
             onChange={handleChange}
             required
           />
 
           <FormField
-            label="Notes"
-            name="notes"
-            type="textarea"
-            value={formData.notes || ''}
+            label="Body Part"
+            name="body_part"
+            type="text"
+            value={formData.body_part}
             onChange={handleChange}
-            placeholder="Enter any notes"
+            required
+            placeholder="Enter affected body part"
+          />
+
+          <FormField
+            label="Description"
+            name="description"
+            type="textarea"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            placeholder="Enter injury description"
           />
 
           <div className="flex gap-4">

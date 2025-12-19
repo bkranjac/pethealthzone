@@ -18,7 +18,7 @@ const mockSchedules: VaccinationSchedule[] = [
     pet_id: 1,
     vaccine_id: 1,
     frequency_id: 1,
-    date_started: '2025-01-01',
+    date_given: '2025-01-01',
     notes: 'First vaccination',
   },
   {
@@ -26,8 +26,7 @@ const mockSchedules: VaccinationSchedule[] = [
     pet_id: 2,
     vaccine_id: 2,
     frequency_id: 2,
-    date_started: '2025-02-01',
-    date_ended: '2025-03-01',
+    date_given: '2025-02-01',
   },
 ];
 

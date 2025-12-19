@@ -83,9 +83,9 @@ export const PetFoodShow: React.FC = () => {
           </div>
 
           <div>
-            <span className="font-semibold text-gray-700">Date Started:</span>
+            <span className="font-semibold text-gray-700">Started At:</span>
             <p className="text-gray-900 mt-1">
-              {new Date(petFood.date_started).toLocaleDateString()}
+              {new Date(petFood.started_at).toLocaleDateString()}
             </p>
           </div>
 

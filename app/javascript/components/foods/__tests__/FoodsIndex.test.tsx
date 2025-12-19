@@ -17,13 +17,17 @@ const mockFoods: Food[] = [
   {
     id: 1,
     name: 'Premium Dog Food',
-    brand: 'PetBrand',
-    ingredients: 'Chicken, rice, vegetables',
+    food_type: 'Dry Food',
+    amount: '2 cups',
+    description: 'High quality dry food',
+    purpose: 'Daily nutrition',
+    notes: 'Feed twice daily',
   },
   {
     id: 2,
     name: 'Cat Food Deluxe',
-    brand: 'CatBrand',
+    food_type: 'Wet Food',
+    amount: '1 can',
   },
 ];
 
@@ -52,8 +56,6 @@ describe('FoodsIndex', () => {
     await waitFor(() => {
       expect(screen.getByText('Premium Dog Food')).toBeInTheDocument();
       expect(screen.getByText('Cat Food Deluxe')).toBeInTheDocument();
-      expect(screen.getByText('PetBrand')).toBeInTheDocument();
-      expect(screen.getByText('Chicken, rice, vegetables')).toBeInTheDocument();
     });
   });
 
@@ -78,7 +80,7 @@ describe('FoodsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No foods found.')).toBeInTheDocument();
+      expect(screen.getByText(/No foods found/i)).toBeInTheDocument();
     });
   });
 

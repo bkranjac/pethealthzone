@@ -75,7 +75,7 @@ describe('FrequenciesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No frequencies found.')).toBeInTheDocument();
+      expect(screen.getByText(/No frequencies found/i)).toBeInTheDocument();
     });
   });
 

@@ -16,7 +16,7 @@ export const CheckForm: React.FC<CheckFormProps> = ({ mode }) => {
   const { id } = useParams<{ id: string }>();
   const checkId = mode === 'edit' ? parseInt(id || '0', 10) : undefined;
   const [formData, setFormData] = useState<CheckFormData>({
-    name: '',
+    check_type: '',
     frequency_id: 0,
   });
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export const CheckForm: React.FC<CheckFormProps> = ({ mode }) => {
         const data = await apiCall<Check>(`/api/v1/checks/${checkId}`);
         if (data) {
           setFormData({
-            name: data.name,
+            check_type: data.check_type,
             frequency_id: data.frequency_id,
           });
         }
@@ -80,31 +80,37 @@ export const CheckForm: React.FC<CheckFormProps> = ({ mode }) => {
   };
 
   return (
-    <div className="check-form max-w-2xl mx-auto">
-      <div className="bg-white shadow rounded-lg p-6">
-        <h1 className="text-3xl font-bold mb-6">
-          {mode === 'new' ? 'New Check' : 'Edit Check'}
-        </h1>
+    <div className="check-form" style={{ maxWidth: '500px', margin: '0 auto', padding: '0 1rem' }}>
+      <h1 className="text-3xl font-bold mb-6">
+        {mode === 'new' ? 'New Check' : 'Edit Check'}
+      </h1>
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      )}
 
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
+        {/* Basic Information */}
+        <div style={{ backgroundColor: '#fef3c7', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1.5rem', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3">📋 Basic Information</h2>
           <FormField
-            label="Name"
-            name="name"
+            label="Check Type"
+            name="check_type"
             type="text"
-            value={formData.name}
+            value={formData.check_type}
             onChange={handleChange}
             required
-            placeholder="Enter check name"
+            placeholder="Enter check type (e.g., Physical, Dental)"
           />
+        </div>
 
+        {/* Frequency */}
+        <div style={{ backgroundColor: '#d1fae5', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1.5rem', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+          <h2 className="text-lg font-bold mb-3">📅 Frequency</h2>
           <ResourceSelect
-            label="Frequency"
+            label="How Often"
             name="frequency_id"
             value={formData.frequency_id}
             onChange={handleChange}
@@ -114,25 +120,25 @@ export const CheckForm: React.FC<CheckFormProps> = ({ mode }) => {
             loading={frequenciesLoading}
             placeholder="Select frequency"
           />
+        </div>
 
-          <div className="flex gap-4">
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-            >
-              {loading ? 'Saving...' : mode === 'new' ? 'Create Check' : 'Update Check'}
-            </button>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+          >
+            {loading ? 'Saving...' : mode === 'new' ? 'Create Check' : 'Update Check'}
+          </button>
 
-            <Link
-              to="/checks"
-              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
-            >
-              Back
-            </Link>
-          </div>
-        </form>
-      </div>
+          <Link
+            to="/checks"
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-block"
+          >
+            Cancel
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };

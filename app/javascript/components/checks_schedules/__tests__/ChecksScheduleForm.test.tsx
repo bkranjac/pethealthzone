@@ -25,8 +25,9 @@ const mockSchedule: ChecksSchedule = {
   id: 1,
   pet_id: 1,
   check_id: 1,
-  scheduled_date: '2025-01-01',
+  date_created: '2025-01-01',
   notes: 'Regular checkup',
+  performed: false,
 };
 
 const mockPets: Pet[] = [
@@ -35,8 +36,8 @@ const mockPets: Pet[] = [
 ];
 
 const mockChecks: Check[] = [
-  { id: 1, name: 'Annual Physical', description: 'Annual physical exam', frequency_id: 1 },
-  { id: 2, name: 'Dental Checkup', description: 'Dental health checkup', frequency_id: 2 },
+  { id: 1, check_type: 'Annual Physical', frequency_id: 1 },
+  { id: 2, check_type: 'Dental Checkup', frequency_id: 2 },
 ];
 
 describe('ChecksScheduleForm', () => {
@@ -59,7 +60,7 @@ describe('ChecksScheduleForm', () => {
         expect(screen.getByLabelText(/Check/)).toBeInTheDocument();
       });
 
-      expect(screen.getByLabelText(/Scheduled Date/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Date created/)).toBeInTheDocument();
       expect(screen.getByText('Create Checks Schedule')).toBeInTheDocument();
     });
 
@@ -77,11 +78,11 @@ describe('ChecksScheduleForm', () => {
 
       const petSelect = screen.getByLabelText(/Pet/);
       const checkSelect = screen.getByLabelText(/Check/);
-      const scheduledDateInput = screen.getByLabelText(/Scheduled Date/);
+      const dateCreatedInput = screen.getByLabelText(/Date created/);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(checkSelect, { target: { value: '1' } });
-      fireEvent.change(scheduledDateInput, { target: { value: '2025-01-01' } });
+      fireEvent.change(dateCreatedInput, { target: { value: '2025-01-01' } });
 
       const submitButton = screen.getByText('Create Checks Schedule');
       fireEvent.click(submitButton);

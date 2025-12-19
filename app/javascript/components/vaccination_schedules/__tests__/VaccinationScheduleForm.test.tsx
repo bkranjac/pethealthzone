@@ -27,7 +27,7 @@ const mockSchedule: VaccinationSchedule = {
   pet_id: 1,
   vaccine_id: 1,
   frequency_id: 1,
-  date_started: '2025-01-01',
+  date_given: '2025-01-01',
   notes: 'First vaccination',
 };
 
@@ -37,8 +37,8 @@ const mockPets: Pet[] = [
 ];
 
 const mockVaccines: Vaccine[] = [
-  { id: 1, name: 'Rabies', description: 'Rabies vaccine', frequency_id: 1 },
-  { id: 2, name: 'Distemper', description: 'Distemper vaccine', frequency_id: 2 },
+  { id: 1, name: 'Rabies', mandatory: true, frequency_id: 1 },
+  { id: 2, name: 'Distemper', mandatory: false, frequency_id: 2 },
 ];
 
 const mockFrequencies: Frequency[] = [
@@ -68,7 +68,7 @@ describe('VaccinationScheduleForm', () => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
       });
 
-      expect(screen.getByLabelText(/Date Started/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Date given/)).toBeInTheDocument();
       expect(screen.getByText('Create Vaccination Schedule')).toBeInTheDocument();
     });
 
@@ -88,7 +88,7 @@ describe('VaccinationScheduleForm', () => {
       const petSelect = screen.getByLabelText(/Pet/);
       const vaccineSelect = screen.getByLabelText(/Vaccine/);
       const frequencySelect = screen.getByLabelText(/Frequency/);
-      const dateInput = screen.getByLabelText(/Date Started/);
+      const dateInput = screen.getByLabelText(/Date given/);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(vaccineSelect, { target: { value: '1' } });

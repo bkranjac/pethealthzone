@@ -15,12 +15,12 @@ const renderWithRouter = () => {
 const mockChecks: Check[] = [
   {
     id: 1,
-    name: 'Heart Check',
+    check_type: 'Heart Check',
     frequency_id: 1,
   },
   {
     id: 2,
-    name: 'Dental Check',
+    check_type: 'Dental Check',
     frequency_id: 2,
   },
 ];
@@ -74,7 +74,7 @@ describe('ChecksIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No checks found.')).toBeInTheDocument();
+      expect(screen.getByText(/No checks found/i)).toBeInTheDocument();
     });
   });
 

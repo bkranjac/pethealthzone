@@ -24,8 +24,11 @@ const renderWithRouter = (mode: 'new' | 'edit', foodId?: number) => {
 const mockFood: Food = {
   id: 1,
   name: 'Premium Dog Food',
-  brand: 'PetBrand',
-  ingredients: 'Chicken, rice, vegetables',
+  food_type: 'Dry Food',
+  amount: '2 cups',
+  description: 'High quality dry food',
+  purpose: 'Daily nutrition',
+  notes: 'Feed twice daily',
 };
 
 describe('FoodForm', () => {
@@ -39,8 +42,8 @@ describe('FoodForm', () => {
 
       expect(screen.getByText('New Food')).toBeInTheDocument();
       expect(screen.getByLabelText(/Name/)).toBeInTheDocument();
-      expect(screen.getByLabelText(/Brand/)).toBeInTheDocument();
-      expect(screen.getByLabelText(/Ingredients/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Food Type/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Amount/)).toBeInTheDocument();
       expect(screen.getByText('Create Food')).toBeInTheDocument();
     });
 
@@ -53,12 +56,12 @@ describe('FoodForm', () => {
       renderWithRouter('new');
 
       const nameInput = screen.getByLabelText(/Name/);
-      const brandInput = screen.getByLabelText(/Brand/);
-      const ingredientsInput = screen.getByLabelText(/Ingredients/);
+      const foodTypeInput = screen.getByLabelText(/Food Type/);
+      const amountInput = screen.getByLabelText(/Amount/);
 
       fireEvent.change(nameInput, { target: { value: 'Premium Dog Food' } });
-      fireEvent.change(brandInput, { target: { value: 'PetBrand' } });
-      fireEvent.change(ingredientsInput, { target: { value: 'Chicken, rice, vegetables' } });
+      fireEvent.change(foodTypeInput, { target: { value: 'Dry Food' } });
+      fireEvent.change(amountInput, { target: { value: '2 cups' } });
 
       const submitButton = screen.getByText('Create Food');
       fireEvent.click(submitButton);
@@ -83,10 +86,10 @@ describe('FoodForm', () => {
       renderWithRouter('new');
 
       const nameInput = screen.getByLabelText(/Name/);
-      const brandInput = screen.getByLabelText(/Brand/);
+      const foodTypeInput = screen.getByLabelText(/Food Type/);
 
       fireEvent.change(nameInput, { target: { value: 'Test Food' } });
-      fireEvent.change(brandInput, { target: { value: 'Test Brand' } });
+      fireEvent.change(foodTypeInput, { target: { value: 'Test Type' } });
 
       const submitButton = screen.getByText('Create Food');
       fireEvent.click(submitButton);
@@ -104,10 +107,10 @@ describe('FoodForm', () => {
       renderWithRouter('new');
 
       const nameInput = screen.getByLabelText(/Name/);
-      const brandInput = screen.getByLabelText(/Brand/);
+      const foodTypeInput = screen.getByLabelText(/Food Type/);
 
       fireEvent.change(nameInput, { target: { value: 'Test Food' } });
-      fireEvent.change(brandInput, { target: { value: 'Test Brand' } });
+      fireEvent.change(foodTypeInput, { target: { value: 'Test Type' } });
 
       const submitButton = screen.getByText('Create Food');
       fireEvent.click(submitButton);
@@ -133,11 +136,11 @@ describe('FoodForm', () => {
         expect(nameInput.value).toBe('Premium Dog Food');
       });
 
-      const brandInput = screen.getByLabelText(/Brand/) as HTMLInputElement;
-      const ingredientsInput = screen.getByLabelText(/Ingredients/) as HTMLTextAreaElement;
+      const foodTypeInput = screen.getByLabelText(/Food Type/) as HTMLInputElement;
+      const amountInput = screen.getByLabelText(/Amount/) as HTMLInputElement;
 
-      expect(brandInput.value).toBe('PetBrand');
-      expect(ingredientsInput.value).toBe('Chicken, rice, vegetables');
+      expect(foodTypeInput.value).toBe('Dry Food');
+      expect(amountInput.value).toBe('2 cups');
       expect(screen.getByText('Edit Food')).toBeInTheDocument();
     });
 
@@ -149,17 +152,17 @@ describe('FoodForm', () => {
         })
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ ...mockFood, brand: 'NewBrand' }),
+          json: async () => ({ ...mockFood, food_type: 'Wet Food' }),
         });
 
       renderWithRouter('edit', 1);
 
       await waitFor(() => {
-        expect(screen.getByDisplayValue('PetBrand')).toBeInTheDocument();
+        expect(screen.getByDisplayValue('Dry Food')).toBeInTheDocument();
       });
 
-      const brandInput = screen.getByLabelText(/Brand/);
-      fireEvent.change(brandInput, { target: { value: 'NewBrand' } });
+      const foodTypeInput = screen.getByLabelText(/Food Type/);
+      fireEvent.change(foodTypeInput, { target: { value: 'Wet Food' } });
 
       const submitButton = screen.getByText('Update Food');
       fireEvent.click(submitButton);
@@ -167,7 +170,7 @@ describe('FoodForm', () => {
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith('/api/v1/foods/1', expect.objectContaining({
           method: 'PUT',
-          body: expect.stringContaining('"brand":"NewBrand"'),
+          body: expect.stringContaining('"food_type":"Wet Food"'),
         }));
       });
     });

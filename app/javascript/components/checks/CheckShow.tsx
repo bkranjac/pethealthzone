@@ -62,44 +62,39 @@ export const CheckShow: React.FC = () => {
   }
 
   return (
-    <div className="check-show max-w-2xl mx-auto">
-      <div className="bg-white shadow rounded-lg p-6">
-        <h1 className="text-3xl font-bold mb-6">{check.name}</h1>
+    <div className="check-show" style={{ maxWidth: '500px', margin: '0 auto', padding: '0 1rem' }}>
+      <h1 className="text-3xl font-bold mb-6">{check.check_type}</h1>
 
-        <div className="space-y-4">
-          <div>
-            <span className="font-semibold text-gray-700">Frequency:</span>
-            <p className="text-gray-900 mt-1">
-              {check.frequency?.interval_days
-                ? `Every ${check.frequency.interval_days} ${check.frequency.interval_days === 1 ? 'day' : 'days'}`
-                : `Frequency ID: ${check.frequency_id}`}
-            </p>
-          </div>
-        </div>
+      {/* Frequency Section */}
+      <div style={{ backgroundColor: '#d1fae5', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1.5rem', boxShadow: '2px 3px 8px rgba(0, 0, 0, 0.15)' }}>
+        <h2 className="text-lg font-bold mb-3">📅 Frequency</h2>
+        <p className="text-gray-900">
+          {check.frequency?.interval_days
+            ? `Every ${check.frequency.interval_days} ${check.frequency.interval_days === 1 ? 'day' : 'days'}`
+            : `Frequency ID: ${check.frequency_id}`}
+        </p>
+      </div>
 
-        <div className="flex gap-4 mt-6">
-          <Link
-            to={`/checks/${check.id}/edit`}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Edit this check
-          </Link>
-          <button
-            onClick={handleDelete}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Destroy this check
-          </button>
-        </div>
-
-        <div className="mt-6">
-          <Link
-            to="/checks"
-            className="text-blue-500 hover:text-blue-700"
-          >
-            Back
-          </Link>
-        </div>
+      <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem' }}>
+        <Link
+          to={`/checks/${check.id}/edit`}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          style={{ marginLeft: '1rem' }}
+        >
+          Edit
+        </Link>
+        <button
+          onClick={handleDelete}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Delete
+        </button>
+        <Link
+          to="/checks"
+          className="text-blue-500 hover:text-blue-700 py-2"
+        >
+          Back to Checks
+        </Link>
       </div>
     </div>
   );

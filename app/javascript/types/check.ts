@@ -11,7 +11,7 @@ export interface Check {
 }
 
 export interface CheckFormData {
-  name: string;
+  check_type: string;
   description?: string;
   frequency_id: number;
 }

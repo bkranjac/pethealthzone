@@ -19,9 +19,9 @@ export const ChecksScheduleForm: React.FC<ChecksScheduleFormProps> = ({ mode }) 
   const [formData, setFormData] = useState<ChecksScheduleFormData>({
     pet_id: 0,
     check_id: 0,
-    scheduled_date: '',
-    completed_date: '',
+    date_created: '',
     notes: '',
+    performed: false,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,9 +38,9 @@ export const ChecksScheduleForm: React.FC<ChecksScheduleFormProps> = ({ mode }) 
           setFormData({
             pet_id: data.pet_id,
             check_id: data.check_id,
-            scheduled_date: data.scheduled_date,
-            completed_date: data.completed_date || '',
+            date_created: data.date_created,
             notes: data.notes || '',
+            performed: data.performed,
           });
         }
       } catch (err) {
@@ -121,27 +121,19 @@ export const ChecksScheduleForm: React.FC<ChecksScheduleFormProps> = ({ mode }) 
             value={formData.check_id}
             onChange={handleChange}
             options={checks}
-            getLabel={(check) => check.name}
+            getLabel={(check) => check.check_type}
             required
             loading={checksLoading}
             placeholder="Select check"
           />
 
           <FormField
-            label="Scheduled Date"
-            name="scheduled_date"
+            label="Date Created"
+            name="date_created"
             type="date"
-            value={formData.scheduled_date}
+            value={formData.date_created}
             onChange={handleChange}
             required
-          />
-
-          <FormField
-            label="Completed Date"
-            name="completed_date"
-            type="date"
-            value={formData.completed_date || ''}
-            onChange={handleChange}
           />
 
           <FormField

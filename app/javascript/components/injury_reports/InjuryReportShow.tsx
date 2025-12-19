@@ -78,18 +78,21 @@ export const InjuryReportShow: React.FC = () => {
           </div>
 
           <div>
-            <span className="font-semibold text-gray-700">Report Date:</span>
+            <span className="font-semibold text-gray-700">Date:</span>
             <p className="text-gray-900 mt-1">
-              {new Date(report.report_date).toLocaleDateString()}
+              {new Date(report.date).toLocaleDateString()}
             </p>
           </div>
 
-          {report.notes && (
-            <div>
-              <span className="font-semibold text-gray-700">Notes:</span>
-              <p className="text-gray-900 mt-1">{report.notes}</p>
-            </div>
-          )}
+          <div>
+            <span className="font-semibold text-gray-700">Body Part:</span>
+            <p className="text-gray-900 mt-1">{report.body_part}</p>
+          </div>
+
+          <div>
+            <span className="font-semibold text-gray-700">Description:</span>
+            <p className="text-gray-900 mt-1">{report.description}</p>
+          </div>
         </div>
 
         <div className="flex gap-4 mt-6">

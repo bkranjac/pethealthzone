@@ -18,7 +18,7 @@ const mockPetFoods: PetFood[] = [
     pet_id: 1,
     food_id: 1,
     frequency_id: 1,
-    date_started: '2025-01-01',
+    started_at: '2025-01-01',
     notes: 'Morning feeding',
   },
   {
@@ -26,8 +26,7 @@ const mockPetFoods: PetFood[] = [
     pet_id: 2,
     food_id: 2,
     frequency_id: 2,
-    date_started: '2025-02-01',
-    date_ended: '2025-03-01',
+    started_at: '2025-02-01',
   },
 ];
 

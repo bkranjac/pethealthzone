@@ -18,8 +18,9 @@ const mockReport: InjuryReport = {
   id: 1,
   pet_id: 1,
   injury_id: 1,
-  report_date: '2025-01-01',
-  notes: 'First injury report',
+  date: '2025-01-01',
+  body_part: 'Left leg',
+  description: 'First injury report',
 };
 
 describe('InjuryReportShow', () => {

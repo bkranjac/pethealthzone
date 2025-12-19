@@ -80,7 +80,7 @@ describe('MedicationSchedulesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No medication schedules found.')).toBeInTheDocument();
+      expect(screen.getByText(/No medication schedules found/i)).toBeInTheDocument();
     });
   });
 

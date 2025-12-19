@@ -68,14 +68,35 @@ export const FoodShow: React.FC = () => {
 
         <div className="space-y-4">
           <div>
-            <span className="font-semibold text-gray-700">Brand:</span>
-            <p className="text-gray-900 mt-1">{food.brand}</p>
+            <span className="font-semibold text-gray-700">Food Type:</span>
+            <p className="text-gray-900 mt-1">{food.food_type}</p>
           </div>
 
-          {food.ingredients && (
+          {food.amount && (
             <div>
-              <span className="font-semibold text-gray-700">Ingredients:</span>
-              <p className="text-gray-900 mt-1">{food.ingredients}</p>
+              <span className="font-semibold text-gray-700">Amount:</span>
+              <p className="text-gray-900 mt-1">{food.amount}</p>
+            </div>
+          )}
+
+          {food.description && (
+            <div>
+              <span className="font-semibold text-gray-700">Description:</span>
+              <p className="text-gray-900 mt-1">{food.description}</p>
+            </div>
+          )}
+
+          {food.purpose && (
+            <div>
+              <span className="font-semibold text-gray-700">Purpose:</span>
+              <p className="text-gray-900 mt-1">{food.purpose}</p>
+            </div>
+          )}
+
+          {food.notes && (
+            <div>
+              <span className="font-semibold text-gray-700">Notes:</span>
+              <p className="text-gray-900 mt-1">{food.notes}</p>
             </div>
           )}
         </div>
