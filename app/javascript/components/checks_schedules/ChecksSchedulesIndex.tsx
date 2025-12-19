@@ -54,19 +54,17 @@ export const ChecksSchedulesIndex: React.FC = () => {
                       <span className="text-gray-600">{schedule.check_id}</span>
                     </p>
                     <p className="text-sm">
-                      <span className="font-semibold text-gray-700">Scheduled:</span>{' '}
+                      <span className="font-semibold text-gray-700">Created:</span>{' '}
                       <span className="text-gray-600">
-                        {new Date(schedule.scheduled_date).toLocaleDateString()}
+                        {new Date(schedule.date_created).toLocaleDateString()}
                       </span>
                     </p>
-                    {schedule.completed_date && (
-                      <p className="text-sm">
-                        <span className="font-semibold text-gray-700">Completed:</span>{' '}
-                        <span className="text-gray-600">
-                          {new Date(schedule.completed_date).toLocaleDateString()}
-                        </span>
-                      </p>
-                    )}
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Performed:</span>{' '}
+                      <span className="text-gray-600">
+                        {schedule.performed ? 'Yes' : 'No'}
+                      </span>
+                    </p>
                     {schedule.notes && (
                       <p className="text-sm">
                         <span className="font-semibold text-gray-700">Notes:</span>{' '}

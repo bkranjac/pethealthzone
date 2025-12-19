@@ -17,14 +17,17 @@ const mockReports: InjuryReport[] = [
     id: 1,
     pet_id: 1,
     injury_id: 1,
-    report_date: '2025-01-01',
-    notes: 'First injury report',
+    date: '2025-01-01',
+    body_part: 'Left leg',
+    description: 'First injury report',
   },
   {
     id: 2,
     pet_id: 2,
     injury_id: 2,
-    report_date: '2025-02-01',
+    date: '2025-02-01',
+    body_part: 'Right paw',
+    description: 'Second injury report',
   },
 ];
 

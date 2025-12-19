@@ -54,17 +54,19 @@ export const InjuryReportsIndex: React.FC = () => {
                       <span className="text-gray-600">{report.injury_id}</span>
                     </p>
                     <p className="text-sm">
-                      <span className="font-semibold text-gray-700">Report Date:</span>{' '}
+                      <span className="font-semibold text-gray-700">Date:</span>{' '}
                       <span className="text-gray-600">
-                        {new Date(report.report_date).toLocaleDateString()}
+                        {new Date(report.date).toLocaleDateString()}
                       </span>
                     </p>
-                    {report.notes && (
-                      <p className="text-sm">
-                        <span className="font-semibold text-gray-700">Notes:</span>{' '}
-                        <span className="text-gray-600">{report.notes}</span>
-                      </p>
-                    )}
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Body Part:</span>{' '}
+                      <span className="text-gray-600">{report.body_part}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Description:</span>{' '}
+                      <span className="text-gray-600">{report.description}</span>
+                    </p>
                   </div>
                 </div>
 

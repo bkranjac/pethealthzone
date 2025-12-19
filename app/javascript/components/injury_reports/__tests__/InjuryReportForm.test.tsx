@@ -25,8 +25,9 @@ const mockReport: InjuryReport = {
   id: 1,
   pet_id: 1,
   injury_id: 1,
-  report_date: '2025-01-01',
-  notes: 'First injury report',
+  body_part: 'Left paw',
+  description: 'First injury report',
+  date: '2025-01-01',
 };
 
 const mockPets: Pet[] = [
@@ -59,7 +60,7 @@ describe('InjuryReportForm', () => {
         expect(screen.getByLabelText(/Injury/)).toBeInTheDocument();
       });
 
-      expect(screen.getByLabelText(/Report Date/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Date/)).toBeInTheDocument();
       expect(screen.getByText('Create Injury Report')).toBeInTheDocument();
     });
 
@@ -77,7 +78,7 @@ describe('InjuryReportForm', () => {
 
       const petSelect = screen.getByLabelText(/Pet/);
       const injurySelect = screen.getByLabelText(/Injury/);
-      const dateInput = screen.getByLabelText(/Report Date/);
+      const dateInput = screen.getByLabelText(/Date/);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(injurySelect, { target: { value: '1' } });

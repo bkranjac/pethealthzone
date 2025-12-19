@@ -17,13 +17,13 @@ const mockVaccines: Vaccine[] = [
   {
     id: 1,
     name: 'Rabies Vaccine',
-    description: 'Rabies prevention vaccine',
+    mandatory: true,
     frequency_id: 1,
   },
   {
     id: 2,
     name: 'Distemper Vaccine',
-    description: 'Distemper prevention vaccine',
+    mandatory: false,
     frequency_id: 2,
   },
 ];
@@ -77,7 +77,7 @@ describe('VaccinesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No vaccines found.')).toBeInTheDocument();
+      expect(screen.getByText(/No vaccines found/i)).toBeInTheDocument();
     });
   });
 

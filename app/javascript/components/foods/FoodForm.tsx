@@ -14,8 +14,11 @@ export const FoodForm: React.FC<FoodFormProps> = ({ mode }) => {
   const foodId = mode === 'edit' ? parseInt(id || '0', 10) : undefined;
   const [formData, setFormData] = useState<FoodFormData>({
     name: '',
-    brand: '',
-    ingredients: '',
+    food_type: '',
+    amount: '',
+    description: '',
+    purpose: '',
+    notes: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,8 +32,11 @@ export const FoodForm: React.FC<FoodFormProps> = ({ mode }) => {
         if (data) {
           setFormData({
             name: data.name,
-            brand: data.brand,
-            ingredients: data.ingredients || '',
+            food_type: data.food_type,
+            amount: data.amount || '',
+            description: data.description || '',
+            purpose: data.purpose || '',
+            notes: data.notes || '',
           });
         }
       } catch (err) {
@@ -102,22 +108,49 @@ export const FoodForm: React.FC<FoodFormProps> = ({ mode }) => {
           />
 
           <FormField
-            label="Brand"
-            name="brand"
+            label="Food Type"
+            name="food_type"
             type="text"
-            value={formData.brand}
+            value={formData.food_type}
             onChange={handleChange}
             required
-            placeholder="Enter brand name"
+            placeholder="Enter food type (e.g., Dry, Wet, Raw)"
           />
 
           <FormField
-            label="Ingredients"
-            name="ingredients"
-            type="textarea"
-            value={formData.ingredients || ''}
+            label="Amount"
+            name="amount"
+            type="text"
+            value={formData.amount || ''}
             onChange={handleChange}
-            placeholder="Enter ingredients (optional)"
+            placeholder="Enter amount (e.g., 5kg, 12oz)"
+          />
+
+          <FormField
+            label="Description"
+            name="description"
+            type="textarea"
+            value={formData.description || ''}
+            onChange={handleChange}
+            placeholder="Enter description (optional)"
+          />
+
+          <FormField
+            label="Purpose"
+            name="purpose"
+            type="text"
+            value={formData.purpose || ''}
+            onChange={handleChange}
+            placeholder="Enter purpose (e.g., Weight Management, Sensitive Stomach)"
+          />
+
+          <FormField
+            label="Notes"
+            name="notes"
+            type="textarea"
+            value={formData.notes || ''}
+            onChange={handleChange}
+            placeholder="Enter any additional notes (optional)"
           />
 
           <div className="flex gap-4">

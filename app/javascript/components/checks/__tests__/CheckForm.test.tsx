@@ -22,7 +22,7 @@ const renderWithRouter = (mode: 'new' | 'edit', checkId?: number) => {
 
 const mockCheck: Check = {
   id: 1,
-  name: 'Heart Check',
+  check_type: 'Heart Check',
   frequency_id: 1,
 };
 
@@ -46,7 +46,7 @@ describe('CheckForm', () => {
       renderWithRouter('new');
 
       expect(screen.getByText('New Check')).toBeInTheDocument();
-      expect(screen.getByLabelText(/Name/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Check Type/)).toBeInTheDocument();
 
       await waitFor(() => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('CheckForm', () => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
       });
 
-      const nameInput = screen.getByLabelText(/Name/);
+      const nameInput = screen.getByLabelText(/Check Type/);
       const frequencySelect = screen.getByLabelText(/Frequency/);
 
       fireEvent.change(nameInput, { target: { value: 'Heart Check' } });
@@ -84,7 +84,7 @@ describe('CheckForm', () => {
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith('/api/v1/checks', expect.objectContaining({
           method: 'POST',
-          body: expect.stringContaining('"name":"Heart Check"'),
+          body: expect.stringContaining('"check_type":"Heart Check"'),
         }));
       });
     });
@@ -105,7 +105,7 @@ describe('CheckForm', () => {
       renderWithRouter('edit', 1);
 
       await waitFor(() => {
-        const nameInput = screen.getByLabelText(/Name/) as HTMLInputElement;
+        const nameInput = screen.getByLabelText(/Check Type/) as HTMLInputElement;
         expect(nameInput.value).toBe('Heart Check');
       });
 
@@ -124,7 +124,7 @@ describe('CheckForm', () => {
         })
         .mockResolvedValueOnce({
           ok: true,
-          json: async () => ({ ...mockCheck, name: 'Updated Check' }),
+          json: async () => ({ ...mockCheck, check_type: 'Updated Check' }),
         });
 
       renderWithRouter('edit', 1);
@@ -133,7 +133,7 @@ describe('CheckForm', () => {
         expect(screen.getByDisplayValue('Heart Check')).toBeInTheDocument();
       });
 
-      const nameInput = screen.getByLabelText(/Name/);
+      const nameInput = screen.getByLabelText(/Check Type/);
       fireEvent.change(nameInput, { target: { value: 'Updated Check' } });
 
       const submitButton = screen.getByText('Update Check');
@@ -142,14 +142,14 @@ describe('CheckForm', () => {
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith('/api/v1/checks/1', expect.objectContaining({
           method: 'PUT',
-          body: expect.stringContaining('"name":"Updated Check"'),
+          body: expect.stringContaining('"check_type":"Updated Check"'),
         }));
       });
     });
   });
 
   describe('Navigation', () => {
-    it('displays back button linking to checks index', async () => {
+    it('displays cancel button linking to checks index', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => mockFrequencies,
@@ -158,8 +158,8 @@ describe('CheckForm', () => {
       renderWithRouter('new');
 
       await waitFor(() => {
-        const backLink = screen.getByText('Back');
-        expect(backLink).toHaveAttribute('href', '/checks');
+        const cancelLink = screen.getByText('Cancel');
+        expect(cancelLink).toHaveAttribute('href', '/checks');
       });
     });
   });

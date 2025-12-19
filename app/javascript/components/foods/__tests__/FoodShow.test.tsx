@@ -18,8 +18,11 @@ const renderWithRouter = (foodId: number) => {
 const mockFood: Food = {
   id: 1,
   name: 'Premium Dog Food',
-  brand: 'PetBrand',
-  ingredients: 'Chicken, rice, vegetables',
+  food_type: 'Dry Food',
+  amount: '2 cups',
+  description: 'High quality dry food',
+  purpose: 'Daily nutrition',
+  notes: 'Feed twice daily',
 };
 
 describe('FoodShow', () => {
@@ -48,9 +51,6 @@ describe('FoodShow', () => {
     await waitFor(() => {
       expect(screen.getByText('Premium Dog Food')).toBeInTheDocument();
     });
-
-    expect(screen.getByText('PetBrand')).toBeInTheDocument();
-    expect(screen.getByText('Chicken, rice, vegetables')).toBeInTheDocument();
   });
 
   it('displays error message when fetch fails', async () => {

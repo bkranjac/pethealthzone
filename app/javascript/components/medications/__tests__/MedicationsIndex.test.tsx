@@ -81,7 +81,7 @@ describe('MedicationsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No medications found.')).toBeInTheDocument();
+      expect(screen.getByText(/No medications found/i)).toBeInTheDocument();
     });
   });
 

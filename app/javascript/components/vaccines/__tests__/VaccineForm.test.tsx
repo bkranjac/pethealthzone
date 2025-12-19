@@ -23,7 +23,7 @@ const renderWithRouter = (mode: 'new' | 'edit', vaccineId?: number) => {
 const mockVaccine: Vaccine = {
   id: 1,
   name: 'Rabies Vaccine',
-  description: 'Rabies prevention vaccine',
+  mandatory: true,
   frequency_id: 1,
 };
 
@@ -48,7 +48,7 @@ describe('VaccineForm', () => {
 
       expect(screen.getByText('New Vaccine')).toBeInTheDocument();
       expect(screen.getByLabelText(/Name/)).toBeInTheDocument();
-      expect(screen.getByLabelText(/Description/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Mandatory/)).toBeInTheDocument();
 
       await waitFor(() => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
@@ -75,11 +75,11 @@ describe('VaccineForm', () => {
       });
 
       const nameInput = screen.getByLabelText(/Name/);
-      const descriptionInput = screen.getByLabelText(/Description/);
+      const mandatoryCheckbox = screen.getByLabelText(/Mandatory/);
       const frequencySelect = screen.getByLabelText(/Frequency/);
 
       fireEvent.change(nameInput, { target: { value: 'Rabies Vaccine' } });
-      fireEvent.change(descriptionInput, { target: { value: 'Rabies prevention vaccine' } });
+      fireEvent.click(mandatoryCheckbox);
       fireEvent.change(frequencySelect, { target: { value: '1' } });
 
       const submitButton = screen.getByText('Create Vaccine');
@@ -113,8 +113,6 @@ describe('VaccineForm', () => {
         expect(nameInput.value).toBe('Rabies Vaccine');
       });
 
-      const descriptionInput = screen.getByLabelText(/Description/) as HTMLInputElement;
-      expect(descriptionInput.value).toBe('Rabies prevention vaccine');
       expect(screen.getByText('Edit Vaccine')).toBeInTheDocument();
     });
 

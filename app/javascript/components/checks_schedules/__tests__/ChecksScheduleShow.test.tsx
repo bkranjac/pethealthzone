@@ -18,8 +18,9 @@ const mockSchedule: ChecksSchedule = {
   id: 1,
   pet_id: 1,
   check_id: 1,
-  scheduled_date: '2025-01-01',
+  date_created: '2025-01-01',
   notes: 'Regular checkup',
+  performed: false,
 };
 
 describe('ChecksScheduleShow', () => {

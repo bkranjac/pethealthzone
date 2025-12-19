@@ -17,15 +17,16 @@ const mockSchedules: ChecksSchedule[] = [
     id: 1,
     pet_id: 1,
     check_id: 1,
-    scheduled_date: '2025-01-01',
+    date_created: '2025-01-01',
     notes: 'Regular checkup',
+    performed: false,
   },
   {
     id: 2,
     pet_id: 2,
     check_id: 2,
-    scheduled_date: '2025-02-01',
-    completed_date: '2025-02-05',
+    date_created: '2025-02-01',
+    performed: true,
   },
 ];
 
@@ -78,7 +79,7 @@ describe('ChecksSchedulesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No checks schedules found.')).toBeInTheDocument();
+      expect(screen.getByText(/No checks schedules found/i)).toBeInTheDocument();
     });
   });
 

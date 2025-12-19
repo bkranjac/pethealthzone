@@ -78,20 +78,18 @@ export const ChecksScheduleShow: React.FC = () => {
           </div>
 
           <div>
-            <span className="font-semibold text-gray-700">Scheduled Date:</span>
+            <span className="font-semibold text-gray-700">Date Created:</span>
             <p className="text-gray-900 mt-1">
-              {new Date(schedule.scheduled_date).toLocaleDateString()}
+              {new Date(schedule.date_created).toLocaleDateString()}
             </p>
           </div>
 
-          {schedule.completed_date && (
-            <div>
-              <span className="font-semibold text-gray-700">Completed Date:</span>
-              <p className="text-gray-900 mt-1">
-                {new Date(schedule.completed_date).toLocaleDateString()}
-              </p>
-            </div>
-          )}
+          <div>
+            <span className="font-semibold text-gray-700">Performed:</span>
+            <p className="text-gray-900 mt-1">
+              {schedule.performed ? 'Yes' : 'No'}
+            </p>
+          </div>
 
           {schedule.notes && (
             <div>

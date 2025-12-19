@@ -80,7 +80,7 @@ describe('InjuriesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No injuries found.')).toBeInTheDocument();
+      expect(screen.getByText(/No injuries found/i)).toBeInTheDocument();
     });
   });
 

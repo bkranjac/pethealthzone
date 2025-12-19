@@ -27,7 +27,7 @@ const mockPetFood: PetFood = {
   pet_id: 1,
   food_id: 1,
   frequency_id: 1,
-  date_started: '2025-01-01',
+  started_at: '2025-01-01',
   notes: 'Morning feeding',
 };
 
@@ -37,8 +37,8 @@ const mockPets: Pet[] = [
 ];
 
 const mockFoods: Food[] = [
-  { id: 1, name: 'Dry Dog Food', brand: 'Purina', ingredients: 'Chicken, rice' },
-  { id: 2, name: 'Wet Cat Food', brand: 'Fancy Feast', ingredients: 'Salmon, gravy' },
+  { id: 1, name: 'Dry Dog Food', food_type: 'Dry Food', amount: '2 cups' },
+  { id: 2, name: 'Wet Cat Food', food_type: 'Wet Food', amount: '1 can' },
 ];
 
 const mockFrequencies: Frequency[] = [
@@ -68,7 +68,7 @@ describe('PetFoodForm', () => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
       });
 
-      expect(screen.getByLabelText(/Date Started/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Started at/)).toBeInTheDocument();
       expect(screen.getByText('Create Pet Food')).toBeInTheDocument();
     });
 
@@ -88,7 +88,7 @@ describe('PetFoodForm', () => {
       const petSelect = screen.getByLabelText(/Pet/);
       const foodSelect = screen.getByLabelText(/Food/);
       const frequencySelect = screen.getByLabelText(/Frequency/);
-      const dateInput = screen.getByLabelText(/Date Started/);
+      const dateInput = screen.getByLabelText(/Started at/);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(foodSelect, { target: { value: '1' } });

@@ -58,19 +58,11 @@ export const VaccinationSchedulesIndex: React.FC = () => {
                       <span className="text-gray-600">{schedule.frequency_id}</span>
                     </p>
                     <p className="text-sm">
-                      <span className="font-semibold text-gray-700">Started:</span>{' '}
+                      <span className="font-semibold text-gray-700">Date Given:</span>{' '}
                       <span className="text-gray-600">
-                        {new Date(schedule.date_started).toLocaleDateString()}
+                        {new Date(schedule.date_given).toLocaleDateString()}
                       </span>
                     </p>
-                    {schedule.date_ended && (
-                      <p className="text-sm">
-                        <span className="font-semibold text-gray-700">Ended:</span>{' '}
-                        <span className="text-gray-600">
-                          {new Date(schedule.date_ended).toLocaleDateString()}
-                        </span>
-                      </p>
-                    )}
                     {schedule.notes && (
                       <p className="text-sm">
                         <span className="font-semibold text-gray-700">Notes:</span>{' '}

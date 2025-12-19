@@ -21,8 +21,7 @@ export const VaccinationScheduleForm: React.FC<VaccinationScheduleFormProps> = (
     pet_id: 0,
     vaccine_id: 0,
     frequency_id: 0,
-    date_started: '',
-    date_ended: '',
+    date_given: '',
     notes: '',
   });
   const [loading, setLoading] = useState(false);
@@ -42,8 +41,7 @@ export const VaccinationScheduleForm: React.FC<VaccinationScheduleFormProps> = (
             pet_id: data.pet_id,
             vaccine_id: data.vaccine_id,
             frequency_id: data.frequency_id,
-            date_started: data.date_started,
-            date_ended: data.date_ended || '',
+            date_given: data.date_given,
             notes: data.notes || '',
           });
         }
@@ -144,20 +142,12 @@ export const VaccinationScheduleForm: React.FC<VaccinationScheduleFormProps> = (
           />
 
           <FormField
-            label="Date Started"
-            name="date_started"
+            label="Date Given"
+            name="date_given"
             type="date"
-            value={formData.date_started}
+            value={formData.date_given}
             onChange={handleChange}
             required
-          />
-
-          <FormField
-            label="Date Ended"
-            name="date_ended"
-            type="date"
-            value={formData.date_ended || ''}
-            onChange={handleChange}
           />
 
           <FormField

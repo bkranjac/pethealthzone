@@ -16,7 +16,7 @@ const renderWithRouter = (checkId: number) => {
 
 const mockCheck: Check = {
   id: 1,
-  name: 'Heart Check',
+  check_type: 'Heart Check',
   frequency_id: 1,
 };
 

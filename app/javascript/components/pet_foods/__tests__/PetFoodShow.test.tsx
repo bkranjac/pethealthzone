@@ -19,7 +19,7 @@ const mockPetFood: PetFood = {
   pet_id: 1,
   food_id: 1,
   frequency_id: 1,
-  date_started: '2025-01-01',
+  started_at: '2025-01-01',
   notes: 'Morning feeding',
 };
 

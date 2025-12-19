@@ -21,8 +21,7 @@ export const PetFoodForm: React.FC<PetFoodFormProps> = ({ mode }) => {
     pet_id: 0,
     food_id: 0,
     frequency_id: 0,
-    date_started: '',
-    date_ended: '',
+    started_at: '',
     notes: '',
   });
   const [loading, setLoading] = useState(false);
@@ -42,8 +41,7 @@ export const PetFoodForm: React.FC<PetFoodFormProps> = ({ mode }) => {
             pet_id: data.pet_id,
             food_id: data.food_id,
             frequency_id: data.frequency_id,
-            date_started: data.date_started,
-            date_ended: data.date_ended || '',
+            started_at: data.started_at,
             notes: data.notes || '',
           });
         }
@@ -144,20 +142,12 @@ export const PetFoodForm: React.FC<PetFoodFormProps> = ({ mode }) => {
           />
 
           <FormField
-            label="Date Started"
-            name="date_started"
+            label="Started At"
+            name="started_at"
             type="date"
-            value={formData.date_started}
+            value={formData.started_at}
             onChange={handleChange}
             required
-          />
-
-          <FormField
-            label="Date Ended"
-            name="date_ended"
-            type="date"
-            value={formData.date_ended || ''}
-            onChange={handleChange}
           />
 
           <FormField

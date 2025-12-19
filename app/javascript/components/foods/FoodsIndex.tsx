@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useResource } from '../../hooks/useResource';
 import { Food } from '../../types/food';
+import { PostItCard } from '../common/PostItCard';
 
 export const FoodsIndex: React.FC = () => {
   const { data: foods, loading, error, deleteItem } = useResource<Food>('/api/v1/foods');
@@ -13,74 +14,78 @@ export const FoodsIndex: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading foods...</div>;
+    return <div className="text-center p-4">Loading foods...</div>;
   }
 
   if (error) {
-    return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        {error}
-      </div>
-    );
+    return <div className="text-center p-4 text-red-600">Error: {error}</div>;
   }
 
   return (
-    <div className="foods-index">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Foods</h1>
+    <div className="foods-index max-w-7xl mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-gray-800">Foods</h1>
         <Link
           to="/foods/new"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all"
         >
-          New food
+          + Add Food
         </Link>
       </div>
 
       {foods.length === 0 ? (
-        <p className="text-gray-600">No foods found.</p>
+        <div className="text-center p-12 bg-gray-50 rounded-lg">
+          <p className="text-gray-500 text-lg">No foods found. Add your first food to get started!</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {foods.map((food) => (
-            <div
-              key={food.id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
-            >
-              <h2 className="text-xl font-semibold mb-2">{food.name}</h2>
-              <p className="text-gray-600 mb-1">
-                <span className="font-medium">Type:</span> {food.food_type}
-              </p>
-              {food.amount && (
-                <p className="text-gray-600 mb-1 text-sm">
-                  <span className="font-medium">Amount:</span> {food.amount}
-                </p>
-              )}
-              {food.purpose && (
-                <p className="text-gray-600 mb-3 text-sm">
-                  <span className="font-medium">Purpose:</span> {food.purpose}
-                </p>
-              )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {foods.map((food, index) => (
+            <PostItCard key={food.id} colorIndex={index}>
+              <div className="min-h-[200px] flex flex-col">
+                <h2 className="text-2xl font-bold mb-3 text-gray-800">{food.name}</h2>
+                <div className="mb-4 flex-grow">
+                  <div className="space-y-1">
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-700">Type:</span>{' '}
+                      <span className="text-gray-600">{food.food_type}</span>
+                    </p>
+                    {food.amount && (
+                      <p className="text-sm">
+                        <span className="font-semibold text-gray-700">Amount:</span>{' '}
+                        <span className="text-gray-600">{food.amount}</span>
+                      </p>
+                    )}
+                    {food.purpose && (
+                      <p className="text-sm">
+                        <span className="font-semibold text-gray-700">Purpose:</span>{' '}
+                        <span className="text-gray-600">{food.purpose}</span>
+                      </p>
+                    )}
+                  </div>
+                </div>
 
-              <div className="flex gap-2 mt-4">
-                <Link
-                  to={`/foods/${food.id}`}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  View
-                </Link>
-                <Link
-                  to={`/foods/${food.id}/edit`}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(food.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm"
-                >
-                  Delete
-                </button>
+                <div className="flex gap-2 mt-auto pt-4 border-t border-gray-300">
+                  <Link
+                    to={`/foods/${food.id}`}
+                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/foods/${food.id}/edit`}
+                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 text-center transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(food.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded flex-1 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
+            </PostItCard>
           ))}
         </div>
       )}

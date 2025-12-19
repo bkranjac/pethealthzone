@@ -58,19 +58,11 @@ export const PetFoodsIndex: React.FC = () => {
                       <span className="text-gray-600">{petFood.frequency_id}</span>
                     </p>
                     <p className="text-sm">
-                      <span className="font-semibold text-gray-700">Started:</span>{' '}
+                      <span className="font-semibold text-gray-700">Started At:</span>{' '}
                       <span className="text-gray-600">
-                        {new Date(petFood.date_started).toLocaleDateString()}
+                        {new Date(petFood.started_at).toLocaleDateString()}
                       </span>
                     </p>
-                    {petFood.date_ended && (
-                      <p className="text-sm">
-                        <span className="font-semibold text-gray-700">Ended:</span>{' '}
-                        <span className="text-gray-600">
-                          {new Date(petFood.date_ended).toLocaleDateString()}
-                        </span>
-                      </p>
-                    )}
                     {petFood.notes && (
                       <p className="text-sm">
                         <span className="font-semibold text-gray-700">Notes:</span>{' '}

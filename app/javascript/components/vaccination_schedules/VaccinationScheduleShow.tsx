@@ -83,9 +83,9 @@ export const VaccinationScheduleShow: React.FC = () => {
           </div>
 
           <div>
-            <span className="font-semibold text-gray-700">Date Started:</span>
+            <span className="font-semibold text-gray-700">Date Given:</span>
             <p className="text-gray-900 mt-1">
-              {new Date(schedule.date_started).toLocaleDateString()}
+              {new Date(schedule.date_given).toLocaleDateString()}
             </p>
           </div>
 

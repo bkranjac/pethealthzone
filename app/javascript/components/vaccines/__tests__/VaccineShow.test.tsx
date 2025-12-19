@@ -17,7 +17,7 @@ const renderWithRouter = (vaccineId: number) => {
 const mockVaccine: Vaccine = {
   id: 1,
   name: 'Rabies Vaccine',
-  description: 'Rabies prevention vaccine',
+  mandatory: true,
   frequency_id: 1,
 };
 
@@ -47,8 +47,6 @@ describe('VaccineShow', () => {
     await waitFor(() => {
       expect(screen.getByText('Rabies Vaccine')).toBeInTheDocument();
     });
-
-    expect(screen.getByText('Rabies prevention vaccine')).toBeInTheDocument();
   });
 
   it('displays error message when fetch fails', async () => {
