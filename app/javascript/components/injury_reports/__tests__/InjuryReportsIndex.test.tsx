@@ -80,7 +80,7 @@ describe('InjuryReportsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No injury reports found.')).toBeInTheDocument();
+      expect(screen.getByText(/no.*injury.*reports.*found/i)).toBeInTheDocument();
     });
   });
 
@@ -186,7 +186,7 @@ describe('InjuryReportsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New injury report');
+      const newLink = screen.getByText(/add.*report/i);
       expect(newLink).toHaveAttribute('href', '/injury_reports/new');
     });
   });

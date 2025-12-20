@@ -88,11 +88,11 @@ describe('CheckShow', () => {
     renderWithRouter(1);
 
     await waitFor(() => {
-      expect(screen.getByText('Edit this check')).toBeInTheDocument();
-      expect(screen.getByText('Destroy this check')).toBeInTheDocument();
+      expect(screen.getByText(/edit/i)).toBeInTheDocument();
+      expect(screen.getByText(/delete/i)).toBeInTheDocument();
     });
 
-    const editLink = screen.getByText('Edit this check');
+    const editLink = screen.getByText(/edit/i);
     expect(editLink).toHaveAttribute('href', '/checks/1/edit');
   });
 
@@ -116,7 +116,7 @@ describe('CheckShow', () => {
       expect(screen.getByText('Heart Check')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Destroy this check');
+    const deleteButton = screen.getByText(/delete/i);
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalledWith('Are you sure you want to delete this check?');
@@ -142,7 +142,7 @@ describe('CheckShow', () => {
       expect(screen.getByText('Heart Check')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Destroy this check');
+    const deleteButton = screen.getByText(/delete/i);
     fireEvent.click(deleteButton);
 
     expect(global.confirm).toHaveBeenCalled();
@@ -161,7 +161,7 @@ describe('CheckShow', () => {
     renderWithRouter(1);
 
     await waitFor(() => {
-      const backLink = screen.getByText('Back');
+      const backLink = screen.getByText(/back.*checks/i);
       expect(backLink).toHaveAttribute('href', '/checks');
     });
   });

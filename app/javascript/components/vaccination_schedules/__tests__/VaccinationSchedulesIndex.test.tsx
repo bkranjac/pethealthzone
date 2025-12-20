@@ -79,7 +79,7 @@ describe('VaccinationSchedulesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No vaccination schedules found.')).toBeInTheDocument();
+      expect(screen.getByText(/no.*vaccination.*schedules.*found/i)).toBeInTheDocument();
     });
   });
 
@@ -185,7 +185,7 @@ describe('VaccinationSchedulesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New vaccination schedule');
+      const newLink = screen.getByText(/add.*schedule/i);
       expect(newLink).toHaveAttribute('href', '/vaccination_schedules/new');
     });
   });

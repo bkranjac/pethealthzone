@@ -89,15 +89,6 @@ export const VaccinationScheduleShow: React.FC = () => {
             </p>
           </div>
 
-          {schedule.date_ended && (
-            <div>
-              <span className="font-semibold text-gray-700">Date Ended:</span>
-              <p className="text-gray-900 mt-1">
-                {new Date(schedule.date_ended).toLocaleDateString()}
-              </p>
-            </div>
-          )}
-
           {schedule.notes && (
             <div>
               <span className="font-semibold text-gray-700">Notes:</span>

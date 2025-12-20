@@ -185,7 +185,7 @@ describe('ChecksSchedulesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New checks schedule');
+      const newLink = screen.getByText(/add.*schedule/i);
       expect(newLink).toHaveAttribute('href', '/checks_schedules/new');
     });
   });

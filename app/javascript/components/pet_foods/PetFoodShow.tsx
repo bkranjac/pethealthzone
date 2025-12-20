@@ -89,15 +89,6 @@ export const PetFoodShow: React.FC = () => {
             </p>
           </div>
 
-          {petFood.date_ended && (
-            <div>
-              <span className="font-semibold text-gray-700">Date Ended:</span>
-              <p className="text-gray-900 mt-1">
-                {new Date(petFood.date_ended).toLocaleDateString()}
-              </p>
-            </div>
-          )}
-
           {petFood.notes && (
             <div>
               <span className="font-semibold text-gray-700">Notes:</span>

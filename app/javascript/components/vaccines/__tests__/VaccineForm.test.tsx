@@ -48,7 +48,7 @@ describe('VaccineForm', () => {
 
       expect(screen.getByText('New Vaccine')).toBeInTheDocument();
       expect(screen.getByLabelText(/Name/)).toBeInTheDocument();
-      expect(screen.getByLabelText(/Mandatory/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Required Vaccine/i)).toBeInTheDocument();
 
       await waitFor(() => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe('VaccineForm', () => {
       });
 
       const nameInput = screen.getByLabelText(/Name/);
-      const mandatoryCheckbox = screen.getByLabelText(/Mandatory/);
+      const mandatoryCheckbox = screen.getByLabelText(/Required Vaccine/i);
       const frequencySelect = screen.getByLabelText(/Frequency/);
 
       fireEvent.change(nameInput, { target: { value: 'Rabies Vaccine' } });

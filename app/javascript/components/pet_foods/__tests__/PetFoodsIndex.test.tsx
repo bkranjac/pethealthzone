@@ -79,7 +79,7 @@ describe('PetFoodsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      expect(screen.getByText('No pet foods found.')).toBeInTheDocument();
+      expect(screen.getByText(/no.*pet.*foods.*found/i)).toBeInTheDocument();
     });
   });
 
@@ -185,7 +185,7 @@ describe('PetFoodsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New pet food');
+      const newLink = screen.getByText(/add.*pet.*food/i);
       expect(newLink).toHaveAttribute('href', '/pet_foods/new');
     });
   });

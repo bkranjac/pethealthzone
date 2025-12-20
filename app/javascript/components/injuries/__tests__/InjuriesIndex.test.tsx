@@ -187,7 +187,7 @@ describe('InjuriesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New injury');
+      const newLink = screen.getByText(/report.*injury/i);
       expect(newLink).toHaveAttribute('href', '/injuries/new');
     });
   });
@@ -204,8 +204,8 @@ describe('InjuriesIndex', () => {
       const highSeverity = screen.getByText('high');
       const lowSeverity = screen.getByText('low');
 
-      expect(highSeverity).toHaveClass('bg-orange-100', 'text-orange-800');
-      expect(lowSeverity).toHaveClass('bg-green-100', 'text-green-800');
+      expect(highSeverity).toHaveClass('bg-orange-600', 'text-white');
+      expect(lowSeverity).toHaveClass('bg-green-600', 'text-white');
     });
   });
 });

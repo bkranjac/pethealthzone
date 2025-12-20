@@ -188,7 +188,7 @@ describe('MedicationsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New medication');
+      const newLink = screen.getByText(/add.*medication/i);
       expect(newLink).toHaveAttribute('href', '/medications/new');
     });
   });

@@ -60,7 +60,7 @@ describe('ChecksScheduleForm', () => {
         expect(screen.getByLabelText(/Check/)).toBeInTheDocument();
       });
 
-      expect(screen.getByLabelText(/Date created/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Date Created/i)).toBeInTheDocument();
       expect(screen.getByText('Create Checks Schedule')).toBeInTheDocument();
     });
 
@@ -78,7 +78,7 @@ describe('ChecksScheduleForm', () => {
 
       const petSelect = screen.getByLabelText(/Pet/);
       const checkSelect = screen.getByLabelText(/Check/);
-      const dateCreatedInput = screen.getByLabelText(/Date created/);
+      const dateCreatedInput = screen.getByLabelText(/Date Created/i);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(checkSelect, { target: { value: '1' } });

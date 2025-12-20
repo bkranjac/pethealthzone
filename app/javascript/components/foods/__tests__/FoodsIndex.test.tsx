@@ -187,7 +187,7 @@ describe('FoodsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New food');
+      const newLink = screen.getByText(/add.*food/i);
       expect(newLink).toHaveAttribute('href', '/foods/new');
     });
   });
