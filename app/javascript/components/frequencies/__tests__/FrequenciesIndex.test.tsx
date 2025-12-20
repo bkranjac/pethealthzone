@@ -182,7 +182,7 @@ describe('FrequenciesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New frequency');
+      const newLink = screen.getByText(/add.*frequency/i);
       expect(newLink).toHaveAttribute('href', '/frequencies/new');
     });
   });

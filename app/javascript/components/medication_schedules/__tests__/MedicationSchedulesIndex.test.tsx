@@ -186,7 +186,7 @@ describe('MedicationSchedulesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New medication schedule');
+      const newLink = screen.getByText(/add.*schedule/i);
       expect(newLink).toHaveAttribute('href', '/medication_schedules/new');
     });
   });

@@ -79,10 +79,14 @@ describe('InjuryReportForm', () => {
       const petSelect = screen.getByLabelText(/Pet/);
       const injurySelect = screen.getByLabelText(/Injury/);
       const dateInput = screen.getByLabelText(/Date/);
+      const bodyPartInput = screen.getByLabelText(/Body Part/i);
+      const descriptionInput = screen.getByLabelText(/Description/i);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(injurySelect, { target: { value: '1' } });
       fireEvent.change(dateInput, { target: { value: '2025-01-01' } });
+      fireEvent.change(bodyPartInput, { target: { value: 'Left paw' } });
+      fireEvent.change(descriptionInput, { target: { value: 'Test injury description' } });
 
       const submitButton = screen.getByText('Create Injury Report');
       fireEvent.click(submitButton);
@@ -125,8 +129,8 @@ describe('InjuryReportForm', () => {
         expect(screen.getByDisplayValue('First injury report')).toBeInTheDocument();
       });
 
-      const notesInput = screen.getByLabelText(/Notes/);
-      fireEvent.change(notesInput, { target: { value: 'Updated notes' } });
+      const descriptionInput = screen.getByLabelText(/Description/i);
+      fireEvent.change(descriptionInput, { target: { value: 'Updated description' } });
 
       const submitButton = screen.getByText('Update Injury Report');
       fireEvent.click(submitButton);

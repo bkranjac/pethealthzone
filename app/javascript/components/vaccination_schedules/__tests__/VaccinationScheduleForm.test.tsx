@@ -68,7 +68,7 @@ describe('VaccinationScheduleForm', () => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
       });
 
-      expect(screen.getByLabelText(/Date given/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Date Given/i)).toBeInTheDocument();
       expect(screen.getByText('Create Vaccination Schedule')).toBeInTheDocument();
     });
 
@@ -88,7 +88,7 @@ describe('VaccinationScheduleForm', () => {
       const petSelect = screen.getByLabelText(/Pet/);
       const vaccineSelect = screen.getByLabelText(/Vaccine/);
       const frequencySelect = screen.getByLabelText(/Frequency/);
-      const dateInput = screen.getByLabelText(/Date given/);
+      const dateInput = screen.getByLabelText(/Date Given/i);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(vaccineSelect, { target: { value: '1' } });

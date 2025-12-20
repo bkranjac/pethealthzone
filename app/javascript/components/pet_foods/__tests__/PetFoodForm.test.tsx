@@ -68,7 +68,7 @@ describe('PetFoodForm', () => {
         expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
       });
 
-      expect(screen.getByLabelText(/Started at/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Started At/)).toBeInTheDocument();
       expect(screen.getByText('Create Pet Food')).toBeInTheDocument();
     });
 
@@ -88,7 +88,7 @@ describe('PetFoodForm', () => {
       const petSelect = screen.getByLabelText(/Pet/);
       const foodSelect = screen.getByLabelText(/Food/);
       const frequencySelect = screen.getByLabelText(/Frequency/);
-      const dateInput = screen.getByLabelText(/Started at/);
+      const dateInput = screen.getByLabelText(/Started At/);
 
       fireEvent.change(petSelect, { target: { value: '1' } });
       fireEvent.change(foodSelect, { target: { value: '1' } });

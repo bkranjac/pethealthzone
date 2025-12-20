@@ -49,7 +49,7 @@ describe('CheckForm', () => {
       expect(screen.getByLabelText(/Check Type/)).toBeInTheDocument();
 
       await waitFor(() => {
-        expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
+        expect(screen.getByLabelText(/How Often/i)).toBeInTheDocument();
       });
 
       expect(screen.getByText('Create Check')).toBeInTheDocument();
@@ -69,11 +69,11 @@ describe('CheckForm', () => {
       renderWithRouter('new');
 
       await waitFor(() => {
-        expect(screen.getByLabelText(/Frequency/)).toBeInTheDocument();
+        expect(screen.getByLabelText(/How Often/i)).toBeInTheDocument();
       });
 
       const nameInput = screen.getByLabelText(/Check Type/);
-      const frequencySelect = screen.getByLabelText(/Frequency/);
+      const frequencySelect = screen.getByLabelText(/How Often/i);
 
       fireEvent.change(nameInput, { target: { value: 'Heart Check' } });
       fireEvent.change(frequencySelect, { target: { value: '1' } });

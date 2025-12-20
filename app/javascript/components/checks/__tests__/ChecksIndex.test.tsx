@@ -181,7 +181,7 @@ describe('ChecksIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New check');
+      const newLink = screen.getByText(/add.*new.*check/i);
       expect(newLink).toHaveAttribute('href', '/checks/new');
     });
   });

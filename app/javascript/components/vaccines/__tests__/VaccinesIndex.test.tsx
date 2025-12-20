@@ -184,7 +184,7 @@ describe('VaccinesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('New vaccine');
+      const newLink = screen.getByText(/add.*vaccine/i);
       expect(newLink).toHaveAttribute('href', '/vaccines/new');
     });
   });
