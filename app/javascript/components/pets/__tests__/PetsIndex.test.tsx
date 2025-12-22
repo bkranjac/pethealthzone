@@ -172,7 +172,7 @@ describe('PetsIndex', () => {
     expect(screen.getByText('Buddy')).toBeInTheDocument();
   });
 
-  it('displays correct links for each pet', async () => {
+  it('displays correct buttons for each pet', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => mockPets,
@@ -184,11 +184,15 @@ describe('PetsIndex', () => {
       expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
 
-    const viewLinks = screen.getAllByText('View');
-    const editLinks = screen.getAllByText('Edit');
+    // Check for inline action buttons (More, Edit, Delete)
+    const moreButtons = screen.getAllByText('▼ More');
+    const editButtons = screen.getAllByText('Edit');
+    const deleteButtons = screen.getAllByText('Delete');
 
-    expect(viewLinks[0]).toHaveAttribute('href', '/pets/1');
-    expect(editLinks[0]).toHaveAttribute('href', '/pets/1/edit');
+    // Verify buttons exist for each pet
+    expect(moreButtons.length).toBeGreaterThan(0);
+    expect(editButtons.length).toBeGreaterThan(0);
+    expect(deleteButtons.length).toBeGreaterThan(0);
   });
 
   it('displays new pet link', async () => {

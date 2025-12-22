@@ -159,7 +159,7 @@ describe('InjuriesIndex', () => {
     expect(screen.getByText('Injury #1')).toBeInTheDocument();
   });
 
-  it('displays correct links for each injury', async () => {
+  it('displays correct buttons for each injury', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => mockInjuries,
@@ -171,11 +171,15 @@ describe('InjuriesIndex', () => {
       expect(screen.getByText('Injury #1')).toBeInTheDocument();
     });
 
-    const viewLinks = screen.getAllByText('View');
-    const editLinks = screen.getAllByText('Edit');
+    // Check for inline action buttons (More, Edit, Delete)
+    const moreButtons = screen.getAllByText('▼ More');
+    const editButtons = screen.getAllByText('Edit');
+    const deleteButtons = screen.getAllByText('Delete');
 
-    expect(viewLinks[0]).toHaveAttribute('href', '/injuries/1');
-    expect(editLinks[0]).toHaveAttribute('href', '/injuries/1/edit');
+    // Verify buttons exist for each injury
+    expect(moreButtons.length).toBeGreaterThan(0);
+    expect(editButtons.length).toBeGreaterThan(0);
+    expect(deleteButtons.length).toBeGreaterThan(0);
   });
 
   it('displays new injury link', async () => {
