@@ -142,14 +142,8 @@ export const PetsIndex: React.FC = () => {
         }
       `}</style>
 
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-800">My Pets</h1>
-        <Link
-          to="/pets/new"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all"
-        >
-          + Add New Pet
-        </Link>
+      <div className="mb-6">
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">My Pets</h1>
       </div>
 
       {/* Search and Filter Bar */}
@@ -481,6 +475,25 @@ export const PetsIndex: React.FC = () => {
               </div>
             );
           })}
+
+          {/* Add New Pet Button as Grid Item */}
+          <Link
+            to="/pets/new"
+            className="inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+            style={{
+              width: '180px',
+              height: '180px',
+              minWidth: '180px',
+              minHeight: '180px',
+              backgroundColor: '#22c55e',
+              border: '3px solid #16a34a'
+            }}
+            title="Add New Pet"
+          >
+            <svg style={{ width: '72px', height: '72px' }} fill="none" stroke="white" strokeWidth="3" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </Link>
         </div>
       )}
     </div>
