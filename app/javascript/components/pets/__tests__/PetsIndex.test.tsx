@@ -204,8 +204,9 @@ describe('PetsIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText('+ Add New Pet');
-      expect(newLink).toHaveAttribute('href', '/pets/new');
+      const newLinks = screen.getAllByTitle('Add New Pet');
+      expect(newLinks.length).toBeGreaterThan(0);
+      expect(newLinks[0]).toHaveAttribute('href', '/pets/new');
     });
   });
 

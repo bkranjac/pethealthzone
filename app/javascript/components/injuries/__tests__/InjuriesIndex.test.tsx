@@ -191,7 +191,7 @@ describe('InjuriesIndex', () => {
     renderWithRouter();
 
     await waitFor(() => {
-      const newLink = screen.getByText(/report.*injury/i);
+      const newLink = screen.getByTitle('Report New Injury');
       expect(newLink).toHaveAttribute('href', '/injuries/new');
     });
   });
