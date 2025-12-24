@@ -88,21 +88,46 @@ export const InjuriesIndex: React.FC = () => {
           <p className="text-gray-700 text-lg font-semibold">No injuries found. Hopefully it stays that way!</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ position: 'relative', maxWidth: '1400px', margin: '0 auto', paddingTop: '70px' }}>
+          {/* Add New Injury Button - Top Right */}
+          <Link
+            to="/injuries/new"
+            className="inline-flex items-center justify-center text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+            style={{
+              position: 'absolute',
+              top: '0',
+              right: '0',
+              width: '60px',
+              height: '60px',
+              backgroundColor: '#ef4444',
+              border: '3px solid #dc2626',
+              zIndex: 10
+            }}
+            title="Report New Injury"
+          >
+            <svg style={{ width: '32px', height: '32px' }} fill="none" stroke="white" strokeWidth="3" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </Link>
+
+          {/* Grid of Injury Cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
           {injuries.map((injury, index) => {
             const isExpanded = expandedInjuryId === injury.id;
             const isEditing = editingInjuryId === injury.id;
 
             return (
-              <PostItCard
+              <div
                 key={injury.id}
-                colorIndex={getSeverityColor(injury.severity)}
                 style={{
                   gridColumn: isExpanded || isEditing ? 'span 2' : 'span 1',
                   animationDelay: `${index * 0.1}s`
                 }}
                 className="injury-card-entrance"
               >
+                <PostItCard
+                  colorIndex={getSeverityColor(injury.severity)}
+                >
                 {isEditing ? (
                   // Edit Mode
                   <div className="space-y-4">
@@ -230,27 +255,10 @@ export const InjuriesIndex: React.FC = () => {
                   </div>
                 )}
               </PostItCard>
+              </div>
             );
           })}
-
-          {/* Add New Injury Button as Grid Item */}
-          <Link
-            to="/injuries/new"
-            className="inline-flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
-            style={{
-              width: '200px',
-              height: '200px',
-              minWidth: '200px',
-              minHeight: '200px',
-              backgroundColor: '#ef4444',
-              border: '3px solid #dc2626'
-            }}
-            title="Report New Injury"
-          >
-            <svg style={{ width: '72px', height: '72px' }} fill="none" stroke="white" strokeWidth="3" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-          </Link>
+          </div>
         </div>
       )}
     </div>

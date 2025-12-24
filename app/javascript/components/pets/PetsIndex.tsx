@@ -229,7 +229,31 @@ export const PetsIndex: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ position: 'relative', maxWidth: '1400px', margin: '0 auto', paddingTop: '70px' }}>
+          {/* Add New Pet Button - Top Right */}
+          <Link
+            to="/pets/new"
+            className="inline-flex items-center justify-center text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+            style={{
+              position: 'absolute',
+              top: '0',
+              right: '0',
+              width: '60px',
+              height: '60px',
+              backgroundColor: '#bbf7d0',
+              border: '3px solid #86efac',
+              zIndex: 10
+            }}
+            title="Add New Pet"
+          >
+            <svg style={{ width: '32px', height: '32px' }} fill="none" stroke="#16a34a" strokeWidth="3" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </Link>
+
+          {/* Grid of Pet Cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
+
           {filteredPets.map((pet, index) => {
             const isExpanded = expandedPetId === pet.id;
             const isEditing = editingPetId === pet.id;
@@ -475,25 +499,7 @@ export const PetsIndex: React.FC = () => {
               </div>
             );
           })}
-
-          {/* Add New Pet Button as Grid Item */}
-          <Link
-            to="/pets/new"
-            className="inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
-            style={{
-              width: '180px',
-              height: '180px',
-              minWidth: '180px',
-              minHeight: '180px',
-              backgroundColor: '#22c55e',
-              border: '3px solid #16a34a'
-            }}
-            title="Add New Pet"
-          >
-            <svg style={{ width: '72px', height: '72px' }} fill="none" stroke="white" strokeWidth="3" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-          </Link>
+          </div>
         </div>
       )}
     </div>
