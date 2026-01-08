@@ -93,4 +93,7 @@ bundle exec rspec
 https://github.com/bkranjac/pethealthzone#
 
 ## Current UI
-![Pet health dashboard](screenshots/ui_v4.png)
+From this:
+![Pet health dashboard](screenshots/ui_v1.png)
+to this:
+![Pet health dashboard](screenshots/ui_v6.png)
