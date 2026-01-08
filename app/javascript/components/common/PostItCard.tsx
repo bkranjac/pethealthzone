@@ -60,6 +60,8 @@ export const PostItCard: React.FC<PostItCardProps> = ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        borderRadius: '12px',
+        overflow: 'hidden'
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'rotate(0deg) translateY(-8px)';

@@ -229,29 +229,8 @@ export const PetsIndex: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div style={{ position: 'relative', maxWidth: '1400px', margin: '0 auto', paddingTop: '70px' }}>
-          {/* Add New Pet Button - Top Right */}
-          <Link
-            to="/pets/new"
-            className="inline-flex items-center justify-center text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
-            style={{
-              position: 'absolute',
-              top: '0',
-              right: '0',
-              width: '60px',
-              height: '60px',
-              backgroundColor: '#bbf7d0',
-              border: '3px solid #86efac',
-              zIndex: 10
-            }}
-            title="Add New Pet"
-          >
-            <svg style={{ width: '32px', height: '32px' }} fill="none" stroke="#16a34a" strokeWidth="3" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-          </Link>
-
-          {/* Grid of Pet Cards */}
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          {/* Grid of Pet Cards with Add New button */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
 
           {filteredPets.map((pet, index) => {
@@ -264,7 +243,7 @@ export const PetsIndex: React.FC = () => {
                 className="pet-card-entrance"
                 style={{
                   animationDelay: `${index * 0.1}s`,
-                  gridColumn: isExpanded || isEditing ? 'span 2' : 'span 1'
+                  gridColumn: 'span 1'
                 }}
               >
                 <PostItCard colorIndex={index}>
@@ -499,6 +478,41 @@ export const PetsIndex: React.FC = () => {
               </div>
             );
           })}
+
+          {/* Add New Pet Button Card - After all pets */}
+          <Link
+            to="/pets/new"
+            className="pet-card-entrance"
+            title="Add New Pet"
+            style={{
+              gridColumn: 'span 1',
+              animationDelay: `${filteredPets.length * 0.1}s`,
+              textDecoration: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: '200px',
+              padding: '1rem',
+            }}
+          >
+            <div
+              className="inline-flex items-center justify-center text-white rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+              style={{
+                width: '60px',
+                height: '60px',
+                backgroundColor: '#bbf7d0',
+                border: '3px solid #86efac',
+              }}
+            >
+              <svg style={{ width: '32px', height: '32px' }} fill="none" stroke="#16a34a" strokeWidth="3" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <div style={{ marginTop: '0.75rem', fontSize: '14px', fontWeight: '600', color: '#16a34a', textAlign: 'center' }}>
+              Add New Pet
+            </div>
+          </Link>
           </div>
         </div>
       )}
