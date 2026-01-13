@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-export type TabType = 'pets' | 'checkups' | 'injuries' | 'vaccines' | 'food' | 'schedules';
+export type TabType = 'pets' | 'checkups' | 'injuries' | 'vaccines' | 'food' | 'schedules' | 'reports';
 
 interface HeaderProps {
   activeTab: TabType;
@@ -15,6 +15,18 @@ const tabs: { key: TabType; label: string }[] = [
   { key: 'vaccines', label: 'Vaccines' },
   { key: 'food', label: 'Food' },
   { key: 'schedules', label: 'Schedules' },
+  { key: 'reports', label: 'Reports' },
+];
+
+// Color palette from PostItCard
+const tabColors = [
+  '#fef3c7', // Yellow
+  '#fce7f3', // Pink
+  '#dbeafe', // Blue
+  '#d1fae5', // Green
+  '#e9d5ff', // Lavender
+  '#fed7aa', // Peach
+  '#ccfbf1', // Mint
 ];
 
 export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
@@ -35,31 +47,39 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
           <h1 className="text-2xl font-bold" style={{ color: 'white' }}>Pet Zone Health</h1>
         </Link>
 
-        {/* Navigation tabs in the center */}
-        <nav className="flex items-center" style={{ gap: '0.75rem' }}>
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => onTabChange(tab.key)}
-              className="transition-all"
-              style={{
-                padding: '0.75rem 1.5rem',
-                backgroundColor: activeTab === tab.key ? '#ffffff' : 'rgba(255, 255, 255, 0.15)',
-                borderRadius: '12px',
-                color: activeTab === tab.key ? '#4f46e5' : '#ffffff',
-                border: activeTab === tab.key ? '2px solid #ffffff' : '2px solid transparent',
-                cursor: 'pointer',
-                fontSize: '1.05rem',
-                fontWeight: activeTab === tab.key ? '700' : '500',
-                boxShadow: activeTab === tab.key
-                  ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                  : 'none',
-                transform: activeTab === tab.key ? 'translateY(-2px)' : 'translateY(0)',
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
+        {/* Navigation tabs in the center - will connect to main content */}
+        <nav className="flex items-center" style={{ gap: '0.25rem' }}>
+          {tabs.map((tab, index) => {
+            const isActive = activeTab === tab.key;
+            const inactiveColor = tabColors[index % tabColors.length];
+
+            return (
+              <button
+                key={tab.key}
+                onClick={() => onTabChange(tab.key)}
+                className="transition-all"
+                style={{
+                  padding: '1.25rem 1.5rem',
+                  backgroundColor: isActive ? '#ffffff' : inactiveColor,
+                  borderRadius: '12px 12px 0 0',
+                  color: isActive ? '#4f46e5' : '#4f46e5',
+                  border: isActive ? '2px solid #ffffff' : '2px solid transparent',
+                  borderBottom: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1.05rem',
+                  fontWeight: isActive ? '700' : '500',
+                  boxShadow: isActive
+                    ? '0 -2px 4px rgba(0, 0, 0, 0.05)'
+                    : '0 -1px 2px rgba(0, 0, 0, 0.03)',
+                  marginBottom: '-2px',
+                  position: 'relative',
+                  zIndex: isActive ? 10 : 2,
+                }}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </nav>
       </div>
     </header>

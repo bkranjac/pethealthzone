@@ -20,7 +20,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           style={{
             borderRadius: '16px 16px 0 0',
             boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-            position: 'relative'
+            position: 'relative',
           }}
         >
           {/* Inward rounded corner on top-left */}
