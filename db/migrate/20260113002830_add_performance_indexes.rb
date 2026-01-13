@@ -19,9 +19,9 @@ class AddPerformanceIndexes < ActiveRecord::Migration[8.1]
     add_index :injury_reports, :date, name: "index_injury_reports_on_date"
 
     # Composite indexes for common query patterns
-    add_index :medication_schedules, [:pet_id, :date_started], name: "index_medication_schedules_on_pet_and_date"
-    add_index :vaccination_schedules, [:pet_id, :date_given], name: "index_vaccination_schedules_on_pet_and_date"
-    add_index :checks_schedules, [:pet_id, :performed], name: "index_checks_schedules_on_pet_and_performed"
-    add_index :pets, [:adopted, :location_id], name: "index_pets_on_adopted_and_location"
+    add_index :medication_schedules, [ :pet_id, :date_started ], name: "index_medication_schedules_on_pet_and_date"
+    add_index :vaccination_schedules, [ :pet_id, :date_given ], name: "index_vaccination_schedules_on_pet_and_date"
+    add_index :checks_schedules, [ :pet_id, :performed ], name: "index_checks_schedules_on_pet_and_performed"
+    add_index :pets, [ :adopted, :location_id ], name: "index_pets_on_adopted_and_location"
   end
 end

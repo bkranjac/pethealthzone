@@ -1,6 +1,6 @@
 class Pet < ApplicationRecord
   # Enums
-  enum gender: { male: 0, female: 1, unknown: 2 }
+  enum :gender, { male: 0, female: 1, unknown: 2 }
 
   # Associations
   belongs_to :location, optional: true

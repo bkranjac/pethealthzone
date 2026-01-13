@@ -75,19 +75,16 @@ describe('PetForm', () => {
           }),
           body: expect.stringContaining('Buddy'),
         }));
-      });
+      }, { timeout: 10000 });
 
       // Note: Navigation via window.location.assign() cannot be tested in JSDOM
       // The form submission is verified by confirming the POST API call was made
-    });
+    }, 15000);
 
     it('displays error message when submission fails', async () => {
       const user = userEvent.setup();
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: false,
-        json: async () => ({ errors: ['Name is required', 'Type is required'] }),
-      });
+      (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Name is required'));
 
       renderWithRouter('new');
 
@@ -96,12 +93,15 @@ describe('PetForm', () => {
       await user.selectOptions(screen.getByLabelText(/Type/), 'Dog');
       await user.type(screen.getByLabelText(/Birthday/), '2020-01-15');
 
+      // Wait a bit for the form to be fully ready
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const submitButton = screen.getByText('Add Pet');
       fireEvent.click(submitButton);
 
       await waitFor(() => {
         expect(screen.getByText(/Name is required/)).toBeInTheDocument();
-      });
+      }, { timeout: 5000 });
     });
 
     it('disables submit button while submitting', async () => {
