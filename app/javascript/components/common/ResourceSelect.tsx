@@ -53,7 +53,7 @@ export function ResourceSelect<T extends { id: number }>({
           {loading ? 'Loading...' : placeholder}
         </option>
 
-        {!loading && options.map((item) => (
+        {!loading && options && Array.isArray(options) && options.map((item) => (
           <option key={item.id} value={item.id}>
             {getLabel(item)}
           </option>

@@ -22,8 +22,7 @@ const getSidebarItems = (tab: TabType): NavItem[] => {
         { path: '/injuries/new', label: 'Report an Injury', icon: '', indented: true },
         { path: '/checks/new', label: 'Perform a Check', icon: '', indented: true },
         { path: '/pet_foods/new', label: 'Assign Food', icon: '', indented: true },
-        { path: '/vaccination_schedules/new', label: 'Vaccinations', icon: '', indented: true },
-        { path: '/pets/adopted=true', label: 'Adoptions', icon: '', indented: true },
+        { path: '/vaccination_schedules/new', label: 'Reports', icon: '', indented: true },
       ];
     case 'checkups':
       return [
@@ -52,6 +51,12 @@ const getSidebarItems = (tab: TabType): NavItem[] => {
         { path: '/vaccination_schedules', label: 'Vaccination Schedules', icon: '📅' },
         { path: '/checks_schedules', label: 'Check Schedules', icon: '📅' },
         { path: '/frequencies', label: 'Frequencies', icon: '🔄' },
+      ];
+    case 'reports':
+      return [
+        { path: '/reports', label: 'Reports', icon: '📊' },
+        { path: '/pets/adopted=true', label: 'Adoptions', icon: '', indented: true },
+        { path: '/vaccination_schedules', label: 'Vaccinations', icon: '', indented: true },
       ];
     default:
       return [];
@@ -86,20 +91,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab }) => {
               to={item.path}
               className="flex items-center transition-all"
               style={{
-                padding: isMainItem ? '1rem 1.25rem' : '0.75rem 1rem 0.75rem 2.5rem',
-                marginBottom: isMainItem ? '0.75rem' : '0.5rem',
+                padding: isMainItem ? '0.75rem 0.85rem' : '0.5rem 0.75rem 0.5rem 2rem',
+                marginBottom: isMainItem ? '0.5rem' : '0.35rem',
+                marginRight: '0.5rem',
                 backgroundColor: itemIsActive && isMainItem
                   ? '#ffffff'
                   : itemIsActive && !isMainItem
                   ? 'rgba(255, 255, 255, 0.25)'
                   : 'rgba(255, 255, 255, 0.1)',
-                borderRadius: isMainItem ? '12px' : '8px',
+                borderRadius: isMainItem ? '10px' : '8px',
                 border: itemIsActive && isMainItem
                   ? '2px solid #ffffff'
                   : '2px solid transparent',
                 color: itemIsActive && isMainItem ? '#4f46e5' : '#ffffff',
                 fontWeight: itemIsActive && isMainItem ? '700' : itemIsActive ? '600' : '500',
-                fontSize: isMainItem ? '1rem' : '0.9rem',
+                fontSize: isMainItem ? '0.9rem' : '0.85rem',
                 textDecoration: 'none',
                 boxShadow: itemIsActive && isMainItem
                   ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
@@ -109,9 +115,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab }) => {
             >
               {item.icon && (
                 <span
-                  className="mr-3"
+                  className="mr-2"
                   style={{
-                    fontSize: isMainItem ? '1.5rem' : '1rem',
+                    fontSize: isMainItem ? '1.25rem' : '0.9rem',
                     filter: itemIsActive && isMainItem ? 'none' : 'brightness(1.2)'
                   }}
                 >

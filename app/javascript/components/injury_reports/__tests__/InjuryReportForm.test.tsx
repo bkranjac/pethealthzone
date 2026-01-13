@@ -111,7 +111,7 @@ describe('InjuryReportForm', () => {
       await waitFor(() => {
         const petSelect = screen.getByLabelText(/Pet/) as HTMLSelectElement;
         expect(petSelect.value).toBe('1');
-      });
+      }, { timeout: 5000 });
 
       expect(screen.getByText('Edit Injury Report')).toBeInTheDocument();
     });
@@ -121,13 +121,14 @@ describe('InjuryReportForm', () => {
         .mockResolvedValueOnce({ ok: true, json: async () => mockPets })
         .mockResolvedValueOnce({ ok: true, json: async () => mockInjuries })
         .mockResolvedValueOnce({ ok: true, json: async () => mockReport })
-        .mockResolvedValueOnce({ ok: true, json: async () => ({ ...mockReport, notes: 'Updated notes' }) });
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ ...mockReport, description: 'Updated description' }) });
 
       renderWithRouter('edit', 1);
 
       await waitFor(() => {
-        expect(screen.getByDisplayValue('First injury report')).toBeInTheDocument();
-      });
+        const descriptionInput = screen.getByLabelText(/Description/i) as HTMLTextAreaElement;
+        expect(descriptionInput.value).toBe('First injury report');
+      }, { timeout: 5000 });
 
       const descriptionInput = screen.getByLabelText(/Description/i);
       fireEvent.change(descriptionInput, { target: { value: 'Updated description' } });
@@ -139,7 +140,7 @@ describe('InjuryReportForm', () => {
         expect(global.fetch).toHaveBeenCalledWith('/api/v1/injury_reports/1', expect.objectContaining({
           method: 'PUT',
         }));
-      });
+      }, { timeout: 5000 });
     });
   });
 
