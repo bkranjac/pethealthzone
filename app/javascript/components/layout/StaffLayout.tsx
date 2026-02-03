@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Header, TabType } from './Header';
 import { Sidebar } from './Sidebar';
-import { Footer } from './Footer';
 
-interface LayoutProps {
+interface StaffLayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const StaffLayout: React.FC<StaffLayoutProps> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<TabType>('pets');
 
   return (
@@ -76,7 +75,6 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         </main>
       </div>
-      <Footer />
     </div>
   );
 };

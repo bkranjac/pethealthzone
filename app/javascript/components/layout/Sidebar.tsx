@@ -17,46 +17,46 @@ const getSidebarItems = (tab: TabType): NavItem[] => {
   switch (tab) {
     case 'pets':
       return [
-        { path: '/pets', label: 'Pets', icon: '🐾' },
-        { path: '/pets', label: 'All Pets', icon: '', indented: true },
-        { path: '/injuries/new', label: 'Report an Injury', icon: '', indented: true },
-        { path: '/checks/new', label: 'Perform a Check', icon: '', indented: true },
-        { path: '/pet_foods/new', label: 'Assign Food', icon: '', indented: true },
-        { path: '/vaccination_schedules/new', label: 'Reports', icon: '', indented: true },
+        { path: '/staff/pets', label: 'Pets', icon: '🐾' },
+        { path: '/staff/pets', label: 'All Pets', icon: '', indented: true },
+        { path: '/staff/injuries/new', label: 'Report an Injury', icon: '', indented: true },
+        { path: '/staff/checks/new', label: 'Perform a Check', icon: '', indented: true },
+        { path: '/staff/pet_foods/new', label: 'Assign Food', icon: '', indented: true },
+        { path: '/staff/vaccination_schedules/new', label: 'Reports', icon: '', indented: true },
       ];
     case 'checkups':
       return [
-        { path: '/checks', label: 'Checkups', icon: '🏥' },
-        { path: '/checks', label: 'Show all checkups', icon: '', indented: true },
-        { path: '/checks_schedules', label: 'Checkup Schedules', icon: '', indented: true },
+        { path: '/staff/checks', label: 'Checkups', icon: '🏥' },
+        { path: '/staff/checks', label: 'Show all checkups', icon: '', indented: true },
+        { path: '/staff/checks_schedules', label: 'Checkup Schedules', icon: '', indented: true },
       ];
     case 'injuries':
       return [
-        { path: '/injuries', label: 'Injuries', icon: '🩹' },
-        { path: '/injury_reports', label: 'Injury Reports', icon: '📋' },
+        { path: '/staff/injuries', label: 'Injuries', icon: '🩹' },
+        { path: '/staff/injury_reports', label: 'Injury Reports', icon: '📋' },
       ];
     case 'vaccines':
       return [
-        { path: '/vaccines', label: 'Vaccines', icon: '💉' },
-        { path: '/vaccination_schedules', label: 'Vaccination Schedules', icon: '📅' },
+        { path: '/staff/vaccines', label: 'Vaccines', icon: '💉' },
+        { path: '/staff/vaccination_schedules', label: 'Vaccination Schedules', icon: '📅' },
       ];
     case 'food':
       return [
-        { path: '/foods', label: 'Foods', icon: '🍖' },
-        { path: '/pet_foods', label: 'Pet Specific Foods', icon: '🍽️' },
+        { path: '/staff/foods', label: 'Foods', icon: '🍖' },
+        { path: '/staff/pet_foods', label: 'Pet Specific Foods', icon: '🍽️' },
       ];
     case 'schedules':
       return [
-        { path: '/medication_schedules', label: 'Medication Schedules', icon: '📅' },
-        { path: '/vaccination_schedules', label: 'Vaccination Schedules', icon: '📅' },
-        { path: '/checks_schedules', label: 'Check Schedules', icon: '📅' },
-        { path: '/frequencies', label: 'Frequencies', icon: '🔄' },
+        { path: '/staff/medication_schedules', label: 'Medication Schedules', icon: '📅' },
+        { path: '/staff/vaccination_schedules', label: 'Vaccination Schedules', icon: '📅' },
+        { path: '/staff/checks_schedules', label: 'Check Schedules', icon: '📅' },
+        { path: '/staff/frequencies', label: 'Frequencies', icon: '🔄' },
       ];
     case 'reports':
       return [
-        { path: '/reports', label: 'Reports', icon: '📊' },
-        { path: '/pets/adopted=true', label: 'Adoptions', icon: '', indented: true },
-        { path: '/vaccination_schedules', label: 'Vaccinations', icon: '', indented: true },
+        { path: '/staff/reports', label: 'Reports', icon: '📊' },
+        { path: '/staff/pets/adopted=true', label: 'Adoptions', icon: '', indented: true },
+        { path: '/staff/vaccination_schedules', label: 'Vaccinations', icon: '', indented: true },
       ];
     default:
       return [];
