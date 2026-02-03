@@ -96,7 +96,7 @@ https://github.com/bkranjac/pethealthzone#
 From this:
 ![Pet health dashboard](screenshots/ui_v1.png)
 to this:
-Public page
+New - Public home page:
 ![Public home page](screenshots/Public_home_page_v1.png)
 Staff page
-![Pet health dashboard](screenshots/Staff_dashobard_v1.png
+![Pet health dashboard](screenshots/Staff_dashobard_v1.png)
