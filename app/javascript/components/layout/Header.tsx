@@ -30,6 +30,31 @@ const tabColors = [
 ];
 
 export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
+  const handleLogout = () => {
+    // Create a form and submit it to logout
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/users/sign_out';
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (csrfToken) {
+      const csrfInput = document.createElement('input');
+      csrfInput.type = 'hidden';
+      csrfInput.name = 'authenticity_token';
+      csrfInput.value = csrfToken;
+      form.appendChild(csrfInput);
+    }
+
+    const methodInput = document.createElement('input');
+    methodInput.type = 'hidden';
+    methodInput.name = '_method';
+    methodInput.value = 'delete';
+    form.appendChild(methodInput);
+
+    document.body.appendChild(form);
+    form.submit();
+  };
+
   return (
     <header
       className="text-white shadow-md"
@@ -81,6 +106,24 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
             );
           })}
         </nav>
+
+        {/* Logout button on the right */}
+        <button
+          onClick={handleLogout}
+          className="transition-all"
+          style={{
+            padding: '0.75rem 1.5rem',
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            borderRadius: '8px',
+            color: 'white',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            cursor: 'pointer',
+            fontSize: '0.95rem',
+            fontWeight: '500',
+          }}
+        >
+          Logout
+        </button>
       </div>
     </header>
   );

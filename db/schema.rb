@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_13_005713) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_22_005155) do
   create_table "checks", force: :cascade do |t|
     t.string "check_type", limit: 100
     t.datetime "created_at", null: false
@@ -160,6 +160,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_13_005713) do
     t.index ["location_id"], name: "index_pets_on_location_id"
     t.index ["name"], name: "index_pets_on_name"
     t.index ["pet_type"], name: "index_pets_on_pet_type"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "vaccination_schedules", force: :cascade do |t|

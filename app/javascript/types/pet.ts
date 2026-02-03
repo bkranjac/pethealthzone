@@ -9,6 +9,7 @@ export interface Pet {
   gender?: string;
   date_admitted: string;
   notes?: string;
+  adopted?: boolean;
   created_at?: string;
   updated_at?: string;
 }

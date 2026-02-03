@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # API routes - keep these unchanged
   namespace :api do
     namespace :v1 do
