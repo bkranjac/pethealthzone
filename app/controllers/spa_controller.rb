@@ -10,7 +10,7 @@ class SpaController < ApplicationController
 
   def authenticate_user_for_staff!
     # Check if the request path starts with /staff
-    if request.path.start_with?('/staff')
+    if request.path.start_with?("/staff")
       # Redirect to login if user is not authenticated
       unless user_signed_in?
         redirect_to new_user_session_path

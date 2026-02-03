@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
 
   # Redirect to /staff after successful login
   def after_sign_in_path_for(resource)
-    '/staff'
+    "/staff"
   end
 end
