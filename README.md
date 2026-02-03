@@ -99,4 +99,4 @@ to this:
 Public page
 ![Public home page](screenshots/Public_home_page_v1.png)
 Staff page
-![Pet health dashboard](screenshots/Staff_dashobard_v1.png
+![Pet health dashboard](screenshots/Staff_dashobard_v1.png)
