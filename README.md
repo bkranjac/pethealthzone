@@ -50,7 +50,7 @@ Instead of pen and paper, let's use AI to helps us generate an app to track thos
 Locally:
 ```
 rails s 
-http://localhost:3000/pets
+http://localhost:3000/
 ```
 ### Running tests
 **Front end**
@@ -93,10 +93,11 @@ bundle exec rspec
 https://github.com/bkranjac/pethealthzone#
 
 ## Current UI
-From this:
-![Pet health dashboard](screenshots/ui_v1.png)
-to this:
 New - Public home page:
 ![Public home page](screenshots/Public_home_page_v1.png)
+
 Staff page
 ![Pet health dashboard](screenshots/Staff_dashobard_v1.png)
+
+Old UI - first attempt to guide Claude to do non trivial front end:
+![Pet health dashboard](screenshots/ui_v1.png)
