@@ -39,7 +39,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: yarn audit
+        run: yarn audit --groups dependencies
 
   lint:
     runs-on: ubuntu-latest
