@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback } from 'react';
+import React, { useMemo, useRef, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useResource } from '../../hooks/useResource';
 import { Pet } from '../../types/pet';
@@ -51,6 +51,17 @@ const styles = `
 .gh-btn { display: inline-block; background: #3858e9; color: #fff; padding: 13px 30px; border-radius: 2px; font-family: ${sans}; font-weight: 600; font-size: 14px; letter-spacing: 0.02em; text-decoration: none; transition: background 0.2s; }
 .gh-btn:hover { background: #213fd4; }
 .gh-btn-outline { display: inline-block; background: transparent; color: #3858e9; padding: 12px 28px; border-radius: 2px; border: 1px solid #3858e9; font-family: ${sans}; font-weight: 600; font-size: 14px; letter-spacing: 0.02em; text-decoration: none; transition: background 0.2s, color 0.2s; cursor: not-allowed; opacity: 0.7; }
+
+/* ── Action Pill Buttons ── */
+.gh-action-btn { display: inline-flex; align-items: center; gap: 8px; background: #ebe7e0; color: #3a3a3a; padding: 12px 24px; border-radius: 50px; font-family: ${sans}; font-weight: 500; font-size: 14px; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; }
+.gh-action-btn:hover { background: #e2ded6; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.gh-action-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+/* ── Modal ── */
+.gh-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.2s ease-out; }
+.gh-modal { background: #fff; border-radius: 8px; padding: 32px; max-width: 400px; width: 90%; text-align: center; position: relative; animation: fadeIn 0.2s ease-out; }
+.gh-modal-close { position: absolute; top: 12px; right: 12px; background: none; border: none; cursor: pointer; padding: 4px; color: #999; }
+.gh-modal-close:hover { color: #333; }
 `;
 
 export const PublicHome: React.FC = () => {
@@ -66,6 +77,8 @@ export const PublicHome: React.FC = () => {
     if (!trackRef.current) return;
     trackRef.current.scrollBy({ left: dir * 260, behavior: 'smooth' });
   }, []);
+
+  const [showVisitModal, setShowVisitModal] = useState(false);
 
   return (
     <div style={{ fontFamily: sans, color: '#1e1e1e', lineHeight: 1.875 }}>
@@ -129,34 +142,78 @@ export const PublicHome: React.FC = () => {
         )}
       </section>
 
-      {/* ───── View All Pets CTA ───── */}
-      <section style={{ padding: '36px 0', textAlign: 'center', backgroundColor: '#fff' }}>
-        <Link to="/adopt" className="gh-btn">
-          View All Available Pets
-        </Link>
-      </section>
-
-      {/* ───── How Adoption Works ───── */}
-      <section style={{ padding: '18px 0', backgroundColor: '#f6f6f6' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '32px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <h2 style={{ fontFamily: serif, fontSize: '20px', fontWeight: 400, color: '#1a1919', margin: 0, whiteSpace: 'nowrap' }}>
+      {/* ───── How It Works (Action Buttons) ───── */}
+      <section style={{ padding: '24px 0', backgroundColor: '#fff' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <h2 style={{ fontFamily: serif, fontSize: '20px', fontWeight: 400, color: '#1a1919', margin: 0, marginRight: '8px' }}>
             How It Works
           </h2>
-          {[
-            { num: '1', label: 'Browse' },
-            { num: '2', label: 'Visit' },
-            { num: '3', label: 'Adopt' },
-          ].map((step, i) => (
-            <React.Fragment key={step.num}>
-              {i > 0 && <span style={{ color: '#ccc', fontSize: '18px', margin: '0 -12px' }}>&rsaquo;</span>}
-              <span style={{ fontFamily: sans, fontSize: '13px', fontWeight: 500, color: '#666', letterSpacing: '0.03em' }}>
-                <span style={{ fontFamily: serif, fontSize: '16px', color: '#b3a58a', marginRight: '5px' }}>{step.num}.</span>
-                {step.label}
-              </span>
-            </React.Fragment>
-          ))}
+
+          <Link to="/adopt" className="gh-action-btn">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Browse Pets
+          </Link>
+
+          <span style={{ color: '#ccc', fontSize: '20px' }}>&rsaquo;</span>
+
+          <button className="gh-action-btn" onClick={() => setShowVisitModal(true)}>
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Visit Us
+          </button>
+
+          <span style={{ color: '#ccc', fontSize: '20px' }}>&rsaquo;</span>
+
+          <button className="gh-action-btn" style={{ opacity: 0.6, cursor: 'default' }}>
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Apply to Adopt
+          </button>
         </div>
       </section>
+
+      {/* ───── Visit Modal ───── */}
+      {showVisitModal && (
+        <div className="gh-modal-overlay" onClick={() => setShowVisitModal(false)}>
+          <div className="gh-modal" onClick={e => e.stopPropagation()}>
+            <button className="gh-modal-close" onClick={() => setShowVisitModal(false)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+            <div style={{ marginBottom: '16px' }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#b3a58a" strokeWidth="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <h3 style={{ fontFamily: serif, fontSize: '24px', fontWeight: 400, color: '#1a1919', marginBottom: '8px' }}>
+              Visit Us
+            </h3>
+            <p style={{ fontFamily: sans, fontSize: '15px', color: '#666', lineHeight: 1.6, marginBottom: '16px' }}>
+              Come meet our animals in person!
+            </p>
+            <p style={{ fontFamily: sans, fontSize: '16px', fontWeight: 500, color: '#1a1919', lineHeight: 1.5 }}>
+              535 Center Avenue<br />
+              Martinez, California<br />
+              USA
+            </p>
+            <a
+              href="https://maps.google.com/?q=535+Center+Avenue,+Martinez,+California,+USA"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-block',
+                marginTop: '20px',
+                fontFamily: sans,
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#3858e9',
+                textDecoration: 'none',
+              }}
+            >
+              Open in Google Maps &rarr;
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* ───── Happy Tails ───── */}
       <section
